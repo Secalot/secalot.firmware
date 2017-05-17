@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>bootstrapper</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>3rd party</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>main</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>mk82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>main/mainBstr.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/mainBstr.c</locationURI>
+		</link>
+		<link>
+			<name>mk82/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>mk82/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>mk82/inc/mk82BootInfo.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82BootInfo.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/inc/mk82Global.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Global.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/inc/mk82GlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82GlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/inc/mk82System.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82System.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/bootInfo</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/keysafe</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/system</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_common_tables.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_common_tables.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_const_structs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_const_structs.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_math.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_math.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_armcc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_armcc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_armcc_V6.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_armcc_V6.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_gcc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_gcc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cm4.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cm4.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmFunc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmFunc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmInstr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmInstr.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmSimd.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmSimd.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/MK82F25615.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/MK82F25615.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/MK82F25615_features.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/MK82F25615_features.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/fsl_device_registers.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/fsl_device_registers.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/system_MK82F25615.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/system_MK82F25615.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/system_MK82F25615.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/system_MK82F25615.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/bootInfo/mk82BootInfo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bootInfo/mk82BootInfo.c</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/bootInfo/mk82BootInfoInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bootInfo/mk82BootInfoInt.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/keysafe/mk82KeySafeReadOnlyKeys.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/keysafe/mk82KeySafeReadOnlyKeys.c</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/keysafe/mk82KeySafeReadOnlyKeysInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/keysafe/mk82KeySafeReadOnlyKeysInt.h</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/system/mk82System.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/system/mk82System.c</locationURI>
+		</link>
+		<link>
+			<name>mk82/src/system/mk82SystemInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/system/mk82SystemInt.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_common.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_common.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_common.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_common.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_crc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_crc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_crc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_crc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc/MK82FN256xxx15_flash_bstr.ld</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/gcc/MK82FN256xxx15_flash_bstr.ld</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc/startup_MK82F25615.S</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/gcc/startup_MK82F25615.S</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

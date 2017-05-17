@@ -1,0 +1,2353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>firmware</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>3rd party</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>apdu</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bldr</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>ccid</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>main</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>otp</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>apdu/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>apdu/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>ccid/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>main/main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/main.c</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>otp/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>otp/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/libbase58</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>apdu/inc/apduCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/apdu/inc/apduCore.h</locationURI>
+		</link>
+		<link>
+			<name>apdu/inc/apduGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/apdu/inc/apduGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>apdu/inc/apduGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/apdu/inc/apduGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>apdu/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcBase58.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcBase58.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcCore.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcHal.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcHid.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcHid.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcHidReportDescriptor.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcHidReportDescriptor.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcPin.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcPin.h</locationURI>
+		</link>
+		<link>
+			<name>btc/inc/btcTran.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/inc/btcTran.h</locationURI>
+		</link>
+		<link>
+			<name>btc/src/base58</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hid</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/pin</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/tran</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc/ccidClassDescriptor.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/inc/ccidClassDescriptor.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc/ccidCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/inc/ccidCore.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc/ccidGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/inc/ccidGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc/ccidGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/inc/ccidGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/inc/ccidHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/inc/ccidHal.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc/opgpCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/inc/opgpCore.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc/opgpGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/inc/opgpGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc/opgpGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/inc/opgpGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc/opgpHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/inc/opgpHal.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/inc/opgpPin.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/inc/opgpPin.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/pin</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>otp/inc/otpCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/inc/otpCore.h</locationURI>
+		</link>
+		<link>
+			<name>otp/inc/otpGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/inc/otpGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>otp/inc/otpGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/inc/otpGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>otp/inc/otpHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/inc/otpHal.h</locationURI>
+		</link>
+		<link>
+			<name>otp/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>otp/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfCore.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfHal.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfHid.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfHid.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/inc/sfHidReportDescriptor.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/inc/sfHidReportDescriptor.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hid</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_common_tables.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_common_tables.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_const_structs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_const_structs.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/arm_math.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/arm_math.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_armcc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_armcc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_armcc_V6.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_armcc_V6.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/cmsis_gcc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/cmsis_gcc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cm4.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cm4.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmFunc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmFunc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmInstr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmInstr.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/CMSIS/Include/core_cmSimd.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/CMSIS/Include/core_cmSimd.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/MK82F25615.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/MK82F25615.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/MK82F25615_features.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/MK82F25615_features.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/fsl_device_registers.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/fsl_device_registers.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/system_MK82F25615.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/system_MK82F25615.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/system_MK82F25615.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/system_MK82F25615.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_arotary.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_arotary.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_aslider.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_aslider.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_keypad.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_keypad.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_matrix.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_matrix.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_proxi.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_proxi.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_rotary.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_rotary.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_control_slider.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_control_slider.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_controls.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_controls.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_electrodes.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_electrodes.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_filters.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_filters.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_gpio.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_gpio.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_keydetector_afid.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_keydetector_afid.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_keydetector_safa.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_keydetector_safa.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_keydetectors.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_keydetectors.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_module_gpio.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_module_gpio.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_module_gpioint.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_module_gpioint.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_module_tsi.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_module_tsi.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_modules.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_modules.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_system.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_system.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/include/nt_types.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/include/nt_types.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/libbase58/.gitignore</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/libbase58/.gitignore</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/libbase58/.travis.yml</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/libbase58/.travis.yml</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/libbase58/base58.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/libbase58/base58.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/libbase58/libbase58.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/libbase58/libbase58.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/port</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0/asm-cm4-cm7</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0/cau_api.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mmcau_2.0.0/cau_api.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0/fsl_mmcau.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mmcau_2.0.0/fsl_mmcau.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0/fsl_mmcau.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mmcau_2.0.0/fsl_mmcau.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/electrodes</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/filters</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/nt.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/nt.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/platform</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/osa</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>apdu/src/core/apduCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/apdu/src/core/apduCore.c</locationURI>
+		</link>
+		<link>
+			<name>apdu/src/core/apduCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/apdu/src/core/apduCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/inc/bldrCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/inc/bldrCore.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/inc/bldrGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/inc/bldrGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/inc/bldrGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/inc/bldrGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/inc/bldrHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/inc/bldrHal.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/base58/btcBase58.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/base58/btcBase58.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/base58/btcBase58Int.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/base58/btcBase58Int.h</locationURI>
+		</link>
+		<link>
+			<name>btc/src/core/btcCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/core/btcCore.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/core/btcCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/core/btcCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hid/btcHid.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/hid/btcHid.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hid/btcHidInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/hid/btcHidInt.h</locationURI>
+		</link>
+		<link>
+			<name>btc/src/pin/btcPin.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/pin/btcPin.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/pin/btcPinInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/pin/btcPinInt.h</locationURI>
+		</link>
+		<link>
+			<name>btc/src/tran/btcTran.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/tran/btcTran.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/tran/btcTranInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/tran/btcTranInt.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/core/ccidCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/src/core/ccidCore.c</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/core/ccidCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/src/core/ccidCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/core/opgpCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/core/opgpCore.c</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/core/opgpCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/core/opgpCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/pin/opgpPin.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/pin/opgpPin.c</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/pin/opgpPinInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/pin/opgpPinInt.h</locationURI>
+		</link>
+		<link>
+			<name>otp/src/core/otpCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/src/core/otpCore.c</locationURI>
+		</link>
+		<link>
+			<name>otp/src/core/otpCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/src/core/otpCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>otp/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82As.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82As.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82BootInfo.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82BootInfo.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Button.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Button.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Fs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Fs.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Global.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Global.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82GlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82GlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82KeySafe.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82KeySafe.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Led.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Led.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82System.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82System.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Touch.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Touch.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Usb.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Usb.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/as</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bootInfo</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/button</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/fs</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/keysafe</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/led</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/system</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/touch</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/usb</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/core/sfCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/core/sfCore.c</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/core/sfCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/core/sfCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal/sfHalAttestationCertificate.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hal/sfHalAttestationCertificate.c</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal/sfHalAttestationCertificate.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hal/sfHalAttestationCertificate.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hid/sfHid.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hid/sfHid.c</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hid/sfHidInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hid/sfHidInt.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_clock.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_clock.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_clock.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_clock.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_common.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_common.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_common.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_common.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_crc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_crc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_crc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_crc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_flash.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_flash.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_flash.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_flash.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_gpio.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_gpio.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_gpio.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_gpio.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_lptmr.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_lptmr.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_lptmr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_lptmr.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_ltc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_ltc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_ltc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_ltc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_mpu.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_mpu.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_mpu.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_mpu.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_pit.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_pit.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_pit.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_pit.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_port.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_port.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_smc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_smc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_smc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_smc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_trng.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_trng.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_trng.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_trng.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_tsi_v4.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_tsi_v4.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/drivers/fsl_tsi_v4.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/drivers/fsl_tsi_v4.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc/MK82FN256xxx15_flash.ld</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/gcc/MK82FN256xxx15_flash.ld</locationURI>
+		</link>
+		<link>
+			<name>3rd party/devices/MK82F25615/gcc/startup_MK82F25615.S</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/devices/MK82F25615/gcc/startup_MK82F25615.S</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/CMakeLists.txt</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/CMakeLists.txt</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/CMakeLists.txt</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/CMakeLists.txt</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/Makefile</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/Makefile</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/aes.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/aes.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/asn1parse.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/asn1parse.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/asn1write.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/asn1write.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/bignum.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/bignum.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ctr_drbg.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ctr_drbg.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ecdh.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ecdh.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ecdsa.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ecdsa.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ecp.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ecp.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ecp_curves.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ecp_curves.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/hmac_drbg.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/hmac_drbg.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/md.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/md.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/md_wrap.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/md_wrap.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/oid.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/oid.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ripemd160.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ripemd160.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/rsa.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/rsa.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/sha1.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/sha1.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/sha256.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/sha256.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/sha512.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/sha512.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/port/ksdk</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mmcau_2.0.0/asm-cm4-cm7/lib_mmcau.lib</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mmcau_2.0.0/asm-cm4-cm7/lib_mmcau.lib</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_arotary.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_arotary.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_arotary_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_arotary_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_aslider.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_aslider.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_aslider_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_aslider_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_keypad.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_keypad.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_keypad_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_keypad_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_matrix.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_matrix.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_proxi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_proxi.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_proxi_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_proxi_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_rotary.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_rotary.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_rotary_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_rotary_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_slider.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_slider.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_control_slider_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_control_slider_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_controls.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_controls.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/controls/nt_controls_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/controls/nt_controls_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers/tsi</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/electrodes/nt_electrodes.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/electrodes/nt_electrodes.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/electrodes/nt_electrodes.c.bak</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/electrodes/nt_electrodes.c.bak</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/electrodes/nt_electrodes_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/electrodes/nt_electrodes_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/filters/nt_filters.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/filters/nt_filters.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/filters/nt_filters_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/filters/nt_filters_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors/nt_keydetector_afid.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/keydetectors/nt_keydetector_afid.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors/nt_keydetector_afid_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/keydetectors/nt_keydetector_afid_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors/nt_keydetector_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/keydetectors/nt_keydetector_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors/nt_keydetector_safa.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/keydetectors/nt_keydetector_safa.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/keydetectors/nt_keydetector_safa_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/keydetectors/nt_keydetector_safa_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_gpio.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_gpio.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_gpio_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_gpio_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_gpioint.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_gpioint.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_gpioint_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_gpioint_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_tsi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_tsi.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_module_tsi_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_module_tsi_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_modules.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_modules.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/modules/nt_modules_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/modules/nt_modules_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system_frmstr.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system_frmstr.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system_frmstr_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system_frmstr_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system_mem.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system_mem.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system_mem_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system_mem_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/system/nt_system_prv.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/system/nt_system_prv.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/platform/uffs_config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/platform/uffs_config.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/platform/uffs_os.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/platform/uffs_os.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_badblock.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_badblock.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_blockinfo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_blockinfo.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_buf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_buf.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_crc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_crc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_debug.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_debug.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_device.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_device.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_ecc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_ecc.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_fd.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_fd.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_find.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_find.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_flash.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_flash.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_fs.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_fs.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_init.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_init.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_mem.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_mem.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_mtb.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_mtb.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_pool.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_pool.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_public.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_public.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_tree.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_tree.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_utils.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_utils.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/uffs/uffs_version.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/uffs/uffs_version.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_ch9.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_ch9.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_ch9.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_ch9.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_config.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_dci.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_dci.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_dci.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_dci.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_khci.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_khci.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/device/usb_device_khci.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/device/usb_device_khci.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/include/usb.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/include/usb.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/include/usb_khci.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/include/usb_khci.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/include/usb_misc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/include/usb_misc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/include/usb_spec.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/include/usb_spec.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/osa/usb_osa.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/osa/usb_osa.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/osa/usb_osa_bm.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/osa/usb_osa_bm.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/usb_1.0.0/osa/usb_osa_bm.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/usb_1.0.0/osa/usb_osa_bm.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/core/bldrCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/src/core/bldrCore.c</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/core/bldrCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/src/core/bldrCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hal/k82/btcHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/hal/k82/btcHal.c</locationURI>
+		</link>
+		<link>
+			<name>btc/src/hal/k82/btcHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/btc/src/hal/k82/btcHalInt.h</locationURI>
+		</link>
+		<link>
+			<name>ccid/src/hal/k82/ccidHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/CCID/src/hal/k82/ccidHal.c</locationURI>
+		</link>
+		<link>
+			<name>opgp/src/hal/k82/opgpHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/hal/k82/opgpHal.c</locationURI>
+		</link>
+		<link>
+			<name>otp/src/hal/k82/otpHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/src/hal/k82/otpHal.c</locationURI>
+		</link>
+		<link>
+			<name>otp/src/hal/k82/otpHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/otp/src/hal/k82/otpHalInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/as/mk82As.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/as/mk82As.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/as/mk82AsInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/as/mk82AsInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bootInfo/mk82BootInfo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bootInfo/mk82BootInfo.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bootInfo/mk82BootInfoInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bootInfo/mk82BootInfoInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/button/mk82Button.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/button/mk82Button.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/button/mk82ButtonInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/button/mk82ButtonInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/fs/mk82Fs.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/fs/mk82Fs.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/fs/mk82FsInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/fs/mk82FsInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/keysafe/mk82KeySafe.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/keysafe/mk82KeySafe.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/keysafe/mk82KeySafeInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/keysafe/mk82KeySafeInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/keysafe/mk82KeySafeReadOnlyKeysInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/keysafe/mk82KeySafeReadOnlyKeysInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/led/mk82Led.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/led/mk82Led.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/led/mk82LedInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/led/mk82LedInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/system/mk82System.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/system/mk82System.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/system/mk82SystemInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/system/mk82SystemInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/touch/mk82Touch.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/touch/mk82Touch.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/touch/mk82TouchInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/touch/mk82TouchInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/usb/mk82Usb.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/usb/mk82Usb.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/usb/mk82UsbDeviceDescriptor.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/usb/mk82UsbDeviceDescriptor.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/usb/mk82UsbDeviceDescriptor.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/usb/mk82UsbDeviceDescriptor.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/usb/mk82UsbInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/usb/mk82UsbInt.h</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal/k82/sfHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hal/k82/sfHal.c</locationURI>
+		</link>
+		<link>
+			<name>u2f/src/hal/k82/sfHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hal/k82/sfHalInt.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/aes.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/aes.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/aesni.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/aesni.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/arc4.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/arc4.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/asn1.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/asn1.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/asn1write.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/asn1write.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/base64.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/base64.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/bignum.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/bignum.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/blowfish.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/blowfish.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/bn_mul.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/bn_mul.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/camellia.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/camellia.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ccm.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ccm.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/certs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/certs.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/check_config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/check_config.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/cipher.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/cipher.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/cipher_internal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/cipher_internal.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/compat-1.3.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/compat-1.3.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/config.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ctr_drbg.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ctr_drbg.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/debug.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/debug.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/des.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/des.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/dhm.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/dhm.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ecdh.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ecdh.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ecdsa.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ecdsa.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ecp.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ecp.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/entropy.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/entropy.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/entropy_poll.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/entropy_poll.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/error.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/error.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/gcm.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/gcm.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/havege.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/havege.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/hmac_drbg.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/hmac_drbg.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/md.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/md.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/md2.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/md2.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/md4.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/md4.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/md5.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/md5.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/md_internal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/md_internal.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/memory_buffer_alloc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/memory_buffer_alloc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/net.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/net.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/oid.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/oid.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/padlock.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/padlock.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pem.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pem.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pk.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pk.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pk_internal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pk_internal.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pkcs11.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pkcs11.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pkcs12.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pkcs12.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/pkcs5.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/pkcs5.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/platform.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/platform.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ripemd160.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ripemd160.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/rsa.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/rsa.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/sha1.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/sha1.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/sha256.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/sha256.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/sha512.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/sha512.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl_cache.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl_cache.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl_ciphersuites.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl_ciphersuites.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl_cookie.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl_cookie.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl_internal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl_internal.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/ssl_ticket.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/ssl_ticket.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/threading.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/threading.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/timing.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/timing.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/version.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/version.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/x509.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/x509.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/x509_crl.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/x509_crl.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/x509_crt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/x509_crt.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/x509_csr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/x509_csr.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/xtea.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/include/mbedtls/xtea.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls_config.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls_config.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls_config_bldr.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/port/ksdk/ksdk_mbedtls_config_bldr.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers/tsi/nt_drv_tsi_common.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/drivers/tsi/nt_drv_tsi_common.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers/tsi/nt_drv_tsi_driver.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/drivers/tsi/nt_drv_tsi_driver.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers/tsi/nt_drv_tsi_driver.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/drivers/tsi/nt_drv_tsi_driver.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/source/drivers/tsi/nt_drv_tsi_v4_driver_specific.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/touch/nt/source/drivers/tsi/nt_drv_tsi_v4_driver_specific.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_badblock.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_badblock.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_blockinfo.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_blockinfo.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_buf.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_buf.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_core.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_core.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_crc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_crc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_device.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_device.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_ecc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_ecc.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_fd.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_fd.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_find.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_find.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_flash.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_flash.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_fs.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_fs.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_mem.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_mem.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_mtb.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_mtb.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_os.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_os.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_pool.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_pool.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_public.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_public.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_tree.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_tree.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_types.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_types.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_utils.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_utils.h</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/uffs/inc/uffs/uffs_version.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/uffs/inc/uffs/uffs_version.h</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/hal/k82/bldrHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/src/hal/k82/bldrHal.c</locationURI>
+		</link>
+		<link>
+			<name>bldr/bldr/src/hal/k82/bldrHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bldr/src/hal/k82/bldrHalInt.h</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

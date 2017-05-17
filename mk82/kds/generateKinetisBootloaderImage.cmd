@@ -1,0 +1,2 @@
+hexmerge.py --overlap=ignore --no-start-addr --output .\image.hex ..\fs.hex .\bootstrapper\Debug\bootstrapper.hex .\bootloader\Debug\bootloader.hex .\firmware\Debug\firmware.hex
+hex2bin.py image.hex image.bin
