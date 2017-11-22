@@ -44,6 +44,10 @@ static mbedtls_sha256_context btcHalTransactionSigningHashContext;
 static mbedtls_sha256_context btcHalTransactionIntegrityCheckHashContext;
 static mbedtls_sha256_context btcHalMessageSigningHashContext;
 
+static mbedtls_sha256_context btcHalHashSegWitPrevoutsContext;
+static mbedtls_sha256_context btcHalHashSegWitSequenceContext;
+static mbedtls_sha256_context btcHalHashSegWitOutputsContext;
+
 static uint16_t btcHalButtonPressed = BTC_FALSE;
 
 void btcHalInit(void)
@@ -52,6 +56,10 @@ void btcHalInit(void)
     mbedtls_sha256_init(&btcHalTransactionSigningHashContext);
     mbedtls_sha256_init(&btcHalTransactionIntegrityCheckHashContext);
     mbedtls_sha256_init(&btcHalMessageSigningHashContext);
+
+    mbedtls_sha256_init(&btcHalHashSegWitPrevoutsContext);
+    mbedtls_sha256_init(&btcHalHashSegWitSequenceContext);
+    mbedtls_sha256_init(&btcHalHashSegWitOutputsContext);
 
 #ifdef USE_BUTTON
     mk82ButtonRegisterButtonDoubleClickedCallback(btcHalButtonPressedCallback);
@@ -893,6 +901,18 @@ void btcHalSha256Start(uint16_t hashID)
     {
         hashContext = &btcHalMessageSigningHashContext;
     }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_PREVOUTS)
+    {
+        hashContext = &btcHalHashSegWitPrevoutsContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_SEQUENCE)
+    {
+        hashContext = &btcHalHashSegWitSequenceContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_OUTPUTS)
+    {
+        hashContext = &btcHalHashSegWitOutputsContext;
+    }
     else
     {
         btcHalFatalError();
@@ -925,6 +945,18 @@ void btcHalSha256Update(uint16_t hashID, uint8_t* data, uint32_t dataLength)
     else if (hashID == BTC_HAL_HASH_ID_MESSAGE_SIGNING)
     {
         hashContext = &btcHalMessageSigningHashContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_PREVOUTS)
+    {
+        hashContext = &btcHalHashSegWitPrevoutsContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_SEQUENCE)
+    {
+        hashContext = &btcHalHashSegWitSequenceContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_OUTPUTS)
+    {
+        hashContext = &btcHalHashSegWitOutputsContext;
     }
     else
     {
@@ -959,6 +991,18 @@ void btcHalSha256Finalize(uint16_t hashID, uint8_t* hash)
     {
         hashContext = &btcHalMessageSigningHashContext;
     }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_PREVOUTS)
+    {
+        hashContext = &btcHalHashSegWitPrevoutsContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_SEQUENCE)
+    {
+        hashContext = &btcHalHashSegWitSequenceContext;
+    }
+    else if (hashID == BTC_HAL_HASH_ID_SEGWIT_OUTPUTS)
+    {
+        hashContext = &btcHalHashSegWitOutputsContext;
+    }
     else
     {
         btcHalFatalError();
@@ -978,6 +1022,16 @@ void btcHalSha256(uint8_t* data, uint32_t dataLength, uint8_t* hash)
 }
 
 static void btcHalButtonPressedCallback(void) { btcHalButtonPressed = BTC_TRUE; }
+
+void btcHalGetRandom(uint8_t* buffer, uint32_t length)
+{
+    if (buffer == NULL)
+    {
+        btcHalFatalError();
+    }
+
+    mk82SystemGetRandom(buffer, length);
+}
 
 void btcHalWaitForComfirmation(uint16_t* confirmed)
 {

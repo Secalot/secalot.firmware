@@ -625,12 +625,19 @@ void opgpHalSetDataObjectWithLength(uint16_t tag, uint8_t* data, uint32_t length
 
 void opgpHalGetSerialNumber(uint8_t* serialNumber)
 {
+    uint32_t serialNumberInt;
+
     if (serialNumber == NULL)
     {
         opgpHalFatalError();
     }
 
-    mk82SystemGetSerialNumber((uint32_t*)serialNumber);
+    mk82SystemGetSerialNumber(&serialNumberInt);
+
+    serialNumber[0] = OPGP_HIBYTE(OPGP_HIWORD(serialNumberInt));
+    serialNumber[1] = OPGP_LOBYTE(OPGP_HIWORD(serialNumberInt));
+    serialNumber[2] = OPGP_HIBYTE(OPGP_LOWORD(serialNumberInt));
+    serialNumber[3] = OPGP_LOBYTE(OPGP_LOWORD(serialNumberInt));
 }
 
 void opgpHalGetCardState(uint8_t* cardState)

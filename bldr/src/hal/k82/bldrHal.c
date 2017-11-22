@@ -47,6 +47,16 @@ void bldrHalMemSet(uint8_t* dst, uint8_t value, uint16_t length) { mk82SystemMem
 
 void bldrHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length) { mk82SystemMemCpy(dst, src, length); }
 
+void bldrHalGetSerialNumber(uint32_t* serialNumber)
+{
+    if (serialNumber == NULL)
+    {
+        mk82SystemFatalError();
+    }
+
+    mk82SystemGetSerialNumber(serialNumber);
+}
+
 void bldrHalGetFirmwareVersion(uint32_t* firmwareVersion)
 {
     MK82_BOOT_INFO bootInfo;

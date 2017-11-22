@@ -135,9 +135,9 @@ static uint8_t mk82UsbDeviceDescriptor[] = {
     0x09, 0x12,
 /* Product ID (assigned by the manufacturer) */
 #ifdef FIRMWARE
-    0x77, 0x77,
+    0x00, 0x70,
 #else  /* FIRMWARE */
-    0x78, 0x77,
+    0x01, 0x70,
 #endif /* FIRMWARE */
     /* Device release number in binary-coded decimal */
     USB_SHORT_GET_LOW(MK82_USB_DEVICE_VERSION), USB_SHORT_GET_HIGH(MK82_USB_DEVICE_VERSION),

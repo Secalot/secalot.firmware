@@ -23,8 +23,9 @@
 
 #ifdef FIRMWARE
 #include "mbedtls/ctr_drbg.h"
-#include "mbedtls/sha256.h"
 #endif /* FIRMWARE */
+
+#include "mbedtls/sha256.h"
 
 flash_config_t mk82FlashDriver;
 
@@ -192,6 +193,8 @@ int mk82SystemGetRandomForTLS(void* param, unsigned char* buffer, size_t bufferL
     return 0;
 }
 
+#endif /* FIRMWARE */
+
 void mk82SystemGetSerialNumber(uint32_t* serialNumber)
 {
     mbedtls_sha256_context shaContext;
@@ -216,7 +219,6 @@ void mk82SystemGetSerialNumber(uint32_t* serialNumber)
 
     *serialNumber = *(uint32_t*)hash2;
 }
-#endif /* FIRMWARE */
 
 #endif /* BOOTSTRAPPER */
 

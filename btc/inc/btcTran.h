@@ -25,11 +25,9 @@ void btcTranTIGenerationInit(uint32_t outputNumberToGetAmountOf);
 uint16_t btcTranTIGenerationProcessTransaction(uint8_t* data, uint32_t dataLength, uint16_t* action);
 void btcTranTIGenerationGetHashIndexAndAmount(uint8_t* data);
 void btcTranSigningClearState(void);
-void btcTranSigningInit(void);
+void btcTranSigningInit(uint16_t segWit);
 uint16_t btcTranSigningProcessHeaderAndInputs(uint8_t* data, uint32_t dataLength);
-uint16_t btcTranSigningProcessOutputs(uint8_t* outputAddress, int64_t amount, int64_t fees,
-                                      uint16_t changeAddressPresent, uint8_t* changeAddress, uint8_t* outputData,
-                                      uint32_t* outputLength);
+uint16_t btcTranSigningProcessOutputs(uint8_t* data, uint32_t dataLength);
 uint16_t btcTranSigningSign(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint32_t lockTime,
                             uint32_t signHashType, uint8_t* signature, uint32_t* signatureLength);
 void btcTranIsFirstSignatureGenerated(uint16_t* firstSignatureGenerated);

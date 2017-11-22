@@ -33,6 +33,7 @@ void bldrHalDeinit(void);
 void bldrHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
 void bldrHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
 
+void bldrHalGetSerialNumber(uint32_t* serialNumber);
 void bldrHalGetFirmwareVersion(uint32_t* firmwareVersion);
 void bldrHalGetFileSystemVersion(uint32_t* fileSystemVersion);
 void bldrHalGetBootloaderVersion(uint32_t* bootloaderVersion);

@@ -78,6 +78,7 @@ static void bldrCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_COR
     uint32_t firmwareVersion;
     uint32_t fileSystemVersion;
     uint32_t bootloaderVersion;
+    uint32_t serialNumber;
     uint16_t fileSystemUpdateInterrupted;
     uint16_t firmwareValid;
     uint16_t bootloaderValid;
@@ -100,6 +101,7 @@ static void bldrCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_COR
         goto END;
     }
 
+    bldrHalGetSerialNumber(&serialNumber);
     bldrHalGetFirmwareVersion(&firmwareVersion);
     bldrHalGetFileSystemVersion(&fileSystemVersion);
     bldrHalGetBootloaderVersion(&bootloaderVersion);
@@ -122,49 +124,54 @@ static void bldrCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_COR
     responseAPDU->data[2] = BLDR_HIBYTE(BLDR_LOWORD(DEVICE_ID));
     responseAPDU->data[3] = BLDR_LOBYTE(BLDR_LOWORD(DEVICE_ID));
 
-    responseAPDU->data[4] = BLDR_HIBYTE(BLDR_HIWORD(firmwareVersion));
-    responseAPDU->data[5] = BLDR_LOBYTE(BLDR_HIWORD(firmwareVersion));
-    responseAPDU->data[6] = BLDR_HIBYTE(BLDR_LOWORD(firmwareVersion));
-    responseAPDU->data[7] = BLDR_LOBYTE(BLDR_LOWORD(firmwareVersion));
+    responseAPDU->data[4] = BLDR_HIBYTE(BLDR_HIWORD(serialNumber));
+    responseAPDU->data[5] = BLDR_LOBYTE(BLDR_HIWORD(serialNumber));
+    responseAPDU->data[6] = BLDR_HIBYTE(BLDR_LOWORD(serialNumber));
+    responseAPDU->data[7] = BLDR_LOBYTE(BLDR_LOWORD(serialNumber));
 
-    responseAPDU->data[8] = BLDR_HIBYTE(BLDR_HIWORD(fileSystemVersion));
-    responseAPDU->data[9] = BLDR_LOBYTE(BLDR_HIWORD(fileSystemVersion));
-    responseAPDU->data[10] = BLDR_HIBYTE(BLDR_LOWORD(fileSystemVersion));
-    responseAPDU->data[11] = BLDR_LOBYTE(BLDR_LOWORD(fileSystemVersion));
+    responseAPDU->data[8] = BLDR_HIBYTE(BLDR_HIWORD(firmwareVersion));
+    responseAPDU->data[9] = BLDR_LOBYTE(BLDR_HIWORD(firmwareVersion));
+    responseAPDU->data[10] = BLDR_HIBYTE(BLDR_LOWORD(firmwareVersion));
+    responseAPDU->data[11] = BLDR_LOBYTE(BLDR_LOWORD(firmwareVersion));
 
-    responseAPDU->data[12] = BLDR_HIBYTE(BLDR_HIWORD(bootloaderVersion));
-    responseAPDU->data[13] = BLDR_LOBYTE(BLDR_HIWORD(bootloaderVersion));
-    responseAPDU->data[14] = BLDR_HIBYTE(BLDR_LOWORD(bootloaderVersion));
-    responseAPDU->data[15] = BLDR_LOBYTE(BLDR_LOWORD(bootloaderVersion));
+    responseAPDU->data[12] = BLDR_HIBYTE(BLDR_HIWORD(fileSystemVersion));
+    responseAPDU->data[13] = BLDR_LOBYTE(BLDR_HIWORD(fileSystemVersion));
+    responseAPDU->data[14] = BLDR_HIBYTE(BLDR_LOWORD(fileSystemVersion));
+    responseAPDU->data[15] = BLDR_LOBYTE(BLDR_LOWORD(fileSystemVersion));
+
+    responseAPDU->data[16] = BLDR_HIBYTE(BLDR_HIWORD(bootloaderVersion));
+    responseAPDU->data[17] = BLDR_LOBYTE(BLDR_HIWORD(bootloaderVersion));
+    responseAPDU->data[18] = BLDR_HIBYTE(BLDR_LOWORD(bootloaderVersion));
+    responseAPDU->data[19] = BLDR_LOBYTE(BLDR_LOWORD(bootloaderVersion));
 
     if (fileSystemUpdateInterrupted == BLDR_TRUE)
     {
-        responseAPDU->data[16] = 1;
+        responseAPDU->data[10] = 1;
     }
     else
     {
-        responseAPDU->data[16] = 0;
+        responseAPDU->data[20] = 0;
     }
 
     if (firmwareValid == BLDR_TRUE)
     {
-        responseAPDU->data[17] = 1;
+        responseAPDU->data[21] = 1;
     }
     else
     {
-        responseAPDU->data[17] = 0;
+        responseAPDU->data[21] = 0;
     }
 
     if (bootloaderValid == BLDR_TRUE)
     {
-        responseAPDU->data[18] = 1;
+        responseAPDU->data[22] = 1;
     }
     else
     {
-        responseAPDU->data[18] = 0;
+        responseAPDU->data[22] = 0;
     }
 
-    responseAPDU->dataLength = 19;
+    responseAPDU->dataLength = 23;
 
     sw = APDU_CORE_SW_NO_ERROR;
 

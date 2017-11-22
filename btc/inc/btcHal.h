@@ -22,6 +22,10 @@ extern "C" {
 #define BTC_HAL_HASH_ID_TRANSACTION_INTEGRITY_CHECK (0xCCCC)
 #define BTC_HAL_HASH_ID_MESSAGE_SIGNING (0x3333)
 
+#define BTC_HAL_HASH_ID_SEGWIT_PREVOUTS (0x5555)
+#define BTC_HAL_HASH_ID_SEGWIT_SEQUENCE (0xAAAA)
+#define BTC_HAL_HASH_ID_SEGWIT_OUTPUTS (0x7777)
+
 BTC_MAKE_PACKED(typedef struct) { uint8_t pinErrorCounter; /* 0 */ }
 BTC_HAL_NVM_COUNTERS;
 
@@ -84,6 +88,8 @@ void btcHalSha256(uint8_t* data, uint32_t dataLength, uint8_t* hash);
 void btcHalWaitForComfirmation(uint16_t* confirmed);
 
 void btcHalGenerateNewSeed(uint8_t* seed, uint32_t seedLength);
+
+void btcHalGetRandom(uint8_t* buffer, uint32_t length);
 
 void btcHalWipeout(void);
 

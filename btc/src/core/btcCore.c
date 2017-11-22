@@ -26,14 +26,16 @@ static void btcCoreProcessGetWalletPublicKey(APDU_CORE_COMMAND_APDU* commandAPDU
 static void btcCoreProcessGetTrustedInput(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessUntrustedHashTransactionInputStart(APDU_CORE_COMMAND_APDU* commandAPDU,
                                                              APDU_CORE_RESPONSE_APDU* responseAPDU);
-static void btcCoreProcessUntrustedHashTransactionInputFinalize(APDU_CORE_COMMAND_APDU* commandAPDU,
-                                                                APDU_CORE_RESPONSE_APDU* responseAPDU);
+static void btcCoreProcessUntrustedHashTransactionInputFinalizeFull(APDU_CORE_COMMAND_APDU* commandAPDU,
+                                                                    APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessUntrustedHashSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessSignMessage(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessGetFirmwareVersion(APDU_CORE_COMMAND_APDU* commandAPDU,
                                              APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessSetKeyboardConfiguration(APDU_CORE_COMMAND_APDU* commandAPDU,
                                                    APDU_CORE_RESPONSE_APDU* responseAPDU);
+
+static void btcCoreProcessGetRandom(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 
 void btcCoreInit()
 {
@@ -434,6 +436,8 @@ static void btcCoreProcessUntrustedHashTransactionInputStart(APDU_CORE_COMMAND_A
 
     if ((commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_START_NEW_TRANACTION_FIRST_BLOCK) &&
         (commandAPDU->p1p2 !=
+         BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_START_NEW_TRANACTION_FIRST_BLOCK_SEGWIT) &&
+        (commandAPDU->p1p2 !=
          BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_START_NEW_TRANACTION_SUBSEQUENT_BLOCK) &&
         (commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_ANOTHER_TRANACTION_FIRST_BLOCK) &&
         (commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_ANOTHER_TRANACTION_SUBSEQUENT_BLOCK))
@@ -450,7 +454,12 @@ static void btcCoreProcessUntrustedHashTransactionInputStart(APDU_CORE_COMMAND_A
 
     if (commandAPDU->p1p2 == BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_START_NEW_TRANACTION_FIRST_BLOCK)
     {
-        btcTranSigningInit();
+        btcTranSigningInit(BTC_FALSE);
+    }
+    else if (commandAPDU->p1p2 ==
+             BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_START_START_NEW_TRANACTION_FIRST_BLOCK_SEGWIT)
+    {
+        btcTranSigningInit(BTC_TRUE);
     }
 
     calleeRetVal = btcTranSigningProcessHeaderAndInputs(commandAPDU->data, commandAPDU->lc);
@@ -481,26 +490,11 @@ END:
     responseAPDU->sw = sw;
 }
 
-static void btcCoreProcessUntrustedHashTransactionInputFinalize(APDU_CORE_COMMAND_APDU* commandAPDU,
-                                                                APDU_CORE_RESPONSE_APDU* responseAPDU)
+static void btcCoreProcessUntrustedHashTransactionInputFinalizeFull(APDU_CORE_COMMAND_APDU* commandAPDU,
+                                                                    APDU_CORE_RESPONSE_APDU* responseAPDU)
 {
     uint16_t sw;
     uint16_t calleeRetVal = BTC_GENERAL_ERROR;
-    uint8_t encodedOutputAddressLength;
-    uint32_t offset = 0;
-    uint8_t outputAddress[BTC_GLOBAL_RIPEMD160_SIZE];
-    uint8_t changeAddress[BTC_GLOBAL_RIPEMD160_SIZE];
-    uint8_t regularCoinVersion;
-    uint8_t p2shCoinVersion;
-    int64_t amount;
-    int64_t fees;
-    uint8_t numberOfKeyDerivations;
-    uint32_t derivationIndexes[BTC_GLOBAL_MAXIMAL_NUMBER_OF_KEY_DERIVATIONS];
-    uint8_t chainCode[BTC_GLOBAL_CHAIN_CODE_SIZE];
-    uint8_t compressedPublicKey[BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE];
-    uint32_t outputLength;
-    uint32_t i = 0;
-    uint16_t changeAddressPresent;
 
     if (commandAPDU->lcPresent != APDU_TRUE)
     {
@@ -508,7 +502,8 @@ static void btcCoreProcessUntrustedHashTransactionInputFinalize(APDU_CORE_COMMAN
         goto END;
     }
 
-    if (commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_BASE58_OUTPUT_ADDRESS)
+    if ((commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL_LAST_BLOCK) &&
+        (commandAPDU->p1p2 != BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL_MORE_BLOCKS_TO_COME))
     {
         sw = APDU_CORE_SW_WRONG_P1P2;
         goto END;
@@ -520,114 +515,7 @@ static void btcCoreProcessUntrustedHashTransactionInputFinalize(APDU_CORE_COMMAN
         goto END;
     }
 
-    btcHalGetCoinVersions(&regularCoinVersion, &p2shCoinVersion);
-
-    offset = 0;
-
-    encodedOutputAddressLength = commandAPDU->data[offset++];
-
-    if ((encodedOutputAddressLength > BTC_GLOBAL_MAXIMAL_BITCOIN_BASE58_ADDRESS_LENGTH) ||
-        (encodedOutputAddressLength < BTC_GLOBAL_MINIMAL_BITCOIN_BASE58_ADDRESS_LENGTH))
-    {
-        sw = APDU_CORE_SW_WRONG_DATA;
-        goto END;
-    }
-
-    calleeRetVal = btcBase58DecodeAndCheckBitcoinAddress(&commandAPDU->data[offset], encodedOutputAddressLength,
-                                                         outputAddress, regularCoinVersion);
-
-    if (calleeRetVal != BTC_NO_ERROR)
-    {
-        if (calleeRetVal == BTC_INVALID_INPUT_ERROR)
-        {
-            sw = APDU_CORE_SW_WRONG_DATA;
-            goto END;
-        }
-        else
-        {
-            btcHalFatalError();
-        }
-    }
-
-    offset += encodedOutputAddressLength;
-
-    amount = BTC_MAKEQWORD(BTC_MAKEDWORD(BTC_MAKEWORD(commandAPDU->data[offset + 7], commandAPDU->data[offset + 6]),
-                                         BTC_MAKEWORD(commandAPDU->data[offset + 5], commandAPDU->data[offset + 4])),
-                           BTC_MAKEDWORD(BTC_MAKEWORD(commandAPDU->data[offset + 3], commandAPDU->data[offset + 2]),
-                                         BTC_MAKEWORD(commandAPDU->data[offset + 1], commandAPDU->data[offset])));
-
-    offset += sizeof(int64_t);
-
-    fees = BTC_MAKEQWORD(BTC_MAKEDWORD(BTC_MAKEWORD(commandAPDU->data[offset + 7], commandAPDU->data[offset + 6]),
-                                       BTC_MAKEWORD(commandAPDU->data[offset + 5], commandAPDU->data[offset + 4])),
-                         BTC_MAKEDWORD(BTC_MAKEWORD(commandAPDU->data[offset + 3], commandAPDU->data[offset + 2]),
-                                       BTC_MAKEWORD(commandAPDU->data[offset + 1], commandAPDU->data[offset])));
-
-    offset += sizeof(int64_t);
-
-    numberOfKeyDerivations = commandAPDU->data[offset++];
-
-    if (numberOfKeyDerivations > BTC_GLOBAL_MAXIMAL_NUMBER_OF_KEY_DERIVATIONS)
-    {
-        sw = APDU_CORE_SW_WRONG_DATA;
-        goto END;
-    }
-
-    if (numberOfKeyDerivations == 0)
-    {
-        changeAddressPresent = BTC_FALSE;
-    }
-    else
-    {
-        changeAddressPresent = BTC_TRUE;
-
-        for (i = 0; i < numberOfKeyDerivations; i++)
-        {
-            derivationIndexes[i] = BTC_MAKEDWORD(
-                BTC_MAKEWORD(commandAPDU->data[offset + i * 4 + 3], commandAPDU->data[offset + i * 4 + 2]),
-                BTC_MAKEWORD(commandAPDU->data[offset + i * 4 + 1], commandAPDU->data[offset + i * 4]));
-        }
-
-        offset += numberOfKeyDerivations * sizeof(uint32_t);
-
-        calleeRetVal = btcHalDerivePublicKey(derivationIndexes, numberOfKeyDerivations, NULL, compressedPublicKey,
-                                             chainCode, BTC_FALSE, BTC_TRUE);
-
-        if (calleeRetVal != BTC_NO_ERROR)
-        {
-            if (calleeRetVal == BTC_KEY_DERIVATION_ERROR)
-            {
-                sw = APDU_CORE_SW_WRONG_DATA;
-                goto END;
-            }
-            else
-            {
-                btcHalFatalError();
-            }
-        }
-
-        btcHalHash160(compressedPublicKey, BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE, changeAddress);
-    }
-
-    if (offset != commandAPDU->lc)
-    {
-        if (offset == commandAPDU->lc - 1)
-        {
-            if (commandAPDU->data[offset++] != 0x00)
-            {
-                sw = APDU_CORE_SW_WRONG_DATA;
-                goto END;
-            }
-        }
-        else
-        {
-            sw = APDU_CORE_SW_WRONG_LENGTH;
-            goto END;
-        }
-    }
-
-    calleeRetVal = btcTranSigningProcessOutputs(outputAddress, amount, fees, changeAddressPresent, changeAddress,
-                                                &responseAPDU->data[1], &outputLength);
+    calleeRetVal = btcTranSigningProcessOutputs(commandAPDU->data, commandAPDU->lc);
 
     if (calleeRetVal != BTC_NO_ERROR)
     {
@@ -642,10 +530,15 @@ static void btcCoreProcessUntrustedHashTransactionInputFinalize(APDU_CORE_COMMAN
         }
     }
 
-    responseAPDU->data[0] = (uint8_t)outputLength;
-    responseAPDU->data[outputLength + 1] = BTC_GLOBAL_NO_USER_VALIDATION_REQUESTED;
-
-    responseAPDU->dataLength = outputLength + 2;
+    if (commandAPDU->p1p2 == BTC_CORE_P1P2_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL_LAST_BLOCK)
+    {
+        responseAPDU->dataLength = 1;
+        responseAPDU->data[0] = BTC_GLOBAL_NO_USER_VALIDATION_REQUESTED;
+    }
+    else
+    {
+        responseAPDU->dataLength = 0;
+    }
 
     sw = APDU_CORE_SW_NO_ERROR;
 
@@ -958,6 +851,46 @@ static void btcCoreProcessSetKeyboardConfiguration(APDU_CORE_COMMAND_APDU* comma
     responseAPDU->sw = APDU_CORE_SW_NO_ERROR;
 }
 
+static void btcCoreProcessGetRandom(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
+{
+    uint16_t sw;
+    uint32_t dataLength;
+
+    if (commandAPDU->lcPresent != APDU_FALSE)
+    {
+        sw = APDU_CORE_SW_WRONG_LENGTH;
+        goto END;
+    }
+
+    if (commandAPDU->lePresent != APDU_TRUE)
+    {
+        sw = APDU_CORE_SW_WRONG_LENGTH;
+        goto END;
+    }
+
+    if (commandAPDU->p1p2 != BTC_CORE_P1P2_GET_RANDOM)
+    {
+        sw = APDU_CORE_SW_WRONG_P1P2;
+        goto END;
+    }
+
+    dataLength = commandAPDU->le;
+
+    if (dataLength == 0x00)
+    {
+        dataLength = 0x100;
+    }
+
+    btcHalGetRandom(responseAPDU->data, dataLength);
+
+    responseAPDU->dataLength = dataLength;
+
+    sw = APDU_CORE_SW_NO_ERROR;
+
+END:
+    responseAPDU->sw = sw;
+}
+
 void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
 {
     APDU_CORE_COMMAND_APDU commandAPDU;
@@ -1026,6 +959,9 @@ void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
             case BTC_CORE_INS_SETUP:
                 btcCoreProcessSetup(&commandAPDU, &responseAPDU);
                 break;
+            case BTC_CORE_INS_GET_RANDOM:
+                btcCoreProcessGetRandom(&commandAPDU, &responseAPDU);
+                break;
             default:
                 responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
                 break;
@@ -1047,8 +983,8 @@ void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
             case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_START:
                 btcCoreProcessUntrustedHashTransactionInputStart(&commandAPDU, &responseAPDU);
                 break;
-            case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE:
-                btcCoreProcessUntrustedHashTransactionInputFinalize(&commandAPDU, &responseAPDU);
+            case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL:
+                btcCoreProcessUntrustedHashTransactionInputFinalizeFull(&commandAPDU, &responseAPDU);
                 break;
             case BTC_CORE_INS_UNTRUSTED_HASH_SIGN:
                 btcCoreProcessUntrustedHashSign(&commandAPDU, &responseAPDU);
@@ -1061,6 +997,9 @@ void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                 break;
             case BTC_CORE_INS_SET_KEYBOARD_CONFIGURATION:
                 btcCoreProcessSetKeyboardConfiguration(&commandAPDU, &responseAPDU);
+                break;
+            case BTC_CORE_INS_GET_RANDOM:
+                btcCoreProcessGetRandom(&commandAPDU, &responseAPDU);
                 break;
             default:
                 responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
