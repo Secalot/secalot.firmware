@@ -20,11 +20,12 @@ extern "C" {
 #ifndef BOOTSTRAPPER
 void mk82SystemInit(void);
 
+void mk82SystemGetSerialNumber(uint32_t* serialNumber);
+
 #ifdef FIRMWARE
 void mk82SystemTickerGetMsPassed(uint64_t* ms);
 void mk82SystemGetRandom(uint8_t* buffer, uint32_t bufferLength);
 int mk82SystemGetRandomForTLS(void* param, unsigned char* buffer, size_t bufferLength);
-void mk82SystemGetSerialNumber(uint32_t* serialNumber);
 #endif /* FIRMWARE */
 
 #endif /* BOOTSTRAPPER */

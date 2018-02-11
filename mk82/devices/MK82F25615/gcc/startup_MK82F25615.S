@@ -296,7 +296,7 @@ __isr_vector:
     .long 0xFFFFFFFF
     .long 0xFFFFFFFF
     .long 0xFFFFFFFE
-    .long 0xFFFF3BEB
+    .long 0xFFFF3B68
 #else
     .long 0xFFFFFFFF
     .long 0xFFFFFFFF
