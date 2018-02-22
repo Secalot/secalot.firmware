@@ -175,6 +175,8 @@ void mk82ButtonRegisterButtonDoubleClickedCallback(MK82_BUTTON_ACTION_CALLBACK b
     mk82ButtonDoubleClickedCallback = buttonDoubleClickedCallback;
 }
 
+void mk82ButtonDeregisterButtonDoubleClickedCallback(void) { mk82ButtonDoubleClickedCallback = NULL; }
+
 void mk82ButtonRegisterButtonLongPressedCallback(MK82_BUTTON_ACTION_CALLBACK buttonLongPressedCallback)
 {
     mk82ButtonLongPressedCallback = buttonLongPressedCallback;

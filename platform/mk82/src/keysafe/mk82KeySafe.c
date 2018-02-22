@@ -34,7 +34,7 @@ static void mk82KeysafeGetKek(uint16_t kekID, uint8_t* kek)
     uint32_t i;
     KEYSAFE_READONLY_KEYS* readonlyKeys = (KEYSAFE_READONLY_KEYS*)MK82_GLOBAL_READONLY_KEYS_STRUCTURE_ADDRESS;
 
-    if ((kekID == MK82_KEYSAFE_SF_KEK_ID) || (kekID == MK82_KEYSAFE_OTP_KEK_ID) || (kekID == MK82_KEYSAFE_BTC_KEK_ID) ||
+    if ((kekID == MK82_KEYSAFE_SF_KEK_ID) || (kekID == MK82_KEYSAFE_OTP_KEK_ID) || (kekID == MK82_KEYSAFE_CCR_KEK_ID) ||
         (kekID == MK82_KEYSAFE_OPGP_KEK_ID))
     {
         uint32_t encryptedKekOffset;
@@ -53,11 +53,11 @@ static void mk82KeysafeGetKek(uint16_t kekID, uint8_t* kek)
             kekNonceOffset = offsetof(KEYSAFE_NVM_DATA, otpKekNonce);
             kekTagOffset = offsetof(KEYSAFE_NVM_DATA, otpKekTag);
         }
-        else if (kekID == MK82_KEYSAFE_BTC_KEK_ID)
+        else if (kekID == MK82_KEYSAFE_CCR_KEK_ID)
         {
-            encryptedKekOffset = offsetof(KEYSAFE_NVM_DATA, btcKek);
-            kekNonceOffset = offsetof(KEYSAFE_NVM_DATA, btcKekNonce);
-            kekTagOffset = offsetof(KEYSAFE_NVM_DATA, btcKekTag);
+            encryptedKekOffset = offsetof(KEYSAFE_NVM_DATA, ccrKek);
+            kekNonceOffset = offsetof(KEYSAFE_NVM_DATA, ccrKekNonce);
+            kekTagOffset = offsetof(KEYSAFE_NVM_DATA, ccrKekTag);
         }
         else if (kekID == MK82_KEYSAFE_OPGP_KEK_ID)
         {
@@ -160,10 +160,10 @@ void mk82KeysafeInit(void)
 
         mk82KeysafeGenerateAndEncryptKek(nonce, tag, kek, encryptedKek);
 
-        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, btcKek), encryptedKek,
+        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, ccrKek), encryptedKek,
                         sizeof(encryptedKek));
-        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, btcKekNonce), nonce, sizeof(nonce));
-        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, btcKekTag), tag, sizeof(tag));
+        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, ccrKekNonce), nonce, sizeof(nonce));
+        mk82FsWriteFile(MK82_FS_FILE_ID_KEYSAFE_DATA, offsetof(KEYSAFE_NVM_DATA, ccrKekTag), tag, sizeof(tag));
 
         mk82KeysafeGenerateAndEncryptKek(nonce, tag, kek, encryptedKek);
 

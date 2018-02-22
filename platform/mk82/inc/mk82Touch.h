@@ -24,6 +24,8 @@ void mk82TouchRegisterButton1PressedCallback(MK82_TOUCH_CALLBACK callback);
 void mk82TouchRegisterButton2PressedCallback(MK82_TOUCH_CALLBACK callback);
 void mk82TouchRegisterBothButtonsPressedCallback(MK82_TOUCH_CALLBACK callback);
 
+void mk82TouchDeregisterButton2PressedCallback(void);
+
 #ifdef __cplusplus
 }
 #endif

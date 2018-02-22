@@ -237,6 +237,8 @@ void mk82TouchRegisterButton2PressedCallback(MK82_TOUCH_CALLBACK callback)
     mk82TouchButton2PressedCallback = callback;
 }
 
+void mk82TouchDeregisterButton2PressedCallback(void) { mk82TouchButton2PressedCallback = NULL; }
+
 void mk82TouchRegisterBothButtonsPressedCallback(MK82_TOUCH_CALLBACK callback)
 {
     mk82TouchBothButtonsPressedCallback = callback;

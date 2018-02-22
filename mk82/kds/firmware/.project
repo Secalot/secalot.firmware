@@ -125,6 +125,16 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>eth/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>eth/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>main/main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/main.c</locationURI>
@@ -191,6 +201,11 @@
 		</link>
 		<link>
 			<name>3rd party/middleware/mmcau_2.0.0</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/sha3</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -346,6 +361,46 @@
 		</link>
 		<link>
 			<name>ccid/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>eth/inc/ethCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/inc/ethCore.h</locationURI>
+		</link>
+		<link>
+			<name>eth/inc/ethGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/inc/ethGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>eth/inc/ethGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/inc/ethGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>eth/inc/ethHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/inc/ethHal.h</locationURI>
+		</link>
+		<link>
+			<name>eth/inc/ethPin.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/inc/ethPin.h</locationURI>
+		</link>
+		<link>
+			<name>eth/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>eth/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>eth/src/pin</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -720,6 +775,16 @@
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mmcau_2.0.0/fsl_mmcau.h</locationURI>
 		</link>
 		<link>
+			<name>3rd party/middleware/sha3/sha3.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/sha3/sha3.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/sha3/sha3.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/sha3/sha3.h</locationURI>
+		</link>
+		<link>
 			<name>3rd party/middleware/source/controls</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -900,6 +965,31 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>eth/src/core/ethCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/core/ethCore.c</locationURI>
+		</link>
+		<link>
+			<name>eth/src/core/ethCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/core/ethCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>eth/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>eth/src/pin/ethPin.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/pin/ethPin.c</locationURI>
+		</link>
+		<link>
+			<name>eth/src/pin/ethPinInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/pin/ethPinInt.h</locationURI>
+		</link>
+		<link>
 			<name>opgp/src/core/opgpCore.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/core/opgpCore.c</locationURI>
@@ -943,6 +1033,11 @@
 			<name>platform/mk82/inc/mk82As.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82As.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/inc/mk82Bip32.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Bip32.h</locationURI>
 		</link>
 		<link>
 			<name>platform/mk82/inc/mk82BootInfo.h</name>
@@ -996,6 +1091,11 @@
 		</link>
 		<link>
 			<name>platform/mk82/src/as</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bip32</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -1745,6 +1845,16 @@
 			<locationURI>PARENT-3-PROJECT_LOC/CCID/src/hal/k82/ccidHal.c</locationURI>
 		</link>
 		<link>
+			<name>eth/src/hal/k82/ethHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/hal/k82/ethHal.c</locationURI>
+		</link>
+		<link>
+			<name>eth/src/hal/k82/ethHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/eth/src/hal/k82/ethHalInt.h</locationURI>
+		</link>
+		<link>
 			<name>opgp/src/hal/k82/opgpHal.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/opgp/src/hal/k82/opgpHal.c</locationURI>
@@ -1768,6 +1878,16 @@
 			<name>platform/mk82/src/as/mk82AsInt.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/as/mk82AsInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bip32/mk82Bip32.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bip32/mk82Bip32.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/bip32/mk82Bip32Int.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/bip32/mk82Bip32Int.h</locationURI>
 		</link>
 		<link>
 			<name>platform/mk82/src/bootInfo/mk82BootInfo.c</name>

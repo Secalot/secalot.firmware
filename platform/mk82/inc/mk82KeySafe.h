@@ -16,7 +16,7 @@ extern "C" {
 
 #define MK82_KEYSAFE_SF_KEK_ID (0x9999)
 #define MK82_KEYSAFE_OTP_KEK_ID (0x6666)
-#define MK82_KEYSAFE_BTC_KEK_ID (0xCCCC)
+#define MK82_KEYSAFE_CCR_KEK_ID (0xCCCC)
 #define MK82_KEYSAFE_OPGP_KEK_ID (0x3333)
 
 #define MK82_KEYSAFE_KEK_LENGTH (16)
@@ -32,9 +32,9 @@ MK82_MAKE_PACKED(typedef struct)
     uint8_t otpKek[MK82_KEYSAFE_KEK_LENGTH];
     uint8_t otpKekNonce[MK82_KEYSAFE_NONCE_LENGTH];
     uint8_t otpKekTag[MK82_KEYSAFE_TAG_LENGTH];
-    uint8_t btcKek[MK82_KEYSAFE_KEK_LENGTH];
-    uint8_t btcKekNonce[MK82_KEYSAFE_NONCE_LENGTH];
-    uint8_t btcKekTag[MK82_KEYSAFE_TAG_LENGTH];
+    uint8_t ccrKek[MK82_KEYSAFE_KEK_LENGTH];
+    uint8_t ccrKekNonce[MK82_KEYSAFE_NONCE_LENGTH];
+    uint8_t ccrKekTag[MK82_KEYSAFE_TAG_LENGTH];
     uint8_t opgpKek[MK82_KEYSAFE_KEK_LENGTH];
     uint8_t opgpKekNonce[MK82_KEYSAFE_NONCE_LENGTH];
     uint8_t opgpKekTag[MK82_KEYSAFE_TAG_LENGTH];

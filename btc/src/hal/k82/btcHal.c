@@ -15,6 +15,7 @@
 #include <mk82Global.h>
 #include <mk82System.h>
 #include <mk82Fs.h>
+#include <mk82Bip32.h>
 #ifdef USE_BUTTON
 #include <mk82Button.h>
 #endif
@@ -33,10 +34,6 @@ static void btcHalGetMasterKey(uint8_t* masterKey);
 static void btcHalGetTrustedInputKey(uint8_t* trustedInputKey);
 static uint16_t btcHalIsMasterKeyInitialized(void);
 static uint16_t btcHalIsTrustedInputKeyInitialized(void);
-static void btcHalPrivateKeyToPublicKey(uint8_t* privateKey, uint8_t* fullPublicKey, uint8_t* compressedPublicKey,
-                                        uint16_t computeFull, uint16_t computeCompressed);
-static uint16_t btcHalDerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations,
-                                       uint8_t* privateKey, uint8_t* chainCode);
 static void btcHalButtonPressedCallback(void);
 
 static mbedtls_sha256_context btcHalTrustedInputHashContext;
@@ -48,7 +45,7 @@ static mbedtls_sha256_context btcHalHashSegWitPrevoutsContext;
 static mbedtls_sha256_context btcHalHashSegWitSequenceContext;
 static mbedtls_sha256_context btcHalHashSegWitOutputsContext;
 
-static uint16_t btcHalButtonPressed = BTC_FALSE;
+static uint16_t btcHalButtonPressed;
 
 void btcHalInit(void)
 {
@@ -61,13 +58,7 @@ void btcHalInit(void)
     mbedtls_sha256_init(&btcHalHashSegWitSequenceContext);
     mbedtls_sha256_init(&btcHalHashSegWitOutputsContext);
 
-#ifdef USE_BUTTON
-    mk82ButtonRegisterButtonDoubleClickedCallback(btcHalButtonPressedCallback);
-#endif
-
-#ifdef USE_TOUCH
-    mk82TouchRegisterButton2PressedCallback(btcHalButtonPressedCallback);
-#endif
+    btcHalButtonPressed = BTC_FALSE;
 }
 
 void btcHalDeinit() {}
@@ -211,7 +202,7 @@ void btcHalSetMasterKey(uint8_t* seed, uint32_t seedLength)
         btcHalFatalError();
     }
 
-    mk82KeysafeWrapKey(MK82_KEYSAFE_BTC_KEK_ID, masterKey, sizeof(masterKey), encryptedMasterKey, NULL, 0, nonce, tag);
+    mk82KeysafeWrapKey(MK82_KEYSAFE_CCR_KEK_ID, masterKey, sizeof(masterKey), encryptedMasterKey, NULL, 0, nonce, tag);
 
     mk82SystemMemSet(masterKey, 0x00, sizeof(masterKey));
 
@@ -237,7 +228,7 @@ void btcHalSetRandomTrustedInputKey(void)
 
     mk82SystemGetRandom(trustedInputKey, BTC_GLOBAL_TRUSTED_INPUT_KEY_SIZE);
 
-    mk82KeysafeWrapKey(MK82_KEYSAFE_BTC_KEK_ID, trustedInputKey, sizeof(trustedInputKey), encryptedtrustedInputKey,
+    mk82KeysafeWrapKey(MK82_KEYSAFE_CCR_KEK_ID, trustedInputKey, sizeof(trustedInputKey), encryptedtrustedInputKey,
                        NULL, 0, nonce, tag);
 
     mk82SystemMemSet(trustedInputKey, 0x00, sizeof(trustedInputKey));
@@ -321,7 +312,7 @@ static void btcHalGetMasterKey(uint8_t* masterKey)
                    MK82_KEYSAFE_NONCE_LENGTH);
     mk82FsReadFile(MK82_FS_FILE_ID_BTC_KEYS, offsetof(BTC_HAL_NVM_KEYS, masterKeyTag), tag, MK82_KEYSAFE_TAG_LENGTH);
 
-    mk82KeysafeUnwrapKey(MK82_KEYSAFE_BTC_KEK_ID, encryptedMasterKey, sizeof(encryptedMasterKey), masterKey, NULL, 0,
+    mk82KeysafeUnwrapKey(MK82_KEYSAFE_CCR_KEK_ID, encryptedMasterKey, sizeof(encryptedMasterKey), masterKey, NULL, 0,
                          nonce, tag);
 }
 
@@ -346,321 +337,53 @@ static void btcHalGetTrustedInputKey(uint8_t* trustedInputKey)
     mk82FsReadFile(MK82_FS_FILE_ID_BTC_KEYS, offsetof(BTC_HAL_NVM_KEYS, trustedInputKeyTag), tag,
                    MK82_KEYSAFE_TAG_LENGTH);
 
-    mk82KeysafeUnwrapKey(MK82_KEYSAFE_BTC_KEK_ID, encryptedTrustedInputKey, sizeof(encryptedTrustedInputKey),
+    mk82KeysafeUnwrapKey(MK82_KEYSAFE_CCR_KEK_ID, encryptedTrustedInputKey, sizeof(encryptedTrustedInputKey),
                          trustedInputKey, NULL, 0, nonce, tag);
-}
-
-static void btcHalPrivateKeyToPublicKey(uint8_t* privateKey, uint8_t* fullPublicKey, uint8_t* compressedPublicKey,
-                                        uint16_t computeFull, uint16_t computeCompressed)
-{
-    int calleeRetVal;
-    uint32_t pointLength;
-    mbedtls_ecp_group ecpGroup;
-    mbedtls_ecp_point ecpPoint;
-    mbedtls_mpi multiplier;
-
-    mbedtls_ecp_group_init(&ecpGroup);
-    mbedtls_ecp_point_init(&ecpPoint);
-    mbedtls_mpi_init(&multiplier);
-
-    calleeRetVal = mbedtls_ecp_group_load(&ecpGroup, MBEDTLS_ECP_DP_SECP256K1);
-    if (calleeRetVal != 0)
-    {
-        btcHalFatalError();
-    }
-
-    calleeRetVal = mbedtls_mpi_read_binary(&multiplier, privateKey, BTC_GLOBAL_PRIVATE_KEY_SIZE);
-    if (calleeRetVal != 0)
-    {
-        btcHalFatalError();
-    }
-
-    calleeRetVal = mbedtls_ecp_mul(&ecpGroup, &ecpPoint, &multiplier, &(ecpGroup.G), mk82SystemGetRandomForTLS, NULL);
-    if (calleeRetVal != 0)
-    {
-        btcHalFatalError();
-    }
-
-    if (computeCompressed == BTC_TRUE)
-    {
-        pointLength = BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
-
-        calleeRetVal =
-            mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
-                                           compressedPublicKey, BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
-
-        if (pointLength != BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
-        {
-            btcHalFatalError();
-        }
-    }
-
-    if (computeFull == BTC_TRUE)
-    {
-        pointLength = BTC_GLOBAL_ENCODED_FULL_POINT_SIZE;
-
-        calleeRetVal =
-            mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_UNCOMPRESSED, (size_t*)&pointLength,
-                                           fullPublicKey, BTC_GLOBAL_ENCODED_FULL_POINT_SIZE);
-
-        if (pointLength != BTC_GLOBAL_ENCODED_FULL_POINT_SIZE)
-        {
-            btcHalFatalError();
-        }
-    }
-
-    if (calleeRetVal != 0)
-    {
-        btcHalFatalError();
-    }
-
-    mbedtls_ecp_group_free(&ecpGroup);
-    mbedtls_ecp_point_free(&ecpPoint);
-    mbedtls_mpi_free(&multiplier);
-}
-
-static uint16_t btcHalDerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations,
-                                       uint8_t* privateKey, uint8_t* chainCode)
-{
-    uint16_t retVal = BTC_GENERAL_ERROR;
-    uint8_t masterKey[BTC_GLOBAL_MASTER_KEY_SIZE];
-    uint32_t i;
-    int calleeRetVal;
-    mbedtls_md_context_t mdCtx;
-    uint8_t serializedDerivationIndex[sizeof(uint32_t)];
-    uint8_t hmac[BTC_GLOBAL_SHA512_SIZE];
-    uint8_t intermediateDerivedPrivateKey[BTC_GLOBAL_PRIVATE_KEY_SIZE];
-    uint8_t intermediateDerivedChainCode[BTC_GLOBAL_CHAIN_CODE_SIZE];
-    uint16_t derivationFailed = BTC_FALSE;
-
-    if ((numberOfKeyDerivations < BTC_GLOBAL_MINIMAL_NUMBER_OF_KEY_DERIVATIONS) ||
-        (numberOfKeyDerivations > BTC_GLOBAL_MAXIMAL_NUMBER_OF_KEY_DERIVATIONS))
-    {
-        btcHalFatalError();
-    }
-
-    btcHalGetMasterKey(masterKey);
-
-    mk82SystemMemCpy(intermediateDerivedPrivateKey, &masterKey[BTC_GLOBAL_MASTER_KEY_PRIVATE_KEY_OFFSET],
-                     BTC_GLOBAL_PRIVATE_KEY_SIZE);
-    mk82SystemMemCpy(intermediateDerivedChainCode, &masterKey[BTC_GLOBAL_MASTER_KEY_CHAIN_CODE_OFFSET],
-                     BTC_GLOBAL_CHAIN_CODE_SIZE);
-
-    mbedtls_md_init(&mdCtx);
-
-    for (i = 0; i < numberOfKeyDerivations; i++)
-    {
-        serializedDerivationIndex[0] = derivationIndexes[i] >> 24;
-        serializedDerivationIndex[1] = derivationIndexes[i] >> 16;
-        serializedDerivationIndex[2] = derivationIndexes[i] >> 8;
-        serializedDerivationIndex[3] = derivationIndexes[i];
-
-        calleeRetVal = mbedtls_md_setup(&mdCtx, mbedtls_md_info_from_type(MBEDTLS_MD_SHA512), 1);
-        if (calleeRetVal != 0)
-        {
-            btcHalFatalError();
-        }
-
-        if ((derivationIndexes[i] & BTC_GLOBAL_HARDENED_KEY_MASK) == BTC_GLOBAL_HARDENED_KEY_MASK)
-        {
-            uint8_t zero = 0;
-
-            calleeRetVal = mbedtls_md_hmac_starts(&mdCtx, intermediateDerivedChainCode, BTC_GLOBAL_CHAIN_CODE_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_update(&mdCtx, &zero, sizeof(zero));
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_update(&mdCtx, intermediateDerivedPrivateKey, BTC_GLOBAL_PRIVATE_KEY_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_update(&mdCtx, serializedDerivationIndex, sizeof(serializedDerivationIndex));
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_finish(&mdCtx, hmac);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-        }
-        else
-        {
-            uint8_t compressedPoint[BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE];
-
-            btcHalPrivateKeyToPublicKey(intermediateDerivedPrivateKey, NULL, compressedPoint, BTC_FALSE, BTC_TRUE);
-
-            calleeRetVal = mbedtls_md_hmac_starts(&mdCtx, intermediateDerivedChainCode, BTC_GLOBAL_CHAIN_CODE_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_update(&mdCtx, compressedPoint, BTC_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_update(&mdCtx, serializedDerivationIndex, sizeof(serializedDerivationIndex));
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_md_hmac_finish(&mdCtx, hmac);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-        }
-
-        {
-            mbedtls_mpi mpiLeftSideOfHash;
-            mbedtls_mpi mpiParentPrivateKey;
-            mbedtls_mpi mpiAdditionResult;
-            mbedtls_mpi mpiZero;
-            mbedtls_ecp_group ecpGroup;
-            uint8_t zero = 0;
-
-            mbedtls_ecp_group_init(&ecpGroup);
-            mbedtls_mpi_init(&mpiLeftSideOfHash);
-            mbedtls_mpi_init(&mpiParentPrivateKey);
-            mbedtls_mpi_init(&mpiAdditionResult);
-            mbedtls_mpi_init(&mpiZero);
-
-            calleeRetVal = mbedtls_ecp_group_load(&ecpGroup, MBEDTLS_ECP_DP_SECP256K1);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-
-            calleeRetVal = mbedtls_mpi_read_binary(&mpiLeftSideOfHash, &hmac[BTC_GLOBAL_SHA512_LEFT_PART_OFFSET],
-                                                   BTC_GLOBAL_PRIVATE_KEY_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_mpi_read_binary(&mpiParentPrivateKey, intermediateDerivedPrivateKey,
-                                                   BTC_GLOBAL_PRIVATE_KEY_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_mpi_read_binary(&mpiZero, &zero, sizeof(zero));
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-
-            calleeRetVal = mbedtls_mpi_cmp_abs(&mpiLeftSideOfHash, &(ecpGroup.N));
-
-            if (calleeRetVal != -1)
-            {
-                derivationFailed = BTC_TRUE;
-            }
-
-            calleeRetVal = mbedtls_mpi_add_abs(&mpiAdditionResult, &mpiParentPrivateKey, &mpiLeftSideOfHash);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-            calleeRetVal = mbedtls_mpi_mod_mpi(&mpiAdditionResult, &mpiAdditionResult, &(ecpGroup.N));
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-
-            calleeRetVal = mbedtls_mpi_cmp_abs(&mpiAdditionResult, &mpiZero);
-
-            if (calleeRetVal == 0)
-            {
-                derivationFailed = BTC_TRUE;
-            }
-
-            calleeRetVal = mbedtls_mpi_write_binary(&mpiAdditionResult, intermediateDerivedPrivateKey,
-                                                    BTC_GLOBAL_PRIVATE_KEY_SIZE);
-            if (calleeRetVal != 0)
-            {
-                btcHalFatalError();
-            }
-
-            mk82SystemMemCpy(intermediateDerivedChainCode, &hmac[BTC_GLOBAL_SHA512_RIGHT_PART_OFFSET],
-                             BTC_GLOBAL_CHAIN_CODE_SIZE);
-
-            mbedtls_ecp_group_free(&ecpGroup);
-            mbedtls_mpi_free(&mpiLeftSideOfHash);
-            mbedtls_mpi_free(&mpiParentPrivateKey);
-            mbedtls_mpi_free(&mpiAdditionResult);
-            mbedtls_mpi_free(&mpiZero);
-        }
-
-        if (derivationFailed == BTC_TRUE)
-        {
-            break;
-        }
-    }
-
-    if (derivationFailed == BTC_TRUE)
-    {
-        retVal = BTC_KEY_DERIVATION_ERROR;
-    }
-    else
-    {
-        mk82SystemMemCpy(privateKey, intermediateDerivedPrivateKey, BTC_GLOBAL_PRIVATE_KEY_SIZE);
-        mk82SystemMemCpy(chainCode, intermediateDerivedChainCode, BTC_GLOBAL_CHAIN_CODE_SIZE);
-        retVal = BTC_NO_ERROR;
-    }
-
-    mbedtls_md_free(&mdCtx);
-
-    mk82SystemMemSet(masterKey, 0x00, sizeof(masterKey));
-    mk82SystemMemSet(intermediateDerivedPrivateKey, 0x00, sizeof(intermediateDerivedPrivateKey));
-    mk82SystemMemSet(intermediateDerivedChainCode, 0x00, sizeof(intermediateDerivedChainCode));
-    mk82SystemMemSet(hmac, 0x00, sizeof(hmac));
-
-    return retVal;
 }
 
 uint16_t btcHalDerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* fullPublicKey,
                                uint8_t* compressedPublicKey, uint8_t* chainCode, uint16_t computeFull,
                                uint16_t computeCompressed)
 {
-    uint8_t privateKey[BTC_GLOBAL_PRIVATE_KEY_SIZE];
-    uint16_t calleeRetVal = BTC_GENERAL_ERROR;
-    uint16_t retVal = BTC_GENERAL_ERROR;
+    uint16_t retVal = MK82_BIP32_GENERAL_ERROR;
 
-    if ((derivationIndexes == NULL) || ((computeFull == BTC_TRUE) && (fullPublicKey == NULL)) ||
-        ((computeCompressed == BTC_TRUE) && (compressedPublicKey == NULL)))
+    if (computeFull == BTC_TRUE)
     {
-        btcHalFatalError();
+        computeFull = MK82_TRUE;
+    }
+    else
+    {
+        computeFull = MK82_FALSE;
     }
 
-    calleeRetVal = btcHalDerivePrivateKey(derivationIndexes, numberOfKeyDerivations, privateKey, chainCode);
-
-    if (calleeRetVal != BTC_NO_ERROR)
+    if (computeCompressed == BTC_TRUE)
     {
-        if (calleeRetVal == BTC_KEY_DERIVATION_ERROR)
+        computeCompressed = MK82_TRUE;
+    }
+    else
+    {
+        computeCompressed = MK82_FALSE;
+    }
+
+    retVal = mk82Bip32DerivePublicKey(derivationIndexes, numberOfKeyDerivations, fullPublicKey, compressedPublicKey,
+                                      chainCode, computeFull, computeCompressed, btcHalGetMasterKey);
+
+    if (retVal != MK82_BIP32_NO_ERROR)
+    {
+        if (retVal == MK82_BIP32_KEY_DERIVATION_ERROR)
         {
             retVal = BTC_KEY_DERIVATION_ERROR;
-            goto END;
         }
         else
         {
-            btcHalFatalError();
+            retVal = BTC_GENERAL_ERROR;
         }
     }
+    else
+    {
+        retVal = BTC_NO_ERROR;
+    }
 
-    btcHalPrivateKeyToPublicKey(privateKey, fullPublicKey, compressedPublicKey, computeFull, computeCompressed);
-
-    retVal = BTC_NO_ERROR;
-
-END:
-    mk82SystemMemSet(privateKey, 0x00, sizeof(privateKey));
     return retVal;
 }
 
@@ -693,11 +416,12 @@ uint16_t btcHalSignHash(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivat
     mbedtls_mpi_init(&s);
     mbedtls_mpi_init(&nDivBy2);
 
-    calleeRetVal = btcHalDerivePrivateKey(derivationIndexes, numberOfKeyDerivations, privateKey, chainCode);
+    calleeRetVal =
+        mk82Bip32DerivePrivateKey(derivationIndexes, numberOfKeyDerivations, privateKey, chainCode, btcHalGetMasterKey);
 
-    if (calleeRetVal != BTC_NO_ERROR)
+    if (calleeRetVal != MK82_BIP32_NO_ERROR)
     {
-        if (calleeRetVal == BTC_KEY_DERIVATION_ERROR)
+        if (calleeRetVal == MK82_BIP32_KEY_DERIVATION_ERROR)
         {
             retVal = BTC_KEY_DERIVATION_ERROR;
             goto END;
@@ -1035,9 +759,18 @@ void btcHalGetRandom(uint8_t* buffer, uint32_t length)
 
 void btcHalWaitForComfirmation(uint16_t* confirmed)
 {
-    btcHalButtonPressed = BTC_FALSE;
     uint64_t initialTime;
     uint64_t currentTime;
+
+    btcHalButtonPressed = BTC_FALSE;
+
+#ifdef USE_BUTTON
+    mk82ButtonRegisterButtonDoubleClickedCallback(btcHalButtonPressedCallback);
+#endif
+
+#ifdef USE_TOUCH
+    mk82TouchRegisterButton2PressedCallback(btcHalButtonPressedCallback);
+#endif
 
 #ifdef USE_TOUCH
     mk82TouchEnable();
@@ -1068,6 +801,14 @@ void btcHalWaitForComfirmation(uint16_t* confirmed)
 
 #ifdef USE_TOUCH
     mk82TouchDisable();
+#endif
+
+#ifdef USE_BUTTON
+    mk82ButtonDeregisterButtonDoubleClickedCallback();
+#endif
+
+#ifdef USE_TOUCH
+    mk82TouchDeregisterButton2PressedCallback();
 #endif
 }
 

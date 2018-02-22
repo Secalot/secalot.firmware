@@ -26,6 +26,9 @@ extern "C" {
 #define MK82_FS_FILE_ID_BTC_COUNTERS (10)
 #define MK82_FS_FILE_ID_BTC_KEYS (11)
 #define MK82_FS_FILE_ID_BTC_DATA (12)
+#define MK82_FS_FILE_ID_ETH_COUNTERS (13)
+#define MK82_FS_FILE_ID_ETH_KEYS (14)
+#define MK82_FS_FILE_ID_ETH_DATA (15)
 
 void mk82FsInit(void);
 void mk82FsReadFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);

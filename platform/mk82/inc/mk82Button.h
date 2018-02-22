@@ -22,6 +22,8 @@ void mk82ButtonRegisterButtonClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonC
 void mk82ButtonRegisterButtonDoubleClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonDoubleClickedCallback);
 void mk82ButtonRegisterButtonLongPressedCallback(MK82_BUTTON_ACTION_CALLBACK buttonLongPressedCallback);
 
+void mk82ButtonDeregisterButtonDoubleClickedCallback(void);
+
 #ifdef __cplusplus
 }
 #endif

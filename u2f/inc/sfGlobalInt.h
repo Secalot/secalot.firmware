@@ -13,6 +13,9 @@
 #include "mk82Global.h"
 #include "mk82Keysafe.h"
 
+#define SF_CMP_EQUAL 0x9999
+#define SF_CMP_NOT_EQUAL 0x6666
+
 #define SF_GLOBAL_EC_POINT_COORDINATE_LENGTH (32)
 #define SF_GLOBAL_PRIVATE_KEY_LENGTH (32)
 #define SF_GLOBAL_ASN1_04_TAG (4)

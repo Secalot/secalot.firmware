@@ -337,6 +337,22 @@ void sfHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length) { mk82SystemMemCpy
 
 void sfHalMemSet(uint8_t* dst, uint8_t value, uint16_t length) { mk82SystemMemSet(dst, value, length); }
 
+uint16_t sfHalMemCmp(uint8_t* array1, uint8_t* array2, uint16_t length)
+{
+    uint16_t comparisonResult;
+
+    comparisonResult = mk82SystemMemCmp(array1, array2, length);
+
+    if (comparisonResult != MK82_TRUE)
+    {
+        return SF_CMP_NOT_EQUAL;
+    }
+    else
+    {
+        return SF_CMP_EQUAL;
+    }
+}
+
 void sfHalGenerateNonSecureRandom(uint8_t* data, uint16_t length)
 {
     if (data == NULL)

@@ -18,6 +18,8 @@
 #include "otpHal.h"
 #include "btcGlobal.h"
 #include "btcHal.h"
+#include "ethGlobal.h"
+#include "ethHal.h"
 
 #include "mk82KeySafe.h"
 
@@ -36,9 +38,11 @@ MK82_MAKE_PACKED(typedef struct)
     SF_HAL_NVM_COUNTERS sfCounters;
     OTP_HAL_NVM_COUNTERS otpCounters;
     BTC_HAL_NVM_COUNTERS btcCounters;
+    ETH_HAL_NVM_COUNTERS ethCounters;
 
     uint8_t padding[MK82_FS_PAGE_DATA_SIZE - sizeof(OPGP_HAL_NVM_COUNTERS) - sizeof(SF_HAL_NVM_COUNTERS) -
-                    sizeof(OTP_HAL_NVM_COUNTERS) - sizeof(BTC_HAL_NVM_COUNTERS) - MK82_FS_INTERNAL_INFO_PER_PAGE];
+                    sizeof(OTP_HAL_NVM_COUNTERS) - sizeof(BTC_HAL_NVM_COUNTERS) - sizeof(ETH_HAL_NVM_COUNTERS) -
+                    MK82_FS_INTERNAL_INFO_PER_PAGE];
 }
 MK82_FS_COUNTERS;
 
@@ -56,9 +60,10 @@ MK82_MAKE_PACKED(typedef struct)
     OPGP_HAL_NVM_KEYS opgpKeys;
     OTP_HAL_NVM_KEYS otpKeys;
     BTC_HAL_NVM_KEYS btcKeys;
+    ETH_HAL_NVM_KEYS ethKeys;
 
     uint8_t padding[MK82_FS_PAGE_DATA_SIZE * (MK82_FS_PAGES_PER_BLOCK - 1) - sizeof(OPGP_HAL_NVM_KEYS) -
-                    sizeof(OTP_HAL_NVM_KEYS) - sizeof(BTC_HAL_NVM_KEYS) -
+                    sizeof(OTP_HAL_NVM_KEYS) - sizeof(BTC_HAL_NVM_KEYS) - sizeof(ETH_HAL_NVM_KEYS) -
                     MK82_FS_INTERNAL_INFO_PER_PAGE * (MK82_FS_PAGES_PER_BLOCK - 1)];
 }
 MK82_FS_KEYS;
@@ -69,10 +74,11 @@ MK82_MAKE_PACKED(typedef struct)
     KEYSAFE_NVM_DATA keysafeData;
     OTP_HAL_NVM_DATA otpData;
     BTC_HAL_NVM_DATA btcData;
+    ETH_HAL_NVM_DATA ethData;
 
     uint8_t padding[MK82_FS_PAGE_DATA_SIZE * (MK82_FS_PAGES_PER_BLOCK - 1) - sizeof(OPGP_HAL_NVM_DATA) -
                     sizeof(KEYSAFE_NVM_DATA) - sizeof(OTP_HAL_NVM_DATA) - sizeof(BTC_HAL_NVM_DATA) -
-                    MK82_FS_INTERNAL_INFO_PER_PAGE * (MK82_FS_PAGES_PER_BLOCK - 1)];
+                    sizeof(ETH_HAL_NVM_DATA) - MK82_FS_INTERNAL_INFO_PER_PAGE * (MK82_FS_PAGES_PER_BLOCK - 1)];
 }
 MK82_FS_DATA;
 

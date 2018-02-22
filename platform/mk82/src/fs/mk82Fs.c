@@ -48,6 +48,8 @@ static URET mk82FsInitDevice(uffs_Device *dev);
 static URET mk82FsReleaseDevice(uffs_Device *dev);
 static int mk82FsCheckErasedBlock(uffs_Device *dev, u32 block);
 
+static void mk82FsGetFileHandleAndOffset(uint8_t fileID, int *fileHandle, uint32_t *fileOffset);
+
 static int mk82FsCountersFileHandle;
 static int mk82FsCertificatesFileHandle;
 static int mk82FsKeysFileHandle;
@@ -275,80 +277,103 @@ static void mk82FsOpenAndCheckAllFiles(void)
     }
 }
 
+static void mk82FsGetFileHandleAndOffset(uint8_t fileID, int *fileHandle, uint32_t *fileOffset)
+{
+    if (fileID == MK82_FS_FILE_ID_OPGP_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, opgpCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OPGP_CERTIFICATES)
+    {
+        *fileHandle = mk82FsCertificatesFileHandle;
+        *fileOffset = offsetof(MK82_FS_CERTIFICATES, opgpCertificates);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OPGP_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, opgpKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OPGP_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, opgpData);
+    }
+    else if (fileID == MK82_FS_FILE_ID_SF_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, sfCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_KEYSAFE_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, keysafeData);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OTP_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, otpCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OTP_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, otpKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_OTP_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, otpData);
+    }
+    else if (fileID == MK82_FS_FILE_ID_BTC_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, btcCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_BTC_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, btcKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_BTC_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, btcData);
+    }
+    else if (fileID == MK82_FS_FILE_ID_ETH_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, ethCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_ETH_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, ethKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_ETH_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, ethData);
+    }
+    else
+    {
+        mk82FsFatalError();
+    }
+}
+
 void mk82FsReadFile(uint8_t fileID, uint32_t offset, uint8_t *buffer, uint32_t length)
 {
     int calleeRetVal;
     int fileHandle;
+    uint32_t fileOffset;
 
     if (buffer == NULL)
     {
         mk82FsFatalError();
     }
 
-    if (fileID == MK82_FS_FILE_ID_OPGP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, opgpCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_CERTIFICATES)
-    {
-        fileHandle = mk82FsCertificatesFileHandle;
-        offset += offsetof(MK82_FS_CERTIFICATES, opgpCertificates);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, opgpKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, opgpData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_SF_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, sfCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_KEYSAFE_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, keysafeData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, otpCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, otpKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, otpData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, btcCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, btcKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, btcData);
-    }
-    else
-    {
-        mk82FsFatalError();
-    }
+    mk82FsGetFileHandleAndOffset(fileID, &fileHandle, &fileOffset);
+
+    offset += fileOffset;
 
     calleeRetVal = uffs_seek(fileHandle, offset, USEEK_SET);
 
@@ -369,76 +394,16 @@ void mk82FsWriteFile(uint8_t fileID, uint32_t offset, uint8_t *buffer, uint32_t 
 {
     int calleeRetVal;
     int fileHandle;
+    uint32_t fileOffset;
 
     if (buffer == NULL)
     {
         mk82FsFatalError();
     }
 
-    if (fileID == MK82_FS_FILE_ID_OPGP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, opgpCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_CERTIFICATES)
-    {
-        fileHandle = mk82FsCertificatesFileHandle;
-        offset += offsetof(MK82_FS_CERTIFICATES, opgpCertificates);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, opgpKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, opgpData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_SF_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, sfCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_KEYSAFE_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, keysafeData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, otpCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, otpKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, otpData);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-        offset += offsetof(MK82_FS_COUNTERS, btcCounters);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-        offset += offsetof(MK82_FS_KEYS, btcKeys);
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-        offset += offsetof(MK82_FS_DATA, btcData);
-    }
-    else
-    {
-        mk82FsFatalError();
-    }
+    mk82FsGetFileHandleAndOffset(fileID, &fileHandle, &fileOffset);
+
+    offset += fileOffset;
 
     calleeRetVal = uffs_seek(fileHandle, offset, USEEK_SET);
 
@@ -459,59 +424,9 @@ void mk82FsCommitWrite(uint8_t fileID)
 {
     int calleeRetVal;
     int fileHandle;
+    uint32_t fileOffset;
 
-    if (fileID == MK82_FS_FILE_ID_OPGP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_CERTIFICATES)
-    {
-        fileHandle = mk82FsCertificatesFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OPGP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_SF_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_KEYSAFE_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_OTP_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_COUNTERS)
-    {
-        fileHandle = mk82FsCountersFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_KEYS)
-    {
-        fileHandle = mk82FsKeysFileHandle;
-    }
-    else if (fileID == MK82_FS_FILE_ID_BTC_DATA)
-    {
-        fileHandle = mk82FsDataFileHandle;
-    }
-    else
-    {
-        mk82FsFatalError();
-    }
+    mk82FsGetFileHandleAndOffset(fileID, &fileHandle, &fileOffset);
 
     calleeRetVal = uffs_flush(fileHandle);
 
@@ -662,6 +577,7 @@ void mk82FsCreateFileSystem(void)
 	sfHalWipeout();
 	otpHalWipeout();
 	btcHalWipeout();
+	ethHalWipeout();
 	
 }
 #endif

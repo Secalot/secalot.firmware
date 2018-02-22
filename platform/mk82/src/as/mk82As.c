@@ -25,6 +25,9 @@
 #include "bldrGlobal.h"
 #include "bldrCore.h"
 
+#include "ethGlobal.h"
+#include "ethCore.h"
+
 static void mk82AsFatalError(void);
 static void mk82AsPutSWToAPDUBuffer(uint8_t* apdu, uint32_t* apduLength, uint16_t sw);
 
@@ -34,6 +37,8 @@ static uint8_t mk82AsOTPAid[MK82_AS_MAX_AID_LENGTH];
 static uint32_t mk82AsOTPAidLength;
 static uint8_t mk82AsBldrAid[MK82_AS_MAX_AID_LENGTH];
 static uint32_t mk82AsBldrAidLength;
+static uint8_t mk82AsEthAid[MK82_AS_MAX_AID_LENGTH];
+static uint32_t mk82AsEthAidLength;
 static uint32_t mk82AsSelectedApplication = MK82_AS_NONE_SELECTED;
 
 static void mk82AsFatalError(void) { mk82SystemFatalError(); }
@@ -43,6 +48,7 @@ void mk82AsInit(void)
     opgpCoreGetAID(mk82AsOPGPAid, &mk82AsOPGPAidLength);
     otpCoreGetAID(mk82AsOTPAid, &mk82AsOTPAidLength);
     bldrCoreGetAID(mk82AsBldrAid, &mk82AsBldrAidLength);
+    ethCoreGetAID(mk82AsEthAid, &mk82AsEthAidLength);
 }
 
 static void mk82AsPutSWToAPDUBuffer(uint8_t* apdu, uint32_t* apduLength, uint16_t sw)
@@ -94,6 +100,15 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
             mk82AsPutSWToAPDUBuffer(apdu, apduLength, sw);
             goto END;
         }
+        else if ((apdu[MK82_AS_OFFSET_LC] <= mk82AsEthAidLength) &&
+                 (mk82SystemMemCmp(&apdu[MK82_AS_OFFSET_DATA], mk82AsEthAid, apdu[MK82_AS_OFFSET_LC]) ==
+                  MK82_CMP_EQUAL))
+        {
+            mk82AsSelectedApplication = MK82_AS_ETH_SELECTED;
+            sw = MK82_AS_SW_NO_ERROR;
+            mk82AsPutSWToAPDUBuffer(apdu, apduLength, sw);
+            goto END;
+        }
 
         else
         {
@@ -116,6 +131,11 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
         else if (mk82AsSelectedApplication == MK82_AS_BLDR_SELECTED)
         {
             bldrCoreProcessAPDU(apdu, apduLength);
+            goto END;
+        }
+        else if (mk82AsSelectedApplication == MK82_AS_ETH_SELECTED)
+        {
+            ethCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
         else
