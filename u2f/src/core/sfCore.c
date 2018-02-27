@@ -173,25 +173,26 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
 
 #ifdef MEW_HACK
     {
-        uint8_t specialMEWChallenge[] = {0x0d, 0x7f, 0x14, 0xfb, 0x46, 0xeb, 0xac, 0x72, 0x91, 0xe1, 0x12,
-                                         0x11, 0x26, 0x6a, 0xeb, 0x8c, 0x95, 0x1d, 0xd3, 0x57, 0x6c, 0x5d,
-                                         0x80, 0x28, 0xf7, 0x44, 0xd3, 0xfb, 0x55, 0x19, 0x2a, 0x74};
+    	uint8_t magicString[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
 
-        if (sfHalMemCmp(authenticateRequest->challenge, specialMEWChallenge, SF_GLOBAL_CHALLENGE_LENGTH) ==
-            SF_CMP_EQUAL)
-        {
-            uint32_t ethApduLength = authenticateRequest->keyHandleLength;
+    	if(authenticateRequest->keyHandleLength > sizeof(magicString))
+    	{
+            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) ==
+                SF_CMP_EQUAL)
+            {
+                uint32_t ethApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
 
-            sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle, ethApduLength);
+                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle+sizeof(magicString), ethApduLength);
 
-            ethCoreProcessAPDU(apduBuffer, &ethApduLength);
+                ethCoreProcessAPDU(apduBuffer, &ethApduLength);
 
-            *apduBufferLength = ethApduLength;
+                *apduBufferLength = ethApduLength;
 
-            sw = SF_CORE_SW_NO_ERROR;
+                sw = SF_CORE_SW_NO_ERROR;
 
-            goto END;
-        }
+                goto END;
+            }
+    	}
     }
 #endif /* MEW_HACK */
 
