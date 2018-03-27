@@ -343,7 +343,7 @@ static int ecdsa_sign_wrap( void *ctx, mbedtls_md_type_t md_alg,
                    int (*f_rng)(void *, unsigned char *, size_t), void *p_rng )
 {
     return( mbedtls_ecdsa_write_signature( (mbedtls_ecdsa_context *) ctx,
-                md_alg, hash, hash_len, sig, sig_len, f_rng, p_rng ) );
+                md_alg, hash, hash_len, sig, sig_len, f_rng, p_rng, 0) );
 }
 
 static void *ecdsa_alloc_wrap( void )

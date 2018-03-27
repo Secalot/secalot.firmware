@@ -1350,6 +1350,16 @@
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/bignum.c</locationURI>
 		</link>
 		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/cipher.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/cipher.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/cipher_wrap.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/cipher_wrap.c</locationURI>
+		</link>
+		<link>
 			<name>3rd party/middleware/mbedtls_2.1.2/library/ctr_drbg.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ctr_drbg.c</locationURI>
@@ -1375,6 +1385,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ecp_curves.c</locationURI>
 		</link>
 		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/entropy.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/entropy.c</locationURI>
+		</link>
+		<link>
 			<name>3rd party/middleware/mbedtls_2.1.2/library/hmac_drbg.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/hmac_drbg.c</locationURI>
@@ -1393,6 +1408,21 @@
 			<name>3rd party/middleware/mbedtls_2.1.2/library/oid.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/oid.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/pk.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/pk.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/pk_wrap.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/pk_wrap.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/pkparse.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/pkparse.c</locationURI>
 		</link>
 		<link>
 			<name>3rd party/middleware/mbedtls_2.1.2/library/ripemd160.c</name>
@@ -1418,6 +1448,31 @@
 			<name>3rd party/middleware/mbedtls_2.1.2/library/sha512.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/sha512.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ssl_ciphersuites.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ssl_ciphersuites.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ssl_srv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ssl_srv.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/ssl_tls.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/ssl_tls.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/x509.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/x509.c</locationURI>
+		</link>
+		<link>
+			<name>3rd party/middleware/mbedtls_2.1.2/library/x509_crt.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/middleware/mbedtls_2.1.2/library/x509_crt.c</locationURI>
 		</link>
 		<link>
 			<name>3rd party/middleware/mbedtls_2.1.2/port/ksdk</name>
