@@ -1354,6 +1354,7 @@ cleanup:
 #if defined(MBEDTLS_FREESCALE_MMCAU_MD5)
 
 #include "mbedtls/md5.h"
+#include "fsl_mmcau.h"
 
 void mbedtls_md5_process(mbedtls_md5_context *ctx, const unsigned char data[64])
 {
