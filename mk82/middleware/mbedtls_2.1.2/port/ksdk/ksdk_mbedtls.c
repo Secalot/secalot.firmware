@@ -504,20 +504,24 @@ int mbedtls_aes_crypt_cbc(mbedtls_aes_context *ctx,
 
     uint8_t *key = (uint8_t *)ctx->rk;
     uint32_t keySize = ctx->nr;
-    memcpy(temp, input, 16);
+
+    if (length == 0)
+        return (MBEDTLS_ERR_AES_INVALID_INPUT_LENGTH);
 
     if (length % 16)
         return (MBEDTLS_ERR_AES_INVALID_INPUT_LENGTH);
 
     if (mode == MBEDTLS_AES_DECRYPT)
     {
-        LTC_AES_DecryptCbc(LTC_INSTANCE, temp, output, length, iv, key, keySize, kLTC_EncryptKey);
+        memcpy(temp, input+length-16, 16);
+
+        LTC_AES_DecryptCbc(LTC_INSTANCE, input, output, length, iv, key, keySize, kLTC_EncryptKey);
         memcpy(iv, temp, 16);
     }
     else
     {
-        LTC_AES_EncryptCbc(LTC_INSTANCE, temp, output, length, iv, key, keySize);
-        memcpy(iv, output, 16);
+        LTC_AES_EncryptCbc(LTC_INSTANCE, input, output, length, iv, key, keySize);
+        memcpy(iv, output+length-16, 16);
     }
 
     return (0);

@@ -12,8 +12,6 @@
 #include <apduCore.h>
 #include <core/apduCoreInt.h>
 
-#include <ccidGlobal.h>
-
 void apduCoreInit() {}
 
 void apduCoreDeinit() {}
@@ -113,7 +111,6 @@ void apduCorePrepareResponseAPDUStructure(uint8_t* apdu, APDU_CORE_RESPONSE_APDU
     responseAPDU->data = apdu;
     responseAPDU->dataLength = 0;
     responseAPDU->sw = APDU_CORE_SW_UNKNOWN;
-    responseAPDU->maxLength = CCID_MAX_APDU_DATA_SIZE;
 }
 
 void apduCorePrepareOutgoingAPDU(uint8_t* apdu, uint32_t* apduLength, APDU_CORE_RESPONSE_APDU* responseAPDU)

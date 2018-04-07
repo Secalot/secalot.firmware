@@ -24,7 +24,15 @@ extern flash_config_t mk82FlashDriver;
 
 #ifndef NULL
 #define NULL (0)
-#endif
+#endif\
+
+#define MK82_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
+#define MK82_HIWORD(d) ((unsigned short)((((unsigned long)(d)) >> 16) & 0xFFFF))
+#define MK82_LOBYTE(w) ((unsigned char)(w))
+#define MK82_LOWORD(d) ((unsigned short)(d))
+#define MK82_MAKEWORD(lb, hb) ((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned char)(hb))) << 8)))
+#define MK82_MAKEDWORD(lw, hw) \
+    ((unsigned long)(((unsigned short)(lw)) | (((unsigned long)((unsigned short)(hw))) << 16)))
 
 #ifdef __CC_ARM
 #define MK82_MAKE_PACKED(x) __packed x

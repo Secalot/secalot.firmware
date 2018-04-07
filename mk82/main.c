@@ -138,7 +138,26 @@ int main(void) {
 			{
 				if(dataType == MK82_USB_DATATYPE_CCID_APDU)
 				{
-					mk82AsProcessAPDU(data, &dataLength);
+					uint16_t sslStatus;
+
+					mk82SslUnwrapAPDUCommand(data, &dataLength, &sslStatus);
+
+					if( (sslStatus == MK82_SSL_STATUS_UNWRAPPED) || (sslStatus == MK82_SSL_STATUS_NOT_SSL) )
+					{
+						mk82AsProcessAPDU(data, &dataLength);
+					}
+					else
+					{
+						if(sslStatus != MK82_SSL_STATUS_ERROR_OCCURED)
+						{
+							mk82SystemFatalError();
+						}
+					}
+
+					if(sslStatus == MK82_SSL_STATUS_UNWRAPPED)
+					{
+						mk82SslWrapAPDUResponse(data, &dataLength);
+					}
 				}
 				else if(dataType == MK82_USB_DATATYPE_U2F_MESSAGE)
 				{

@@ -31,7 +31,6 @@ typedef struct
     uint8_t* data;
     uint32_t dataLength;
     uint16_t sw;
-    uint32_t maxLength;
 } APDU_CORE_RESPONSE_APDU;
 
 #define APDU_CORE_OFFSET_CLA (0x00)
@@ -44,6 +43,8 @@ typedef struct
 #define APDU_CORE_OFFSET_EXTENDED_LENGTH_LC_OR_LE2 (0x05)
 #define APDU_CORE_OFFSET_EXTENDED_LENGTH_LC_OR_LE3 (0x06)
 #define APDU_CORE_OFFSET_EXTENDED_LENGTH_DATA (0x07)
+
+#define APDU_CORE_MAX_NORMAL_APDU_DATA_LENGTH (0xFF)
 
 #define APDU_CORE_SW_BYTES_REMAINING (0x6100)
 #define APDU_CORE_SW_TERMINATION_STATE (0x6285)
