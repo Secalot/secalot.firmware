@@ -824,6 +824,8 @@ void btcHalWipeout(void)
     mk82FsWriteFile(MK82_FS_FILE_ID_BTC_DATA, offsetof(BTC_HAL_NVM_DATA, wipeoutInProgress), (uint8_t*)&trueOrFalse,
                     sizeof(trueOrFalse));
 
+    mk82FsCommitWrite(MK82_FS_FILE_ID_BTC_DATA);
+
     mk82SystemMemSet(wipeoutBuffer, 0x00, sizeof(wipeoutBuffer));
 
     while ((bytesWritten + sizeof(wipeoutBuffer)) < sizeof(BTC_HAL_NVM_KEYS))

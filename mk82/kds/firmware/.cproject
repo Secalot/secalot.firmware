@@ -80,6 +80,8 @@
 									<listOptionValue builtIn="false" value="../../../../eth/inc/"/>
 									<listOptionValue builtIn="false" value="../../../../eth/src/"/>
 									<listOptionValue builtIn="false" value="../../../middleware/sha3/"/>
+									<listOptionValue builtIn="false" value="../../../../sym/inc/"/>
+									<listOptionValue builtIn="false" value="../../../../sym/src/"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1306685630" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NDEBUG"/>
@@ -93,6 +95,7 @@
 									<listOptionValue builtIn="false" value="FIRMWARE"/>
 									<listOptionValue builtIn="false" value="NT_DEBUG=0"/>
 									<listOptionValue builtIn="false" value="MEW_HACK=1"/>
+									<listOptionValue builtIn="false" value="SYM_HACK=1"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.839109740" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -221,6 +224,8 @@
 									<listOptionValue builtIn="false" value="../../../../eth/inc/"/>
 									<listOptionValue builtIn="false" value="../../../../eth/src/"/>
 									<listOptionValue builtIn="false" value="../../../middleware/sha3/"/>
+									<listOptionValue builtIn="false" value="../../../../sym/inc/"/>
+									<listOptionValue builtIn="false" value="../../../../sym/src/"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.67180545" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NDEBUG"/>
@@ -234,6 +239,7 @@
 									<listOptionValue builtIn="false" value="FIRMWARE"/>
 									<listOptionValue builtIn="false" value="NT_DEBUG=0"/>
 									<listOptionValue builtIn="false" value="MEW_HACK=1"/>
+									<listOptionValue builtIn="false" value="SYM_HACK=1"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1051604537" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>

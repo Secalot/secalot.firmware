@@ -354,6 +354,16 @@ static void mk82FsGetFileHandleAndOffset(uint8_t fileID, int *fileHandle, uint32
         *fileHandle = mk82FsDataFileHandle;
         *fileOffset = offsetof(MK82_FS_DATA, ethData);
     }
+    else if (fileID == MK82_FS_FILE_ID_SYM_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, symKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_SYM_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, symData);
+    }
     else
     {
         mk82FsFatalError();
@@ -578,6 +588,7 @@ void mk82FsCreateFileSystem(void)
 	otpHalWipeout();
 	btcHalWipeout();
 	ethHalWipeout();
+	symHalWipeout();
 	
 }
 #endif

@@ -18,6 +18,11 @@
 #include "ethCore.h"
 #endif /* MEW_HACK */
 
+#ifdef SYM_HACK
+#include "symGlobal.h"
+#include "symCore.h"
+#endif /* SYM_HACK */
+
 static uint16_t systemInitialized = SF_FALSE;
 
 void sfCoreInit()
@@ -173,16 +178,15 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
 
 #ifdef MEW_HACK
     {
-    	uint8_t magicString[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+        uint8_t magicString[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
 
-    	if(authenticateRequest->keyHandleLength > sizeof(magicString))
-    	{
-            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) ==
-                SF_CMP_EQUAL)
+        if (authenticateRequest->keyHandleLength > sizeof(magicString))
+        {
+            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
             {
                 uint32_t ethApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
 
-                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle+sizeof(magicString), ethApduLength);
+                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), ethApduLength);
 
                 ethCoreProcessAPDU(apduBuffer, &ethApduLength);
 
@@ -192,9 +196,33 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
 
                 goto END;
             }
-    	}
+        }
     }
 #endif /* MEW_HACK */
+
+#ifdef SYM_HACK
+    {
+        uint8_t magicString[] = {0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11};
+
+        if (authenticateRequest->keyHandleLength > sizeof(magicString))
+        {
+            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
+            {
+                uint32_t symApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
+
+                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), symApduLength);
+
+                symCoreProcessAPDU(apduBuffer, &symApduLength);
+
+                *apduBufferLength = symApduLength;
+
+                sw = SF_CORE_SW_NO_ERROR;
+
+                goto END;
+            }
+        }
+    }
+#endif /* SYM_HACK */
 
     // P2 is unspecified.
 

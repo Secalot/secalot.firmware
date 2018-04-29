@@ -45,6 +45,9 @@
 #include "bldrCore.h"
 #include "bldrHal.h"
 
+#include "symGlobal.h"
+#include "symCore.h"
+
 static uint16_t computeOTP = MK82_FALSE;
 
 static void otpButtonPressed(void)
@@ -127,6 +130,7 @@ int main(void) {
 					btcCoreInit();
 					ethCoreInit();
 					bldrCoreInit();
+					symCoreInit();
 				
 					firstCommandReceived = MK82_TRUE;
 			}

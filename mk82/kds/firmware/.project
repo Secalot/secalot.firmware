@@ -70,6 +70,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>sym</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>u2f</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -161,6 +166,16 @@
 		</link>
 		<link>
 			<name>platform/mk82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>sym/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>sym/src</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -481,6 +496,36 @@
 		</link>
 		<link>
 			<name>platform/mk82/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>sym/inc/symCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/inc/symCore.h</locationURI>
+		</link>
+		<link>
+			<name>sym/inc/symGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/inc/symGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>sym/inc/symGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/inc/symGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>sym/inc/symHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/inc/symHal.h</locationURI>
+		</link>
+		<link>
+			<name>sym/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>sym/src/hal</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -1136,6 +1181,21 @@
 		</link>
 		<link>
 			<name>platform/mk82/src/usb</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>sym/src/core/symCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/src/core/symCore.c</locationURI>
+		</link>
+		<link>
+			<name>sym/src/core/symCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/src/core/symCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>sym/src/hal/k82</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -1983,6 +2043,16 @@
 			<name>platform/mk82/src/usb/mk82UsbInt.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/usb/mk82UsbInt.h</locationURI>
+		</link>
+		<link>
+			<name>sym/src/hal/k82/symHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/src/hal/k82/symHal.c</locationURI>
+		</link>
+		<link>
+			<name>sym/src/hal/k82/symHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/sym/src/hal/k82/symHalInt.h</locationURI>
 		</link>
 		<link>
 			<name>u2f/src/hal/k82/sfHal.c</name>
