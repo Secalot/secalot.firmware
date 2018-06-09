@@ -370,7 +370,7 @@ void mk82SslUnwrapAPDUCommand(uint8_t* apdu, uint32_t* apduLength, uint16_t* sta
         }
     }
 
-    if ( (commandAPDU.cla & MK82_SSL_WRAPPED_COMMAND_CLA_MASK) != MK82_SSL_WRAPPED_COMMAND_CLA_MASK)
+    if (commandAPDU.cla != MK82_SSL_WRAPPED_APDU_CLA)
     {
     	*status = MK82_SSL_STATUS_NOT_SSL;
     	goto END;
@@ -379,6 +379,18 @@ void mk82SslUnwrapAPDUCommand(uint8_t* apdu, uint32_t* apduLength, uint16_t* sta
     if (commandAPDU.lcPresent != APDU_TRUE)
     {
         sw = APDU_CORE_SW_WRONG_LENGTH;
+        goto END;
+    }
+
+    if(commandAPDU.ins != MK82_SSL_INS_WRAPPED_COMMAND)
+    {
+        sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
+        goto END;
+    }
+
+    if(commandAPDU.p1p2 != MK82_SSL_P1P2_WRAPPED_COMMAND)
+    {
+        sw = APDU_CORE_SW_WRONG_P1P2;
         goto END;
     }
 
@@ -403,48 +415,14 @@ void mk82SslUnwrapAPDUCommand(uint8_t* apdu, uint32_t* apduLength, uint16_t* sta
         goto END;
     }
 
-    if(calleeRetVal <= APDU_CORE_MAX_NORMAL_APDU_DATA_LENGTH)
+    if(calleeRetVal > MK82_MAX_PAYLOAD_SIZE)
     {
-    	if(commandAPDU.lc > APDU_CORE_MAX_NORMAL_APDU_DATA_LENGTH)
-    	{
-    		mk82SystemMemCpy(apdu+APDU_CORE_OFFSET_DATA, commandAPDU.data, calleeRetVal);
-    	}
-
-    	apdu[APDU_CORE_OFFSET_LC_OR_LE] = calleeRetVal;
-
-    	totalLength = APDU_CORE_OFFSET_DATA + calleeRetVal;
-    }
-    else
-    {
-    	if(commandAPDU.lc <= APDU_CORE_MAX_NORMAL_APDU_DATA_LENGTH)
-    	{
-    		mk82SystemMemCpy(apdu+APDU_CORE_OFFSET_EXTENDED_LENGTH_DATA, commandAPDU.data, calleeRetVal);
-    	}
-
-    	apdu[APDU_CORE_OFFSET_EXTENDED_LENGTH_LC_OR_LE1] = 0x00;
-    	apdu[APDU_CORE_OFFSET_EXTENDED_LENGTH_LC_OR_LE2] = MK82_HIBYTE(calleeRetVal);
-    	apdu[APDU_CORE_OFFSET_EXTENDED_LENGTH_LC_OR_LE3] = MK82_LOBYTE(calleeRetVal);
-
-    	totalLength = APDU_CORE_OFFSET_EXTENDED_LENGTH_DATA + calleeRetVal;
+    	mk82SystemFatalError();
     }
 
-    if(commandAPDU.lePresent == APDU_TRUE)
-    {
-    	if(commandAPDU.le <= APDU_CORE_MAX_NORMAL_APDU_DATA_LENGTH)
-    	{
-    		apdu[totalLength++] = commandAPDU.le;
-    	}
-    	else
-    	{
-    		apdu[totalLength++] = 0x00;
-    		apdu[totalLength++] = MK82_HIBYTE(commandAPDU.le);
-    		apdu[totalLength++] = MK82_LOBYTE(commandAPDU.le);
-    	}
-    }
+    mk82SystemMemCpy(apdu, commandAPDU.data, calleeRetVal);
 
-    apdu[APDU_CORE_OFFSET_CLA] &= ~(MK82_SSL_WRAPPED_COMMAND_CLA_MASK);
-
-    *apduLength = totalLength;
+    *apduLength = calleeRetVal;
 
     *status = MK82_SSL_STATUS_UNWRAPPED;
 
@@ -466,22 +444,22 @@ void mk82SslWrapAPDUResponse(uint8_t* apdu, uint32_t* apduLength)
     int calleeRetVal;
     int bytesProcessed = 0;
     uint16_t successfullyProcessed = MK82_FALSE;
+    uint32_t apduResponseLength;
 
     if( (apdu == NULL) || (apduLength == 0) )
     {
     	mk82SystemFatalError();
     }
 
+    apduResponseLength = *apduLength;
+
     apduCorePrepareResponseAPDUStructure(apdu, &responseAPDU);
 
-    if(*apduLength < sizeof(responseAPDU.sw))
+    if(apduResponseLength < sizeof(responseAPDU.sw))
     {
         sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
         goto END;
     }
-
-    responseAPDU.dataLength = *apduLength - sizeof(responseAPDU.sw);
-    responseAPDU.sw = MK82_MAKEWORD(apdu[*apduLength-1], apdu[*apduLength-2]);
 
     if(mk82SslHandshakePerformed != MK82_TRUE)
     {
@@ -489,33 +467,30 @@ void mk82SslWrapAPDUResponse(uint8_t* apdu, uint32_t* apduLength)
         goto END;
     }
 
-    if(responseAPDU.dataLength != 0)
-    {
-        mk82SslReceivedData = responseAPDU.data;
-        mk82SslReceivedDataLength = responseAPDU.dataLength;
+	mk82SslReceivedData = apdu;
+	mk82SslReceivedDataLength = apduResponseLength;
 
-        mk82SslDataToBeSent = responseAPDU.data;
-        mk82SslDataToBeSentLength= 0;
-        mk82SslDataToBeSentMaxLength = MK82_MAX_PAYLOAD_SIZE;
+	mk82SslDataToBeSent = responseAPDU.data;
+	mk82SslDataToBeSentLength= 0;
+	mk82SslDataToBeSentMaxLength = MK82_MAX_PAYLOAD_SIZE;
 
-        while(bytesProcessed != responseAPDU.dataLength)
-        {
-            calleeRetVal = mbedtls_ssl_write( &mk82SslContext, responseAPDU.data+bytesProcessed,  responseAPDU.dataLength-bytesProcessed);
+	while(bytesProcessed < apduResponseLength)
+	{
+		calleeRetVal = mbedtls_ssl_write( &mk82SslContext, responseAPDU.data+bytesProcessed,  apduResponseLength-bytesProcessed);
 
-            if(calleeRetVal < 0)
-            {
-                sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
-                goto END;
-            }
+		if(calleeRetVal < 0)
+		{
+			sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
+			goto END;
+		}
 
-            bytesProcessed += calleeRetVal;
-        }
+		bytesProcessed += calleeRetVal;
+	}
 
-        responseAPDU.dataLength = mk82SslDataToBeSentLength;
-    }
+	responseAPDU.sw = APDU_CORE_SW_NO_ERROR;
+	responseAPDU.dataLength = mk82SslDataToBeSentLength;
 
     successfullyProcessed = MK82_TRUE;
-
 
 END:
 

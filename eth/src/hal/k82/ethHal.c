@@ -23,6 +23,8 @@
 #ifdef USE_TOUCH
 #include <mk82Touch.h>
 #endif
+#include "mk82SecApdu.h"
+#include "mk82As.h"
 
 #include "mbedtls/sha256.h"
 #include "mbedtls/md.h"
@@ -40,7 +42,15 @@ static sha3_context ethHalHashContext;
 
 static uint16_t ethHalButtonPressed;
 
-void ethHalInit(void) { ethHalButtonPressed = ETH_FALSE; }
+static uint16_t confirmationTimeOngoing;
+static uint64_t initialConfirmationTime;
+
+void ethHalInit(void) {
+
+	ethHalButtonPressed = ETH_FALSE;
+	confirmationTimeOngoing = ETH_FALSE;
+	initialConfirmationTime = 0;
+}
 
 void ethHalDeinit(void) {}
 
@@ -269,6 +279,32 @@ uint16_t ethHalDerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKey
     return retVal;
 }
 
+uint16_t ethHalGetAddress(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* address)
+{
+	uint16_t retVal = MK82_BIP32_GENERAL_ERROR;
+	uint8_t publicKey[ETH_GLOBAL_ENCODED_FULL_POINT_SIZE];
+	uint8_t chainCode[ETH_GLOBAL_CHAIN_CODE_SIZE];
+	sha3_context hashingContext;
+	uint8_t* hash;
+
+	retVal = ethHalDerivePublicKey(derivationIndexes, numberOfKeyDerivations, publicKey, chainCode);
+
+	if(retVal != ETH_NO_ERROR)
+	{
+		goto END;
+	}
+
+	sha3_Init256(&hashingContext);
+	sha3_Update(&hashingContext, publicKey+1, sizeof(publicKey)-1);
+	hash = (uint8_t*)sha3_Finalize(&hashingContext);
+
+	mk82SystemMemCpy(address, hash + (ETH_GLOBAL_KECCAK_256_HASH_SIZE-ETH_GLOBAL_ADDRESS_SIZE), ETH_GLOBAL_ADDRESS_SIZE);
+
+END:
+	return retVal;
+}
+
+
 void ethHalHashInit(void) { sha3_Init256(&ethHalHashContext); }
 
 void ethHalHashUpdate(uint8_t* data, uint32_t dataLength)
@@ -426,10 +462,14 @@ static void ethHalButtonPressedCallback(void) { ethHalButtonPressed = ETH_TRUE; 
 
 void ethHalWaitForComfirmation(uint16_t* confirmed)
 {
-    uint64_t initialTime;
     uint64_t currentTime;
+    uint16_t currentDataType;
 
     ethHalButtonPressed = ETH_FALSE;
+
+    currentDataType = mk82SecApduGetPrimaryDataType();
+
+    confirmationTimeOngoing = ETH_TRUE;
 
 #ifdef USE_BUTTON
     mk82ButtonRegisterButtonDoubleClickedCallback(ethHalButtonPressedCallback);
@@ -443,7 +483,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchEnable();
 #endif
 
-    mk82SystemTickerGetMsPassed(&initialTime);
+    mk82SystemTickerGetMsPassed(&initialConfirmationTime);
 
     while (1)
     {
@@ -459,12 +499,19 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if ((currentTime - initialTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
+        if ((currentTime - initialConfirmationTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {
             *confirmed = ETH_FALSE;
             break;
         }
+
+        if(currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
+        {
+        	mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU, MK82_AS_ALLOW_ETH_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
+        }
     }
+
+    confirmationTimeOngoing = ETH_FALSE;
 
 #ifdef USE_TOUCH
     mk82TouchDisable();
@@ -478,6 +525,21 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchDeregisterButton2PressedCallback();
 #endif
 }
+
+uint64_t ethHalGetRemainingConfirmationTime(void)
+{
+	uint64_t currentTime;
+
+	if(confirmationTimeOngoing != ETH_TRUE)
+	{
+		ethHalFatalError();
+	}
+
+	mk82SystemTickerGetMsPassed(&currentTime);
+
+	return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - initialConfirmationTime));
+}
+
 
 void ethHalWipeout(void)
 {

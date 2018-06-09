@@ -32,6 +32,7 @@ extern "C" {
 #define ETH_GLOBAL_CHAIN_CODE_SIZE (32)
 #define ETH_GLOBAL_ENCODED_FULL_POINT_SIZE (65)
 #define ETH_GLOBAL_PIN_HASH_LENGTH (0x20)
+#define ETH_GLOBAL_ADDRESS_SIZE (0x14)
 
 #define ETH_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
 #define ETH_HIWORD(d) ((unsigned short)((((unsigned long)(d)) >> 16) & 0xFFFF))

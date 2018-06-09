@@ -14,8 +14,16 @@
 extern "C" {
 #endif
 
+#define MK82_AS_ALLOW_OPGP_COMMANDS (0x01)
+#define MK82_AS_ALLOW_OTP_COMMANDS (0x02)
+#define MK82_AS_ALLOW_BLDR_COMMANDS (0x04)
+#define MK82_AS_ALLOW_ETH_COMMANDS (0x08)
+#define MK82_AS_ALLOW_SSL_COMMANDS (0x10)
+
+#define MK82_AS_ALLOW_ALL_COMMANDS (0xFFFFFFFF)
+
 void mk82AsInit(void);
-void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
+void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedCommands);
 
 #ifdef __cplusplus
 }

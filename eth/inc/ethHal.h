@@ -58,6 +58,8 @@ uint16_t ethHalIsWipeoutInProgress(void);
 uint16_t ethHalDerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* publicKey,
                                uint8_t* chainCode);
 
+uint16_t ethHalGetAddress(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* address);
+
 void ethHalGetRandom(uint8_t* buffer, uint32_t length);
 
 void ethHalHashInit(void);
@@ -68,6 +70,7 @@ uint16_t ethHalSignHash(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivat
                         uint8_t* signature);
 
 void ethHalWaitForComfirmation(uint16_t* confirmed);
+uint64_t ethHalGetRemainingConfirmationTime(void);
 
 void ethHalWipeout(void);
 

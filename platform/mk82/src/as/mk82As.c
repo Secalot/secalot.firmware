@@ -63,7 +63,7 @@ static void mk82AsPutSWToAPDUBuffer(uint8_t* apdu, uint32_t* apduLength, uint16_
     *apduLength = 2;
 }
 
-void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
+void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedCommands)
 {
     uint16_t sw = MK82_AS_SW_UNKNOWN;
     uint8_t applicationSelectHeader[] = MK82_AS_APPLICATION_SELECT_HEADER;
@@ -132,27 +132,27 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
     }
     else
     {
-        if (mk82AsSelectedApplication == MK82_AS_OPGP_SELECTED)
+        if ( (mk82AsSelectedApplication == MK82_AS_OPGP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OPGP_COMMANDS) )
         {
             opgpCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if (mk82AsSelectedApplication == MK82_AS_OTP_SELECTED)
+        else if ( (mk82AsSelectedApplication == MK82_AS_OTP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OTP_COMMANDS) )
         {
             otpCoreProcessControlAPDU(apdu, apduLength);
             goto END;
         }
-        else if (mk82AsSelectedApplication == MK82_AS_BLDR_SELECTED)
+        else if ( (mk82AsSelectedApplication == MK82_AS_BLDR_SELECTED) && (allowedCommands & MK82_AS_ALLOW_BLDR_COMMANDS) )
         {
             bldrCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if (mk82AsSelectedApplication == MK82_AS_ETH_SELECTED)
+        else if ( (mk82AsSelectedApplication == MK82_AS_ETH_SELECTED) && (allowedCommands & MK82_AS_ALLOW_ETH_COMMANDS) )
         {
             ethCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if (mk82AsSelectedApplication == MK82_AS_SSL_SELECTED)
+        else if ( (mk82AsSelectedApplication == MK82_AS_SSL_SELECTED) && (allowedCommands & MK82_AS_ALLOW_SSL_COMMANDS) )
         {
             mk82SslProcessAPDU(apdu, apduLength);
             goto END;

@@ -31,11 +31,11 @@ int main(void) {
 		uint16_t dataType;
 		uint16_t newUsbCommandReceived;
 		
-		newUsbCommandReceived = mk82UsbCheckForNewCommand(&data, &dataLength, &dataType);
+		newUsbCommandReceived = mk82UsbCheckForNewCommand(MK82_GLOBAL_PROCESS_ALL_DATATYPES, &data, &dataLength, &dataType);
 		
 		if(newUsbCommandReceived == MK82_USB_COMMAND_RECEIVED)
 		{
-			if(dataType == MK82_USB_DATATYPE_CCID_APDU)
+			if(dataType == MK82_GLOBAL_DATATYPE_CCID_APDU)
 			{
 				bldrCoreProcessAPDU(data, &dataLength);
 			}

@@ -18,6 +18,7 @@
 #include "mk82BootInfo.h"
 #include "mk82Led.h"
 #include "mk82Ssl.h"
+#include "mk82SecApdu.h"
 
 #ifdef USE_BUTTON
 	#include "mk82Button.h"
@@ -107,7 +108,7 @@ int main(void) {
 #ifdef USE_TOUCH
 		mk82TouchTask();
 #endif
-		newUsbCommandReceived = mk82UsbCheckForNewCommand(&data, &dataLength, &dataType);
+		newUsbCommandReceived = mk82UsbCheckForNewCommand(MK82_GLOBAL_PROCESS_ALL_DATATYPES, &data, &dataLength, &dataType);
 		
 		if( (newUsbCommandReceived == MK82_USB_COMMAND_RECEIVED) || (computeOTP == MK82_TRUE) )
 		{
@@ -123,6 +124,7 @@ int main(void) {
 					mk82FsInit();
 					mk82KeysafeInit();
 					mk82SslInit();
+					mk82SecApduInit();
 				
 					opgpCoreInit();
 					sfCoreInit();
@@ -136,7 +138,9 @@ int main(void) {
 
 			if(newUsbCommandReceived == MK82_USB_COMMAND_RECEIVED)
 			{
-				if(dataType == MK82_USB_DATATYPE_CCID_APDU)
+				mk82SecApduSetPrimaryDataType(dataType);
+
+				if(dataType == MK82_GLOBAL_DATATYPE_CCID_APDU)
 				{
 					uint16_t sslStatus;
 
@@ -144,7 +148,7 @@ int main(void) {
 
 					if( (sslStatus == MK82_SSL_STATUS_UNWRAPPED) || (sslStatus == MK82_SSL_STATUS_NOT_SSL) )
 					{
-						mk82AsProcessAPDU(data, &dataLength);
+						mk82AsProcessAPDU(data, &dataLength, MK82_AS_ALLOW_ALL_COMMANDS);
 					}
 					else
 					{
@@ -159,11 +163,11 @@ int main(void) {
 						mk82SslWrapAPDUResponse(data, &dataLength);
 					}
 				}
-				else if(dataType == MK82_USB_DATATYPE_U2F_MESSAGE)
+				else if(dataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
 				{
 					sfCoreProcessAPDU(data, &dataLength);
 				}
-				else if(dataType == MK82_USB_DATATYPE_BTC_MESSAGE)
+				else if(dataType == MK82_GLOBAL_DATATYPE_BTC_MESSAGE)
 				{
 					btcCoreProcessAPDU(data, &dataLength);
 				}

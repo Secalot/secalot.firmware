@@ -93,7 +93,7 @@ static void mk82UsbU2fSendPacketBlocking(void);
 static void mk82UsbKeyboardSendPacketBlocking(void);
 static void mk82UsbBtcSendPacketBlocking(void);
 #endif /* FIRMWARE */
-static uint16_t mk82UsbCheckForAnEvent(void);
+static uint16_t mk82UsbCheckForAnEvent(uint32_t dataTypesToProcess);
 
 static CCID_CORE_HANDLE mk82UsbCcidHandle;
 static usb_device_handle mk82UsbDeviceHandle;
@@ -704,30 +704,30 @@ static void mk82UsbBtcSendPacketBlocking(void)
 }
 #endif /* FIRMWARE */
 
-static uint16_t mk82UsbCheckForAnEvent(void)
+static uint16_t mk82UsbCheckForAnEvent(uint32_t dataTypesToProcess)
 {
     uint16_t retVal;
 
-    if (mk82UsbCcidPacketReceived == MK82_TRUE)
+    if ( ((dataTypesToProcess&MK82_GLOBAL_PROCESS_CCID_APDU) != 0) && (mk82UsbCcidPacketReceived == MK82_TRUE) )
     {
         mk82UsbCcidPacketReceived = MK82_FALSE;
 
         retVal = MK82_USB_EVENT_CCID_PACKET_RECEIVED;
     }
 #ifdef FIRMWARE
-    else if (mk82UsbU2fPacketReceived == MK82_TRUE)
+    else if (((dataTypesToProcess&MK82_GLOBAL_PROCESS_U2F_MESSAGE) != 0) && (mk82UsbU2fPacketReceived == MK82_TRUE))
     {
         mk82UsbU2fPacketReceived = MK82_FALSE;
 
         retVal = MK82_USB_EVENT_U2F_PACKET_RECEIVED;
     }
-    else if (mk82UsbU2fTimerExpired == MK82_TRUE)
+    else if (((dataTypesToProcess&MK82_GLOBAL_PROCESS_U2F_MESSAGE) != 0) && (mk82UsbU2fTimerExpired == MK82_TRUE))
     {
         mk82UsbU2fTimerExpired = MK82_FALSE;
 
         retVal = MK82_USB_EVENT_U2F_TIMER_EXPIRED;
     }
-    else if (mk82UsbBtcPacketReceived == MK82_TRUE)
+    else if (((dataTypesToProcess&MK82_GLOBAL_PROCESS_BTC_MESSAGE) != 0) && (mk82UsbBtcPacketReceived == MK82_TRUE))
     {
         mk82UsbBtcPacketReceived = MK82_FALSE;
 
@@ -787,7 +787,7 @@ void mk82UsbInit(void)
 #endif /* FIRMWARE */
 }
 
-uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_t *dataType)
+uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t **data, uint32_t *dataLength, uint16_t *dataType)
 {
     uint16_t event;
     uint16_t newCommandReceived = MK82_USB_COMMAND_NOT_RECEIVED;
@@ -797,7 +797,7 @@ uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_
         mk82UsbFatalError();
     }
 
-    event = mk82UsbCheckForAnEvent();
+    event = mk82UsbCheckForAnEvent(dataTypesToProcess);
 
     if (event == MK82_USB_EVENT_CCID_PACKET_RECEIVED)
     {
@@ -826,7 +826,7 @@ uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_
 
             PIT_StartTimer(PIT, kPIT_Chnl_0);
 
-            *dataType = MK82_USB_DATATYPE_CCID_APDU;
+            *dataType = MK82_GLOBAL_DATATYPE_CCID_APDU;
 
             newCommandReceived = MK82_USB_COMMAND_RECEIVED;
         }
@@ -885,7 +885,7 @@ uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_
             {
                 *data = mk82UsbU2fHidDataBuffer;
                 *dataLength = (uint16_t)incomingCommandLength;
-                *dataType = MK82_USB_DATATYPE_U2F_MESSAGE;
+                *dataType = MK82_GLOBAL_DATATYPE_U2F_MESSAGE;
 
                 newCommandReceived = MK82_USB_COMMAND_RECEIVED;
             }
@@ -942,7 +942,7 @@ uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_
 
             *data = mk82UsbBtcHidDataBuffer;
             *dataLength = (uint16_t)incomingDataSize;
-            *dataType = MK82_USB_DATATYPE_BTC_MESSAGE;
+            *dataType = MK82_GLOBAL_DATATYPE_BTC_MESSAGE;
 
             newCommandReceived = MK82_USB_COMMAND_RECEIVED;
         }
@@ -970,7 +970,7 @@ uint16_t mk82UsbCheckForNewCommand(uint8_t **data, uint32_t *dataLength, uint16_
 
 void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType)
 {
-    if (dataType == MK82_USB_DATATYPE_CCID_APDU)
+    if (dataType == MK82_GLOBAL_DATATYPE_CCID_APDU)
     {
         uint8_t *response;
         uint32_t responseLength;
@@ -987,7 +987,7 @@ void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType)
                               MK82_USB_CCID_BULK_ENDPOINTS_PACKET_SIZE);
     }
 #ifdef FIRMWARE
-    else if (dataType == MK82_USB_DATATYPE_U2F_MESSAGE)
+    else if (dataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
     {
         uint16_t moreFramesAvailable;
 
@@ -1004,7 +1004,7 @@ void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType)
         USB_DeviceRecvRequest(mk82UsbDeviceHandle, MK82_USB_U2F_INTERRUPT_OUT_ENDPOINT, mk82UsbU2fIncomingPacketBuffer,
                               MK82_USB_U2F_INTERRUPT_ENDPOINTS_PACKET_SIZE);
     }
-    else if (dataType == MK82_USB_DATATYPE_BTC_MESSAGE)
+    else if (dataType == MK82_GLOBAL_DATATYPE_BTC_MESSAGE)
     {
         uint16_t moreFramesAvailable;
 

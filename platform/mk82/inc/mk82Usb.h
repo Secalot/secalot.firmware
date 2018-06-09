@@ -17,14 +17,11 @@ extern "C" {
 #define MK82_USB_COMMAND_RECEIVED (0x9999)
 #define MK82_USB_COMMAND_NOT_RECEIVED (0x6666)
 
-#define MK82_USB_DATATYPE_CCID_APDU (0x9999)
-#ifdef FIRMWARE
-#define MK82_USB_DATATYPE_U2F_MESSAGE (0x6666)
-#define MK82_USB_DATATYPE_BTC_MESSAGE (0xCCCC)
-#endif /* FIRMWARE */
+
+
 
 void mk82UsbInit(void);
-uint16_t mk82UsbCheckForNewCommand(uint8_t** data, uint32_t* dataLength, uint16_t* dataType);
+uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t** data, uint32_t* dataLength, uint16_t* dataType);
 void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType);
 
 #ifdef FIRMWARE

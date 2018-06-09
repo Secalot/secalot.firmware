@@ -1075,6 +1075,11 @@
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Led.h</locationURI>
 		</link>
 		<link>
+			<name>platform/mk82/inc/mk82SecApdu.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82SecApdu.h</locationURI>
+		</link>
+		<link>
 			<name>platform/mk82/inc/mk82Ssl.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/inc/mk82Ssl.h</locationURI>
@@ -1126,6 +1131,11 @@
 		</link>
 		<link>
 			<name>platform/mk82/src/led</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/secApdu</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -2008,6 +2018,16 @@
 			<name>platform/mk82/src/led/mk82LedInt.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/led/mk82LedInt.h</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/secApdu/mk82SecApdu.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/secApdu/mk82SecApdu.c</locationURI>
+		</link>
+		<link>
+			<name>platform/mk82/src/secApdu/mk82SecApduInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/platform/mk82/src/secApdu/mk82SecApduInt.h</locationURI>
 		</link>
 		<link>
 			<name>platform/mk82/src/ssl/mk82Ssl.c</name>

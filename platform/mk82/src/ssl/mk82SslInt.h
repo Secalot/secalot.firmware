@@ -12,13 +12,14 @@
 
 #define MK82_MAX_PAYLOAD_SIZE (1024)
 
-#define MK82_SSL_WRAPPED_COMMAND_CLA_MASK (0x04)
-
 #define MK82_SSL_CLA (0x80)
+#define MK82_SSL_WRAPPED_APDU_CLA (0x84)
 
 #define MK82_SSL_INS_HANDSHAKE (0x00)
+#define MK82_SSL_INS_WRAPPED_COMMAND (0x00)
 
 #define MK82_SSL_P1P2_HANDSHAKE (0x0000)
+#define MK82_SSL_P1P2_WRAPPED_COMMAND (0x0000)
 
 #define MK82_SSL_AID                                              \
     {                                                              \
