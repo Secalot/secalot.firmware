@@ -63,6 +63,8 @@ typedef struct
 #define BTC_TRAN_OUTPUTS_PROCESSING_STATE_PARSING_PUBKEYSCRIPT (0x3333)
 #define BTC_TRAN_OUTPUTS_PROCESSING_STATE_PARSING_FINISHED (0x5555)
 
+#define BTC_TRANS_MAX_NUMBER_OF_INPUTS (100)
+
 typedef struct
 {
     uint16_t state;
@@ -77,14 +79,18 @@ typedef struct
     uint32_t totalNumberOfOutputs;
     uint32_t remainingScriptLength;
 
-    int64_t totalAmountInAllInputs;
-    int64_t totalAmountInAllOutputs;
+    uint32_t numberOfInputAmounts;
+    int64_t inputAmounts[BTC_TRANS_MAX_NUMBER_OF_INPUTS];
 
     uint16_t segWit;
+    uint32_t segwitSignatureNumber;
     uint8_t segWitCurrentInputAmount[8];
     uint8_t segWitHashPrevouts[BTC_GLOBAL_SHA256_SIZE];
     uint8_t segWitHashSequence[BTC_GLOBAL_SHA256_SIZE];
     uint8_t segWitHashOutputs[BTC_GLOBAL_SHA256_SIZE];
+
+
+    BTC_TRAN_TRANSACTION_TO_DISPLAY transactionToDisplay;
 
 } BTC_TRAN_SIGNING_CONTEXT;
 

@@ -29,6 +29,7 @@ static void btcCoreProcessUntrustedHashTransactionInputStart(APDU_CORE_COMMAND_A
 static void btcCoreProcessUntrustedHashTransactionInputFinalizeFull(APDU_CORE_COMMAND_APDU* commandAPDU,
                                                                     APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessUntrustedHashSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
+static void btcCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessSignMessage(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void btcCoreProcessGetFirmwareVersion(APDU_CORE_COMMAND_APDU* commandAPDU,
                                              APDU_CORE_RESPONSE_APDU* responseAPDU);
@@ -37,12 +38,17 @@ static void btcCoreProcessSetKeyboardConfiguration(APDU_CORE_COMMAND_APDU* comma
 
 static void btcCoreProcessGetRandom(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 
+
+static uint16_t btcCoreWaitingForConfirmation;
+
 void btcCoreInit()
 {
     btcHalInit();
     btcPinInit();
     btcTranInit();
     btcBase58Init();
+
+    btcCoreWaitingForConfirmation = BTC_FALSE;
 }
 
 void btcCoreDeinit()
@@ -624,7 +630,9 @@ static void btcCoreProcessUntrustedHashSign(APDU_CORE_COMMAND_APDU* commandAPDU,
 
     if (firstSignatureGenerated != BTC_TRUE)
     {
-        btcHalWaitForComfirmation(&confirmed);
+    	btcCoreWaitingForConfirmation = BTC_TRUE;
+        btcHalWaitForComfirmation(BTC_TRUE, &confirmed);
+        btcCoreWaitingForConfirmation = BTC_FALSE;
 
         if (confirmed != BTC_TRUE)
         {
@@ -661,6 +669,123 @@ END:
         btcTranSigningClearState();
     }
 
+    responseAPDU->sw = sw;
+}
+
+static void btcCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
+{
+    uint16_t sw;
+    uint32_t dataLength;
+    uint16_t offset = 0;
+    uint16_t i;
+    uint64_t remainingTime;
+    BTC_TRAN_TRANSACTION_TO_DISPLAY* transactionToDisplay;
+    int64_t* inputAmounts;
+    uint32_t numberOfInputs;
+
+	if(btcCoreWaitingForConfirmation != BTC_TRUE)
+	{
+        sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
+        goto END;
+	}
+
+	btcTranGetTransactionReadoutData(&transactionToDisplay, &inputAmounts, &numberOfInputs);
+
+    if (commandAPDU->p1p2 == BTC_CORE_P1P2_READ_TRANSACTION_INFO)
+    {
+        if (commandAPDU->lcPresent != APDU_FALSE)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        if(transactionToDisplay->transactionTooBigToDisplay == BTC_TRUE)
+        {
+        	responseAPDU->data[offset++] = 0x01;
+        }
+        else
+        {
+        	responseAPDU->data[offset++] = 0x00;
+        }
+
+        responseAPDU->data[offset++] = BTC_HIBYTE(transactionToDisplay->currentOffset);
+        responseAPDU->data[offset++] = BTC_LOBYTE(transactionToDisplay->currentOffset);
+
+		responseAPDU->data[offset++] = BTC_HIBYTE(BTC_HIWORD(numberOfInputs));
+		responseAPDU->data[offset++] = BTC_LOBYTE(BTC_HIWORD(numberOfInputs));
+		responseAPDU->data[offset++] = BTC_HIBYTE(BTC_LOWORD(numberOfInputs));
+		responseAPDU->data[offset++] = BTC_LOBYTE(BTC_LOWORD(numberOfInputs));
+
+    	remainingTime = btcHalGetRemainingConfirmationTime();
+
+		responseAPDU->data[offset++] = BTC_HIBYTE(BTC_HIWORD(remainingTime));
+		responseAPDU->data[offset++] = BTC_LOBYTE(BTC_HIWORD(remainingTime));
+		responseAPDU->data[offset++] = BTC_HIBYTE(BTC_LOWORD(remainingTime));
+		responseAPDU->data[offset++] = BTC_LOBYTE(BTC_LOWORD(remainingTime));
+
+		responseAPDU->dataLength = offset;
+		sw = APDU_CORE_SW_NO_ERROR;
+    }
+    else if (commandAPDU->p1p2 == BTC_CORE_P1P2_READ_TRANSACTION_DATA)
+    {
+    	uint16_t chunkNumber;
+
+        if (commandAPDU->lcPresent != APDU_TRUE)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        if(commandAPDU->lc != 2)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        chunkNumber = BTC_MAKEWORD(commandAPDU->data[1], commandAPDU->data[0]);
+
+        if( chunkNumber >= BTC_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS)
+        {
+            sw = APDU_CORE_SW_CONDITIONS_NOT_SATISFIED;
+            goto END;
+        }
+
+        btcHalMemCpy(responseAPDU->data, transactionToDisplay->transaction + (chunkNumber*BTC_CORE_TRANSACTION_READ_CHUNK_SIZE), BTC_CORE_TRANSACTION_READ_CHUNK_SIZE);
+
+        responseAPDU->dataLength = BTC_CORE_TRANSACTION_READ_CHUNK_SIZE;
+        sw = APDU_CORE_SW_NO_ERROR;
+    }
+    else if (commandAPDU->p1p2 == BTC_CORE_P1P2_READ_TRANSACTION_AMOUNTS)
+    {
+
+        if (commandAPDU->lcPresent != APDU_FALSE)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        for(uint32_t i=0; i<numberOfInputs; i++)
+        {
+        	responseAPDU->data[8*i] = (uint8_t)(inputAmounts[i]>>56);
+        	responseAPDU->data[8*i+1] = (uint8_t)(inputAmounts[i]>>48);
+        	responseAPDU->data[8*i+2] = (uint8_t)(inputAmounts[i]>>40);
+        	responseAPDU->data[8*i+3] = (uint8_t)(inputAmounts[i]>>32);
+        	responseAPDU->data[8*i+4] = (uint8_t)(inputAmounts[i]>>24);
+        	responseAPDU->data[8*i+5] = (uint8_t)(inputAmounts[i]>>16);
+        	responseAPDU->data[8*i+6] = (uint8_t)(inputAmounts[i]>>8);
+        	responseAPDU->data[8*i+7] = (uint8_t)(inputAmounts[i]);
+        }
+
+        responseAPDU->dataLength = numberOfInputs*sizeof(inputAmounts[0]);
+        sw = APDU_CORE_SW_NO_ERROR;
+    }
+    else
+    {
+        sw = APDU_CORE_SW_WRONG_P1P2;
+        goto END;
+    }
+
+END:
     responseAPDU->sw = sw;
 }
 
@@ -764,7 +889,7 @@ static void btcCoreProcessSignMessage(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_
             goto END;
         }
 
-        btcHalWaitForComfirmation(&confirmed);
+        btcHalWaitForComfirmation(BTC_FALSE, &confirmed);
 
         if (confirmed != BTC_TRUE)
         {
@@ -891,6 +1016,21 @@ END:
     responseAPDU->sw = sw;
 }
 
+void btcCoreGetAID(uint8_t* aid, uint32_t* aidLength)
+{
+    uint8_t aidTemplate[] = BTC_CORE_AID;
+
+    if ((aid == NULL) || (aidLength == NULL))
+    {
+        btcHalFatalError();
+    }
+
+    btcHalMemCpy(aid, aidTemplate, BTC_CORE_AID_LENGTH);
+
+    *aidLength = BTC_CORE_AID_LENGTH;
+}
+
+
 void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
 {
     APDU_CORE_COMMAND_APDU commandAPDU;
@@ -969,42 +1109,57 @@ void btcCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
     }
     else if (walletState == BTC_GLOBAL_WALLET_STATE_OPERATIONAL)
     {
-        switch (commandAPDU.ins)
-        {
-            case BTC_CORE_INS_VERIFY_PIN:
-                btcCoreProcessVerifyPin(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_GET_WALLET_PUBLIC_KEY:
-                btcCoreProcessGetWalletPublicKey(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_GET_TRUSTED_INPUT:
-                btcCoreProcessGetTrustedInput(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_START:
-                btcCoreProcessUntrustedHashTransactionInputStart(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL:
-                btcCoreProcessUntrustedHashTransactionInputFinalizeFull(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_UNTRUSTED_HASH_SIGN:
-                btcCoreProcessUntrustedHashSign(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_SIGN_MESSAGE:
-                btcCoreProcessSignMessage(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_GET_FIRMWARE_VERSION:
-                btcCoreProcessGetFirmwareVersion(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_SET_KEYBOARD_CONFIGURATION:
-                btcCoreProcessSetKeyboardConfiguration(&commandAPDU, &responseAPDU);
-                break;
-            case BTC_CORE_INS_GET_RANDOM:
-                btcCoreProcessGetRandom(&commandAPDU, &responseAPDU);
-                break;
-            default:
-                responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
-                break;
-        }
+    	if(btcCoreWaitingForConfirmation == BTC_TRUE)
+    	{
+			switch (commandAPDU.ins)
+			{
+				case BTC_CORE_INS_READ_TRANSACTION:
+					btcCoreProcessReadTransaction(&commandAPDU, &responseAPDU);
+					break;
+				default:
+					responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
+					break;
+			}
+    	}
+    	else
+    	{
+			switch (commandAPDU.ins)
+			{
+				case BTC_CORE_INS_VERIFY_PIN:
+					btcCoreProcessVerifyPin(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_GET_WALLET_PUBLIC_KEY:
+					btcCoreProcessGetWalletPublicKey(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_GET_TRUSTED_INPUT:
+					btcCoreProcessGetTrustedInput(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_START:
+					btcCoreProcessUntrustedHashTransactionInputStart(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_UNTRUSTED_HASH_TRANSACTION_INPUT_FINALIZE_FULL:
+					btcCoreProcessUntrustedHashTransactionInputFinalizeFull(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_UNTRUSTED_HASH_SIGN:
+					btcCoreProcessUntrustedHashSign(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_SIGN_MESSAGE:
+					btcCoreProcessSignMessage(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_GET_FIRMWARE_VERSION:
+					btcCoreProcessGetFirmwareVersion(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_SET_KEYBOARD_CONFIGURATION:
+					btcCoreProcessSetKeyboardConfiguration(&commandAPDU, &responseAPDU);
+					break;
+				case BTC_CORE_INS_GET_RANDOM:
+					btcCoreProcessGetRandom(&commandAPDU, &responseAPDU);
+					break;
+				default:
+					responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
+					break;
+			}
+    	}
     }
     else
     {

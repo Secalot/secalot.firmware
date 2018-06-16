@@ -17,6 +17,18 @@ extern "C" {
 #define BTC_TRAN_GIVE_MORE_INPUT (0x9999)
 #define BTC_TRAN_RETREIVE_OUTPUT (0x6666)
 
+#define BTC_TRAN_MAX_VIEWABLE_TRANSACTION_SIZE (8192)
+
+#define BTC_TRANS_MAX_NUMBER_OF_INPUTS (100)
+
+typedef struct
+{
+	uint16_t transactionTooBigToDisplay;
+	uint8_t transaction[BTC_TRAN_MAX_VIEWABLE_TRANSACTION_SIZE];
+	uint16_t currentOffset;
+
+} BTC_TRAN_TRANSACTION_TO_DISPLAY;
+
 void btcTranInit(void);
 void btcTranDeinit(void);
 
@@ -36,6 +48,7 @@ void btcTranMessageSigningInit(void);
 uint16_t btcTranMessageSigningProcessData(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations,
                                           uint8_t* dataToSign, uint8_t dataToSignLength);
 uint16_t btcTranMessageSigningSign(uint8_t* signature, uint32_t* signatureLength);
+void btcTranGetTransactionReadoutData(BTC_TRAN_TRANSACTION_TO_DISPLAY** transactionToDisplay, int64_t** amountsInInputs, uint32_t* numberOfInputs);
 
 #ifdef __cplusplus
 }

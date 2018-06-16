@@ -22,6 +22,8 @@
 #ifdef USE_TOUCH
 #include <mk82Touch.h>
 #endif
+#include <mk82SecApdu.h>
+#include <mk82As.h>
 
 #include "mbedtls/sha256.h"
 #include "mbedtls/sha512.h"
@@ -47,6 +49,10 @@ static mbedtls_sha256_context btcHalHashSegWitOutputsContext;
 
 static uint16_t btcHalButtonPressed;
 
+static uint16_t btcHalConfirmationTimeOngoing;
+static uint64_t btcHalInitialConfirmationTime;
+
+
 void btcHalInit(void)
 {
     mbedtls_sha256_init(&btcHalTrustedInputHashContext);
@@ -59,6 +65,9 @@ void btcHalInit(void)
     mbedtls_sha256_init(&btcHalHashSegWitOutputsContext);
 
     btcHalButtonPressed = BTC_FALSE;
+
+	btcHalConfirmationTimeOngoing = BTC_FALSE;
+	btcHalInitialConfirmationTime = 0;
 }
 
 void btcHalDeinit() {}
@@ -757,12 +766,16 @@ void btcHalGetRandom(uint8_t* buffer, uint32_t length)
     mk82SystemGetRandom(buffer, length);
 }
 
-void btcHalWaitForComfirmation(uint16_t* confirmed)
+void btcHalWaitForComfirmation(uint16_t allowCcidApdus, uint16_t* confirmed)
 {
-    uint64_t initialTime;
     uint64_t currentTime;
+    uint16_t currentDataType;
 
     btcHalButtonPressed = BTC_FALSE;
+
+    currentDataType = mk82SecApduGetPrimaryDataType();
+
+    btcHalConfirmationTimeOngoing = BTC_TRUE;
 
 #ifdef USE_BUTTON
     mk82ButtonRegisterButtonDoubleClickedCallback(btcHalButtonPressedCallback);
@@ -776,7 +789,7 @@ void btcHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchEnable();
 #endif
 
-    mk82SystemTickerGetMsPassed(&initialTime);
+    mk82SystemTickerGetMsPassed(&btcHalInitialConfirmationTime);
 
     while (1)
     {
@@ -792,10 +805,18 @@ void btcHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if ((currentTime - initialTime) > BTC_HAL_CONFIRMATION_TIMEOUT_IN_MS)
+        if ((currentTime - btcHalInitialConfirmationTime) > BTC_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {
             *confirmed = BTC_FALSE;
             break;
+        }
+
+        if(allowCcidApdus == BTC_TRUE)
+        {
+            if(currentDataType == MK82_GLOBAL_DATATYPE_BTC_MESSAGE)
+            {
+            	mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU, MK82_AS_ALLOW_BTC_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
+            }
         }
     }
 
@@ -810,6 +831,20 @@ void btcHalWaitForComfirmation(uint16_t* confirmed)
 #ifdef USE_TOUCH
     mk82TouchDeregisterButton2PressedCallback();
 #endif
+}
+
+uint64_t btcHalGetRemainingConfirmationTime(void)
+{
+	uint64_t currentTime;
+
+	if(btcHalConfirmationTimeOngoing != BTC_TRUE)
+	{
+		btcHalFatalError();
+	}
+
+	mk82SystemTickerGetMsPassed(&currentTime);
+
+	return (BTC_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - btcHalInitialConfirmationTime));
 }
 
 void btcHalWipeout(void)

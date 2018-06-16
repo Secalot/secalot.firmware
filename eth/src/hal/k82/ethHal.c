@@ -42,14 +42,14 @@ static sha3_context ethHalHashContext;
 
 static uint16_t ethHalButtonPressed;
 
-static uint16_t confirmationTimeOngoing;
-static uint64_t initialConfirmationTime;
+static uint16_t ethHalConfirmationTimeOngoing;
+static uint64_t ethHAlInitialConfirmationTime;
 
 void ethHalInit(void) {
 
 	ethHalButtonPressed = ETH_FALSE;
-	confirmationTimeOngoing = ETH_FALSE;
-	initialConfirmationTime = 0;
+	ethHalConfirmationTimeOngoing = ETH_FALSE;
+	ethHAlInitialConfirmationTime = 0;
 }
 
 void ethHalDeinit(void) {}
@@ -469,7 +469,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 
     currentDataType = mk82SecApduGetPrimaryDataType();
 
-    confirmationTimeOngoing = ETH_TRUE;
+    ethHalConfirmationTimeOngoing = ETH_TRUE;
 
 #ifdef USE_BUTTON
     mk82ButtonRegisterButtonDoubleClickedCallback(ethHalButtonPressedCallback);
@@ -483,7 +483,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchEnable();
 #endif
 
-    mk82SystemTickerGetMsPassed(&initialConfirmationTime);
+    mk82SystemTickerGetMsPassed(&ethHAlInitialConfirmationTime);
 
     while (1)
     {
@@ -499,7 +499,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if ((currentTime - initialConfirmationTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
+        if ((currentTime - ethHAlInitialConfirmationTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {
             *confirmed = ETH_FALSE;
             break;
@@ -511,7 +511,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
         }
     }
 
-    confirmationTimeOngoing = ETH_FALSE;
+    ethHalConfirmationTimeOngoing = ETH_FALSE;
 
 #ifdef USE_TOUCH
     mk82TouchDisable();
@@ -530,14 +530,14 @@ uint64_t ethHalGetRemainingConfirmationTime(void)
 {
 	uint64_t currentTime;
 
-	if(confirmationTimeOngoing != ETH_TRUE)
+	if(ethHalConfirmationTimeOngoing != ETH_TRUE)
 	{
 		ethHalFatalError();
 	}
 
 	mk82SystemTickerGetMsPassed(&currentTime);
 
-	return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - initialConfirmationTime));
+	return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - ethHAlInitialConfirmationTime));
 }
 
 

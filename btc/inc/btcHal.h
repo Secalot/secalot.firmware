@@ -85,7 +85,8 @@ void btcHalSha256Update(uint16_t hashID, uint8_t* data, uint32_t dataLength);
 void btcHalSha256Finalize(uint16_t hashID, uint8_t* hash);
 void btcHalSha256(uint8_t* data, uint32_t dataLength, uint8_t* hash);
 
-void btcHalWaitForComfirmation(uint16_t* confirmed);
+void btcHalWaitForComfirmation(uint16_t allowCcidApdus, uint16_t* confirmed);
+uint64_t btcHalGetRemainingConfirmationTime(void);
 
 void btcHalGenerateNewSeed(uint8_t* seed, uint32_t seedLength);
 

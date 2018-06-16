@@ -17,6 +17,7 @@ extern "C" {
 void btcCoreInit(void);
 void btcCoreDeinit(void);
 
+void btcCoreGetAID(uint8_t* aid, uint32_t* aidLength);
 void btcCoreProcessAPDU(uint8_t* apduBuffer, uint32_t* apduBufferLength);
 
 #ifdef __cplusplus
