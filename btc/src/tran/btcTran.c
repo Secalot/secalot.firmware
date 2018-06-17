@@ -1819,6 +1819,11 @@ void btcTranGetTransactionReadoutData(BTC_TRAN_TRANSACTION_TO_DISPLAY** transact
     	btcHalFatalError();
     }
 
+    if(btcTranSigningContext.numberOfInputAmounts > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
+    {
+    	btcHalFatalError();
+    }
+
     *transactionToDisplay = &btcTranSigningContext.transactionToDisplay;
     *amountsInInputs = btcTranSigningContext.inputAmounts;
     *numberOfInputs= btcTranSigningContext.numberOfInputAmounts;

@@ -22,6 +22,7 @@
 #include "ethHal.h"
 
 #include "mk82KeySafe.h"
+#include "mk82Ssl.h"
 
 #define MK82_FS_TOTAL_BLOCKS (MK82_FLASH_FILE_SYSTEM_SIZE / MK82_FLASH_PAGE_SIZE)
 #define MK82_FS_PAGE_DATA_SIZE (246)
@@ -61,9 +62,10 @@ MK82_MAKE_PACKED(typedef struct)
     OTP_HAL_NVM_KEYS otpKeys;
     BTC_HAL_NVM_KEYS btcKeys;
     ETH_HAL_NVM_KEYS ethKeys;
+    SSL_NVM_KEYS sslKeys;
 
     uint8_t padding[MK82_FS_PAGE_DATA_SIZE * (MK82_FS_PAGES_PER_BLOCK - 1) - sizeof(OPGP_HAL_NVM_KEYS) -
-                    sizeof(OTP_HAL_NVM_KEYS) - sizeof(BTC_HAL_NVM_KEYS) - sizeof(ETH_HAL_NVM_KEYS) -
+                    sizeof(OTP_HAL_NVM_KEYS) - sizeof(BTC_HAL_NVM_KEYS) - sizeof(ETH_HAL_NVM_KEYS) - sizeof(SSL_NVM_KEYS) -
                     MK82_FS_INTERNAL_INFO_PER_PAGE * (MK82_FS_PAGES_PER_BLOCK - 1)];
 }
 MK82_FS_KEYS;

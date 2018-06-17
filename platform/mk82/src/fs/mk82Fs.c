@@ -354,6 +354,11 @@ static void mk82FsGetFileHandleAndOffset(uint8_t fileID, int *fileHandle, uint32
         *fileHandle = mk82FsDataFileHandle;
         *fileOffset = offsetof(MK82_FS_DATA, ethData);
     }
+    else if (fileID == MK82_FS_FILE_ID_SSL_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, sslKeys);
+    }
     else
     {
         mk82FsFatalError();
