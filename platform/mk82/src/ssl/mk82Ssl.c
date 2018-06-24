@@ -70,6 +70,7 @@ static void mk82SllCheckPrivateKeyPresense(void);
 
 static void mk82SslProcessGetPublicKey(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void mk82SslProcessHandshake(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
+static void mk82SslProcessReset(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 
 
 static mbedtls_ssl_context mk82SslContext;
@@ -421,6 +422,35 @@ END:
     responseAPDU->sw = sw;
 }
 
+static void mk82SslProcessReset(APDU_CORE_COMMAND_APDU* commandAPDU,
+                                                   APDU_CORE_RESPONSE_APDU* responseAPDU)
+{
+    uint16_t sw;
+    int calleeRetVal;
+
+    if (commandAPDU->lcPresent != APDU_FALSE)
+    {
+        sw = APDU_CORE_SW_WRONG_LENGTH;
+        goto END;
+    }
+
+    if (commandAPDU->p1p2 != MK82_SSL_P1P2_RESET)
+    {
+        sw = APDU_CORE_SW_WRONG_P1P2;
+        goto END;
+    }
+
+    mk82SslReset();
+
+    responseAPDU->dataLength = 0;
+
+    sw = APDU_CORE_SW_NO_ERROR;
+
+END:
+
+    responseAPDU->sw = sw;
+}
+
 void mk82SslGetAID(uint8_t* aid, uint32_t* aidLength)
 {
     uint8_t aidTemplate[] = MK82_SSL_AID;
@@ -477,6 +507,9 @@ void mk82SslProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
             break;
         case MK82_SSL_INS_GET_PUBLIC_KEY:
         	mk82SslProcessGetPublicKey(&commandAPDU, &responseAPDU);
+            break;
+        case MK82_SSL_INS_RESET:
+        	mk82SslProcessReset(&commandAPDU, &responseAPDU);
             break;
         default:
             responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
