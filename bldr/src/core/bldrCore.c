@@ -146,7 +146,7 @@ static void bldrCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_COR
 
     if (fileSystemUpdateInterrupted == BLDR_TRUE)
     {
-        responseAPDU->data[10] = 1;
+        responseAPDU->data[20] = 1;
     }
     else
     {
