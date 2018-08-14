@@ -158,6 +158,8 @@ static void ethCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE
 
     responseAPDU->data[0] = ETH_CORE_VERSION_MAJOR;
     responseAPDU->data[1] = ETH_CORE_VERSION_MINOR;
+    
+    responseAPDU->data[2] = 0x00;
 
     if (walletState == ETH_GLOBAL_WALLET_STATE_OPERATIONAL)
     {

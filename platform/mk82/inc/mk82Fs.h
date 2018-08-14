@@ -30,6 +30,10 @@ extern "C" {
 #define MK82_FS_FILE_ID_ETH_KEYS (14)
 #define MK82_FS_FILE_ID_ETH_DATA (15)
 #define MK82_FS_FILE_ID_SSL_KEYS (16)
+#define MK82_FS_FILE_ID_XRP_COUNTERS (17)
+#define MK82_FS_FILE_ID_XRP_KEYS (18)
+#define MK82_FS_FILE_ID_XRP_DATA (19)
+
 
 void mk82FsInit(void);
 void mk82FsReadFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);

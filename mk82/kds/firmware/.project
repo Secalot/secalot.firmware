@@ -175,6 +175,16 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>xrp/inc</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>xrp/src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>3rd party/CMSIS/Include</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -526,6 +536,46 @@
 		</link>
 		<link>
 			<name>u2f/src/hid</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>xrp/inc/xrpCore.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/inc/xrpCore.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/inc/xrpGlobal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/inc/xrpGlobal.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/inc/xrpGlobalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/inc/xrpGlobalInt.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/inc/xrpHal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/inc/xrpHal.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/inc/xrpPin.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/inc/xrpPin.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/core</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/hal</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/pin</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -1193,6 +1243,31 @@
 			<name>u2f/src/hid/sfHidInt.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hid/sfHidInt.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/core/xrpCore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/core/xrpCore.c</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/core/xrpCoreInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/core/xrpCoreInt.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/hal/k82</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/pin/xrpPin.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/pin/xrpPin.c</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/pin/xrpPinInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/pin/xrpPinInt.h</locationURI>
 		</link>
 		<link>
 			<name>3rd party/devices/MK82F25615/drivers/fsl_clock.c</name>
@@ -2088,6 +2163,16 @@
 			<name>u2f/src/hal/k82/sfHalInt.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/u2f/src/hal/k82/sfHalInt.h</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/hal/k82/xrpHal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/hal/k82/xrpHal.c</locationURI>
+		</link>
+		<link>
+			<name>xrp/src/hal/k82/xrpHalInt.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/xrp/src/hal/k82/xrpHalInt.h</locationURI>
 		</link>
 		<link>
 			<name>3rd party/middleware/mbedtls_2.1.2/include/mbedtls/aes.h</name>

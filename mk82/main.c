@@ -43,6 +43,9 @@
 #include "ethGlobal.h"
 #include "ethCore.h"
 
+#include "xrpGlobal.h"
+#include "xrpCore.h"
+
 #include "bldrGlobal.h"
 #include "bldrCore.h"
 #include "bldrHal.h"
@@ -131,6 +134,7 @@ int main(void) {
 					otpCoreInit();
 					btcCoreInit();
 					ethCoreInit();
+					xrpCoreInit();
 					bldrCoreInit();
 				
 					firstCommandReceived = MK82_TRUE;

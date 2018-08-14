@@ -31,6 +31,9 @@
 #include "btcGlobal.h"
 #include "btcCore.h"
 
+#include "xrpGlobal.h"
+#include "xrpCore.h"
+
 #include "mk82Ssl.h"
 
 static void mk82AsFatalError(void);
@@ -48,6 +51,8 @@ static uint8_t mk82AsSslAid[MK82_AS_MAX_AID_LENGTH];
 static uint32_t mk82AsSslAidLength;
 static uint8_t mk82AsBtcAid[MK82_AS_MAX_AID_LENGTH];
 static uint32_t mk82AsBtcAidLength;
+static uint8_t mk82AsXrpAid[MK82_AS_MAX_AID_LENGTH];
+static uint32_t mk82AsXrpAidLength;
 static uint32_t mk82AsSelectedApplication = MK82_AS_NONE_SELECTED;
 
 
@@ -62,6 +67,7 @@ void mk82AsInit(void)
     ethCoreGetAID(mk82AsEthAid, &mk82AsEthAidLength);
     mk82SslGetAID(mk82AsSslAid, &mk82AsSslAidLength);
     btcCoreGetAID(mk82AsBtcAid, &mk82AsBtcAidLength);
+    xrpCoreGetAID(mk82AsXrpAid, &mk82AsXrpAidLength);
 }
 
 static void mk82AsPutSWToAPDUBuffer(uint8_t* apdu, uint32_t* apduLength, uint16_t sw)
@@ -140,6 +146,15 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedComm
             mk82AsPutSWToAPDUBuffer(apdu, apduLength, sw);
             goto END;
         }
+        else if ((apdu[MK82_AS_OFFSET_LC] <= mk82AsXrpAidLength) &&
+                 (mk82SystemMemCmp(&apdu[MK82_AS_OFFSET_DATA], mk82AsXrpAid, apdu[MK82_AS_OFFSET_LC]) ==
+                  MK82_CMP_EQUAL))
+        {
+            mk82AsSelectedApplication = MK82_AS_XRP_SELECTED;
+            sw = MK82_AS_SW_NO_ERROR;
+            mk82AsPutSWToAPDUBuffer(apdu, apduLength, sw);
+            goto END;
+        }
         else
         {
             mk82AsPutSWToAPDUBuffer(apdu, apduLength, MK82_AS_SW_REF_DATA_NOT_FOUND);
@@ -176,6 +191,11 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedComm
         else if ( (mk82AsSelectedApplication == MK82_AS_BTC_SELECTED) && (allowedCommands & MK82_AS_ALLOW_BTC_COMMANDS) )
         {
             btcCoreProcessAPDU(apdu, apduLength);
+            goto END;
+        }
+        else if ( (mk82AsSelectedApplication == MK82_AS_XRP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_XRP_COMMANDS) )
+        {
+            xrpCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
         else

@@ -359,6 +359,21 @@ static void mk82FsGetFileHandleAndOffset(uint8_t fileID, int *fileHandle, uint32
         *fileHandle = mk82FsKeysFileHandle;
         *fileOffset = offsetof(MK82_FS_KEYS, sslKeys);
     }
+    else if (fileID == MK82_FS_FILE_ID_XRP_COUNTERS)
+    {
+        *fileHandle = mk82FsCountersFileHandle;
+        *fileOffset = offsetof(MK82_FS_COUNTERS, xrpCounters);
+    }
+    else if (fileID == MK82_FS_FILE_ID_XRP_KEYS)
+    {
+        *fileHandle = mk82FsKeysFileHandle;
+        *fileOffset = offsetof(MK82_FS_KEYS, xrpKeys);
+    }
+    else if (fileID == MK82_FS_FILE_ID_XRP_DATA)
+    {
+        *fileHandle = mk82FsDataFileHandle;
+        *fileOffset = offsetof(MK82_FS_DATA, xrpData);
+    }
     else
     {
         mk82FsFatalError();
