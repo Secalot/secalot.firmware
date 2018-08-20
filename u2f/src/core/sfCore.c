@@ -18,6 +18,11 @@
 #include "ethCore.h"
 #endif /* MEW_HACK */
 
+#ifdef XRP_HACK
+#include "xrpGlobal.h"
+#include "xrpCore.h"
+#endif /* XRP_HACK */
+
 static uint16_t systemInitialized = SF_FALSE;
 
 void sfCoreInit()
@@ -195,6 +200,30 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
     	}
     }
 #endif /* MEW_HACK */
+
+#ifdef XRP_HACK
+    {
+        uint8_t magicString[] = {0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11};
+
+        if (authenticateRequest->keyHandleLength > sizeof(magicString))
+        {
+            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
+            {
+                uint32_t xrpApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
+
+                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), xrpApduLength);
+
+                xrpCoreProcessAPDU(apduBuffer, &xrpApduLength);
+
+                *apduBufferLength = xrpApduLength;
+
+                sw = SF_CORE_SW_NO_ERROR;
+
+                goto END;
+            }
+        }
+    }
+#endif /* XRP_HACK */
 
     // P2 is unspecified.
 

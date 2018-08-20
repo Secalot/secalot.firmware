@@ -95,6 +95,7 @@
 									<listOptionValue builtIn="false" value="FIRMWARE"/>
 									<listOptionValue builtIn="false" value="NT_DEBUG=0"/>
 									<listOptionValue builtIn="false" value="MEW_HACK=1"/>
+									<listOptionValue builtIn="false" value="XRP_HACK=1"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.839109740" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -250,6 +251,7 @@
 									<listOptionValue builtIn="false" value="FIRMWARE"/>
 									<listOptionValue builtIn="false" value="NT_DEBUG=0"/>
 									<listOptionValue builtIn="false" value="MEW_HACK=1"/>
+									<listOptionValue builtIn="false" value="XRP_HACK=1"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1051604537" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
