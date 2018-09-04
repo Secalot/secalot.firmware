@@ -332,9 +332,21 @@ static void xrpCoreProcessHashAndSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_
             goto END;
         }
 
+        if(commandAPDU->lc < XRP_CORE_TRANSACTION_HEADER_SIZE)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        if( (commandAPDU->data[0] != 'S') || (commandAPDU->data[1] != 'T') || (commandAPDU->data[2] != 'X') || (commandAPDU->data[3] != '\0') )
+        {
+            sw = APDU_CORE_SW_WRONG_DATA;
+            goto END;
+        }
+
     	xrpCoreClearTransactionToDisplay();
 
-    	xrpCoreUpdateTransactionToDisplay(commandAPDU->data, commandAPDU->lc);
+    	xrpCoreUpdateTransactionToDisplay(commandAPDU->data+XRP_CORE_TRANSACTION_HEADER_SIZE, commandAPDU->lc-XRP_CORE_TRANSACTION_HEADER_SIZE);
 
         xrpHalHashInit();
         xrpHalHashUpdate(commandAPDU->data, commandAPDU->lc);

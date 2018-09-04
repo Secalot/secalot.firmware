@@ -71,4 +71,6 @@ typedef struct
     }
 #define XRP_CORE_AID_LENGTH (0x09)
 
+#define XRP_CORE_TRANSACTION_HEADER_SIZE (0x04)
+
 #endif /* __XRP_CORE_INT_H__ */
