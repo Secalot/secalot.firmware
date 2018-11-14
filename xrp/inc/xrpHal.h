@@ -55,6 +55,7 @@ void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash);
 uint16_t xrpHalGetWalletState(void);
 uint16_t xrpHalIsWipeoutInProgress(void);
 
+void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey);
 void xrpHalDerivePublicKey(uint8_t* publicKey);
 
 void xrpHalGetRandom(uint8_t* buffer, uint32_t length);

@@ -93,7 +93,8 @@ static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_R
         goto END;
     }
 
-    if (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP)
+    if ( (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_PRIVATE_KEY) &&
+		 (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_SECRET) )
     {
         sw = APDU_CORE_SW_WRONG_P1P2;
         goto END;
@@ -111,10 +112,23 @@ static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_R
 
     privateKeyOffset = offset;
 
-    if ((privateKeyOffset + XRP_GLOBAL_PRIVATE_KEY_SIZE) != commandAPDU->lc)
+    if (commandAPDU->p1p2 == XRP_CORE_P1P2_SETUP_WITH_SECRET)
     {
-        sw = APDU_CORE_SW_WRONG_LENGTH;
-        goto END;
+        if ((privateKeyOffset + XRP_GLOBAL_SECRET_SIZE) != commandAPDU->lc)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
+
+        xrpHalDerivePrivateKey(&commandAPDU->data[privateKeyOffset], &commandAPDU->data[privateKeyOffset]);
+    }
+    else
+    {
+        if ((privateKeyOffset + XRP_GLOBAL_PRIVATE_KEY_SIZE) != commandAPDU->lc)
+        {
+            sw = APDU_CORE_SW_WRONG_LENGTH;
+            goto END;
+        }
     }
 
     xrpHalSetPrivateKey(&commandAPDU->data[privateKeyOffset]);

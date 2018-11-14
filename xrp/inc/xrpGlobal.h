@@ -27,9 +27,11 @@ extern "C" {
 #define XRP_INVALID_PIN_ERROR 0xDDDD
 
 #define XRP_GLOBAL_PRIVATE_KEY_SIZE (32)
+#define XRP_GLOBAL_SECRET_SIZE (16)
 #define XRP_GLOBAL_SHA256_SIZE (32)
 #define XRP_GLOBAL_SHA512_SIZE (64)
 #define XRP_GLOBAL_ENCODED_FULL_POINT_SIZE (65)
+#define XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE (33)
 #define XRP_GLOBAL_PIN_HASH_LENGTH (0x20)
 
 #define XRP_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
