@@ -257,7 +257,7 @@ static void xrpCoreProcessGetWalletPublicKey(APDU_CORE_COMMAND_APDU* commandAPDU
 
     xrpHalDerivePublicKey(responseAPDU->data);
 
-    responseAPDU->dataLength = XRP_GLOBAL_ENCODED_FULL_POINT_SIZE;
+    responseAPDU->dataLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
 
     sw = APDU_CORE_SW_NO_ERROR;
 

@@ -449,13 +449,13 @@ void xrpHalDerivePublicKey(uint8_t* publicKey)
         mk82SystemFatalError();
     }
 
-	pointLength = XRP_GLOBAL_ENCODED_FULL_POINT_SIZE;
+	pointLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
 
 	calleeRetVal =
-		mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_UNCOMPRESSED, (size_t*)&pointLength,
-				publicKey, XRP_GLOBAL_ENCODED_FULL_POINT_SIZE);
+		mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
+				publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
 
-	if (pointLength != XRP_GLOBAL_ENCODED_FULL_POINT_SIZE)
+	if (pointLength != XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
 	{
 		mk82SystemFatalError();
 	}
