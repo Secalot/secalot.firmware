@@ -543,8 +543,8 @@ void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength
         xrpHalFatalError();
     }
     
-    tlsCalleeRetVal = mbedtls_ecdsa_sign(&ecsdaContext.grp, &r, &s, &ecsdaContext.d, hash,
-    		XRP_GLOBAL_SHA256_SIZE, &rYSign, mk82SystemGetRandomForTLS, NULL);
+    tlsCalleeRetVal = mbedtls_ecdsa_sign_det(&ecsdaContext.grp, &r, &s, &ecsdaContext.d, hash, &rYSign,
+    		XRP_GLOBAL_SHA256_SIZE, MBEDTLS_MD_SHA256);
 
     if (tlsCalleeRetVal != 0)
     {
