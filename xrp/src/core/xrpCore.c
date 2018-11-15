@@ -420,7 +420,7 @@ static void xrpCoreProcessHashAndSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_
 
         if (confirmed != XRP_TRUE)
         {
-            sw = APDU_CORE_SW_CONDITIONS_NOT_SATISFIED;
+            sw = APDU_CORE_SW_TIMEOUT;
             goto END;
         }
 
