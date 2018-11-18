@@ -25,6 +25,7 @@
 #endif
 #include "mk82SecApdu.h"
 #include "mk82As.h"
+#include "mk82Usb.h"
 
 #include "mbedtls/sha256.h"
 #include "mbedtls/sha512.h"
@@ -633,6 +634,11 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
         }
 
         mk82SystemTickerGetMsPassed(&currentTime);
+
+        if ((currentTime - xrpHAlInitialConfirmationTime) > XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS)
+        {
+        	mk82UsbFakeU2fWtx();
+        }
 
         if ((currentTime - xrpHAlInitialConfirmationTime) > XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {

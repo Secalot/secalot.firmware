@@ -123,6 +123,8 @@ static volatile uint16_t mk82UsbBtcPacketSent = MK82_FALSE;
 static volatile uint16_t mk82UsbBtcPacketReceived = MK82_FALSE;
 #endif /* FIRMWARE */
 
+static uint16_t mk82UsbCheckForNewCommandInternal(uint32_t dataTypesToProcess, uint8_t **data, uint32_t *dataLength, uint16_t *dataType, uint16_t discardU2fData);
+
 #ifdef FIRMWARE
 static const uint8_t mk82UsbKeyboardKeyTable[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -789,6 +791,11 @@ void mk82UsbInit(void)
 
 uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t **data, uint32_t *dataLength, uint16_t *dataType)
 {
+	return mk82UsbCheckForNewCommandInternal(dataTypesToProcess, data, dataLength, dataType, MK82_FALSE);
+}
+
+static uint16_t mk82UsbCheckForNewCommandInternal(uint32_t dataTypesToProcess, uint8_t **data, uint32_t *dataLength, uint16_t *dataType, uint16_t discardU2fData)
+{
     uint16_t event;
     uint16_t newCommandReceived = MK82_USB_COMMAND_NOT_RECEIVED;
 
@@ -846,8 +853,16 @@ uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t **data, 
         uint16_t requiredPostFrameProcessingAction;
         uint16_t timerAction;
 
-        sfHidProcessIncomingFrame(&mk82UsbSfHidHandle, mk82UsbU2fIncomingPacketBuffer, mk82UsbU2fOutgoingPacketBuffer,
-                                  &requiredPostFrameProcessingAction, &timerAction);
+        if(discardU2fData == MK82_FALSE)
+        {
+            sfHidProcessIncomingFrame(&mk82UsbSfHidHandle, mk82UsbU2fIncomingPacketBuffer, mk82UsbU2fOutgoingPacketBuffer,
+                                      &requiredPostFrameProcessingAction, &timerAction, SF_TRUE);
+        }
+        else
+        {
+            sfHidProcessIncomingFrame(&mk82UsbSfHidHandle, mk82UsbU2fIncomingPacketBuffer, mk82UsbU2fOutgoingPacketBuffer,
+                                      &requiredPostFrameProcessingAction, &timerAction, SF_FALSE);
+        }
 
         if (timerAction == SF_HID_TIMER_ACTION_START)
         {
@@ -1052,3 +1067,34 @@ void mk82UsbTypeStringWithAKeyboard(uint8_t *stringToType, uint32_t stringLength
     }
 }
 #endif /* FIRMWARE */
+
+
+
+#ifdef FIRMWARE
+void mk82UsbFakeU2fWtx(void)
+{
+	sfHidSendChannelBusyError(&mk82UsbSfHidHandle, mk82UsbU2fOutgoingPacketBuffer);
+
+	mk82UsbU2fSendPacketBlocking();
+    USB_DeviceRecvRequest(mk82UsbDeviceHandle, MK82_USB_U2F_INTERRUPT_OUT_ENDPOINT,
+                          mk82UsbU2fIncomingPacketBuffer, MK82_USB_U2F_INTERRUPT_ENDPOINTS_PACKET_SIZE);
+
+ 	while(1)
+	{
+		uint8_t* data;
+		uint32_t dataLength;
+		uint16_t dataType;
+		uint16_t newUsbCommandReceived;
+
+		newUsbCommandReceived = mk82UsbCheckForNewCommandInternal(MK82_GLOBAL_PROCESS_U2F_MESSAGE, &data, &dataLength, &dataType, SF_TRUE);
+
+		if(newUsbCommandReceived == MK82_USB_COMMAND_RECEIVED)
+		{
+			break;
+		}
+	}
+}
+#endif /* FIRMWARE */
+
+
+
