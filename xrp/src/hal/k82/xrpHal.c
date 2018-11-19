@@ -45,13 +45,13 @@ static mbedtls_sha512_context xrpHalHashContext;
 static uint16_t xrpHalButtonPressed;
 
 static uint16_t xrpHalConfirmationTimeOngoing;
-static uint64_t xrpHAlInitialConfirmationTime;
+static uint64_t xrpHalInitialConfirmationTime;
 
 void xrpHalInit(void) {
 
 	xrpHalButtonPressed = XRP_FALSE;
 	xrpHalConfirmationTimeOngoing = XRP_FALSE;
-	xrpHAlInitialConfirmationTime = 0;
+	xrpHalInitialConfirmationTime = 0;
     
     mbedtls_sha512_init(&xrpHalHashContext);
 }
@@ -600,6 +600,7 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
 {
     uint64_t currentTime;
     uint16_t currentDataType;
+    uint64_t busyIndicationTime;
 
     xrpHalButtonPressed = XRP_FALSE;
 
@@ -619,7 +620,9 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchEnable();
 #endif
 
-    mk82SystemTickerGetMsPassed(&xrpHAlInitialConfirmationTime);
+    mk82SystemTickerGetMsPassed(&xrpHalInitialConfirmationTime);
+
+    busyIndicationTime = xrpHalInitialConfirmationTime + XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
 
     while (1)
     {
@@ -635,12 +638,16 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if ((currentTime - xrpHAlInitialConfirmationTime) > XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS)
+        if(currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
         {
-        	mk82UsbFakeU2fWtx();
+            if (currentTime > busyIndicationTime)
+            {
+            	mk82UsbFakeU2fWtx();
+            	busyIndicationTime += XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
+            }
         }
 
-        if ((currentTime - xrpHAlInitialConfirmationTime) > XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS)
+        if ((currentTime - xrpHalInitialConfirmationTime) > XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {
             *confirmed = XRP_FALSE;
             break;
@@ -678,7 +685,7 @@ uint64_t xrpHalGetRemainingConfirmationTime(void)
 
 	mk82SystemTickerGetMsPassed(&currentTime);
 
-	return (XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - xrpHAlInitialConfirmationTime));
+	return (XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - xrpHalInitialConfirmationTime));
 }
 
 
