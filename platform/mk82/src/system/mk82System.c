@@ -277,3 +277,30 @@ void mk82SystemFatalError(void)
     {
     }
 }
+
+
+#ifdef FIRMWARE
+BEGIN_UNOPTIMIZED_FUNCTION
+void* _sbrk (ptrdiff_t incr)
+{
+  extern char end asm ("end");
+  extern char __heap_limit asm ("__heap_limit");
+  static char * heap_end;
+  char * prev_heap_end;
+
+  if (heap_end == NULL)
+    heap_end = & end;
+
+  prev_heap_end = heap_end;
+
+  if (heap_end + incr > (char *)&__heap_limit)
+  {
+      return (void *) -1;
+  }
+
+  heap_end += incr;
+
+  return (void *) prev_heap_end;
+}
+END_UNOPTIMIZED_FUNCTION
+#endif /* FIRMWARE */

@@ -50,7 +50,7 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-HEAP_SIZE  = DEFINED(__heap_size__)  ? __heap_size__  : 0x00010000;
+HEAP_SIZE  = DEFINED(__heap_size__)  ? __heap_size__  : 0x0000FFFF;
 STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x00010000;
 M_VECTOR_RAM_SIZE = DEFINED(__ram_vector_table__) ? 0x03C0 : 0x0;
 
@@ -60,7 +60,8 @@ MEMORY
   m_interrupts          (RX)  : ORIGIN = 0x0000C000, LENGTH = 0x000003C0
   m_text                (RX)  : ORIGIN = 0x0000C3C0, LENGTH = 0x0002BC40
   m_data                (RW)  : ORIGIN = 0x1FFF0000, LENGTH = 0x00010000
-  m_data_2              (RW)  : ORIGIN = 0x20000000, LENGTH = 0x00030000
+  m_data_2              (RW)  : ORIGIN = 0x20000000, LENGTH = 0x00020000
+  m_data_3              (RW)  : ORIGIN = 0x20020000, LENGTH = 0x00010000
 }
 
 /* Define output sections */
@@ -222,13 +223,13 @@ SECTIONS
     . += HEAP_SIZE;
     __HeapLimit = .;
     __heap_limit = .; /* Add for _sbrk */
-  } > m_data
+  } > m_data_3
 
   .stack :
   {
     . = ALIGN(8);
     . += STACK_SIZE;
-  } > m_data_2
+  } > m_data
 
   m_usb_bdt USB_RAM_START (NOLOAD) :
   {
@@ -242,12 +243,10 @@ SECTIONS
   }
 
   /* Initializes stack on the end of block */
-  __StackTop   = ORIGIN(m_data_2) + LENGTH(m_data_2);
+  __StackTop   = ORIGIN(m_data) + LENGTH(m_data);
   __StackLimit = __StackTop - STACK_SIZE;
   PROVIDE(__stack = __StackTop);
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
-
-  ASSERT(__StackLimit >= __HeapLimit, "region m_data_2 overflowed with stack and heap")
 }
 

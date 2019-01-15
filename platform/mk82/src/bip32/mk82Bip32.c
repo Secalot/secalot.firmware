@@ -192,6 +192,8 @@ uint16_t mk82Bip32DerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberO
             }
         }
 
+        mbedtls_md_free(&mdCtx);
+
         {
             mbedtls_mpi mpiLeftSideOfHash;
             mbedtls_mpi mpiParentPrivateKey;
@@ -288,8 +290,6 @@ uint16_t mk82Bip32DerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberO
         mk82SystemMemCpy(chainCode, intermediateDerivedChainCode, MK82_BIP32_CHAIN_CODE_SIZE);
         retVal = MK82_BIP32_NO_ERROR;
     }
-
-    mbedtls_md_free(&mdCtx);
 
     mk82SystemMemSet(masterKey, 0x00, sizeof(masterKey));
     mk82SystemMemSet(intermediateDerivedPrivateKey, 0x00, sizeof(intermediateDerivedPrivateKey));

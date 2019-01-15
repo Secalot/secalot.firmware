@@ -33,9 +33,6 @@
 #include "mbedtls/ecdsa.h"
 #include "mbedtls/ecp.h"
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
-
 static uint16_t xrpHalIsPrivateKeyInitialized(void);
 static void xrpHalGetPrivateKey(uint8_t* privateKey);
 static void xrpHalButtonPressedCallback(void);
@@ -753,4 +750,3 @@ void xrpHalWipeout(void)
 
 void xrpHalFatalError(void) { mk82SystemFatalError(); }
 
-#pragma GCC pop_options

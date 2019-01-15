@@ -17,9 +17,6 @@
 #include <apduGlobal.h>
 #include <apduCore.h>
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
-
 static void xrpCoreClearTransactionToDisplay(void);
 static void xrpCoreUpdateTransactionToDisplay(uint8_t* data, uint16_t dataLength);
 
@@ -691,5 +688,3 @@ void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
 END:
     apduCorePrepareOutgoingAPDU(apdu, apduLength, &responseAPDU);
 }
-
-#pragma GCC pop_options
