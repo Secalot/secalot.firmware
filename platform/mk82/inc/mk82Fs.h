@@ -11,7 +11,8 @@
 #define __MK82_FS_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define MK82_FS_FILE_ID_OPGP_COUNTERS (1)
@@ -34,11 +35,10 @@ extern "C" {
 #define MK82_FS_FILE_ID_XRP_KEYS (18)
 #define MK82_FS_FILE_ID_XRP_DATA (19)
 
-
-void mk82FsInit(void);
-void mk82FsReadFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);
-void mk82FsWriteFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);
-void mk82FsCommitWrite(uint8_t fileID);
+    void mk82FsInit(void);
+    void mk82FsReadFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);
+    void mk82FsWriteFile(uint8_t fileID, uint32_t offset, uint8_t* buffer, uint32_t length);
+    void mk82FsCommitWrite(uint8_t fileID);
 
 #ifdef __cplusplus
 }

@@ -11,14 +11,15 @@
 #define __ETH_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void ethCoreInit(void);
-void ethCoreDeinit(void);
+    void ethCoreInit(void);
+    void ethCoreDeinit(void);
 
-void ethCoreGetAID(uint8_t* aid, uint32_t* aidLength);
-void ethCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
+    void ethCoreGetAID(uint8_t* aid, uint32_t* aidLength);
+    void ethCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
 
 #ifdef __cplusplus
 }

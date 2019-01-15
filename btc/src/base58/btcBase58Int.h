@@ -11,7 +11,8 @@
 #define __BTC_BASE58_INT_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define BTC_BASE58_CHECK_ADDRESS_LENGTH (25)

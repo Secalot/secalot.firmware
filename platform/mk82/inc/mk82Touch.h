@@ -11,20 +11,21 @@
 #define __MK82_TOUCH_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-typedef void (*MK82_TOUCH_CALLBACK)(void);
+    typedef void (*MK82_TOUCH_CALLBACK)(void);
 
-void mk82TouchInit(void);
-void mk82TouchEnable(void);
-void mk82TouchDisable(void);
-void mk82TouchTask(void);
-void mk82TouchRegisterButton1PressedCallback(MK82_TOUCH_CALLBACK callback);
-void mk82TouchRegisterButton2PressedCallback(MK82_TOUCH_CALLBACK callback);
-void mk82TouchRegisterBothButtonsPressedCallback(MK82_TOUCH_CALLBACK callback);
+    void mk82TouchInit(void);
+    void mk82TouchEnable(void);
+    void mk82TouchDisable(void);
+    void mk82TouchTask(void);
+    void mk82TouchRegisterButton1PressedCallback(MK82_TOUCH_CALLBACK callback);
+    void mk82TouchRegisterButton2PressedCallback(MK82_TOUCH_CALLBACK callback);
+    void mk82TouchRegisterBothButtonsPressedCallback(MK82_TOUCH_CALLBACK callback);
 
-void mk82TouchDeregisterButton2PressedCallback(void);
+    void mk82TouchDeregisterButton2PressedCallback(void);
 
 #ifdef __cplusplus
 }

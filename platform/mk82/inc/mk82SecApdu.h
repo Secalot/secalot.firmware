@@ -11,15 +11,15 @@
 #define __MK82_SEC_APDU_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void mk82SecApduInit(void);
+    void mk82SecApduInit(void);
 
-void mk82SecApduSetPrimaryDataType(uint16_t primaryDataType);
-uint16_t mk82SecApduGetPrimaryDataType(void);
-void mk82SecApduProcessCommandIfAvailable(uint32_t dataTypesToProcess, uint32_t allowedCommands);
-
+    void mk82SecApduSetPrimaryDataType(uint16_t primaryDataType);
+    uint16_t mk82SecApduGetPrimaryDataType(void);
+    void mk82SecApduProcessCommandIfAvailable(uint32_t dataTypesToProcess, uint32_t allowedCommands);
 
 #ifdef __cplusplus
 }

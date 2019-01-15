@@ -11,7 +11,8 @@
 #define __MK82_AS_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define MK82_AS_ALLOW_OPGP_COMMANDS (0x01)
@@ -24,8 +25,8 @@ extern "C" {
 
 #define MK82_AS_ALLOW_ALL_COMMANDS (0xFFFFFFFF)
 
-void mk82AsInit(void);
-void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedCommands);
+    void mk82AsInit(void);
+    void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedCommands);
 
 #ifdef __cplusplus
 }

@@ -52,27 +52,27 @@ void ethCoreDeinit()
 
 static void ethCoreClearTransactionToDisplay(void)
 {
-	uint16_t i;
+    uint16_t i;
 
-	transactionToDisplay.finalized = ETH_FALSE;
-	transactionToDisplay.transactionTooBigToDisplay = ETH_FALSE;
-	transactionToDisplay.currentOffset = 0;
+    transactionToDisplay.finalized = ETH_FALSE;
+    transactionToDisplay.transactionTooBigToDisplay = ETH_FALSE;
+    transactionToDisplay.currentOffset = 0;
 
-	ethHalMemSet(transactionToDisplay.address, 0x00, sizeof(transactionToDisplay.address));
-	ethHalMemSet(transactionToDisplay.transaction, 0x00, sizeof(transactionToDisplay.transaction));
+    ethHalMemSet(transactionToDisplay.address, 0x00, sizeof(transactionToDisplay.address));
+    ethHalMemSet(transactionToDisplay.transaction, 0x00, sizeof(transactionToDisplay.transaction));
 }
 
 static void ethCoreUpdateTransactionToDisplay(uint8_t* data, uint16_t dataLength)
 {
-	if( (transactionToDisplay.currentOffset +  dataLength) > ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE )
-	{
-		transactionToDisplay.transactionTooBigToDisplay = ETH_TRUE;
-	}
-	else
-	{
-		ethHalMemCpy(transactionToDisplay.transaction+transactionToDisplay.currentOffset, data, dataLength);
-		transactionToDisplay.currentOffset += dataLength;
-	}
+    if ((transactionToDisplay.currentOffset + dataLength) > ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE)
+    {
+        transactionToDisplay.transactionTooBigToDisplay = ETH_TRUE;
+    }
+    else
+    {
+        ethHalMemCpy(transactionToDisplay.transaction + transactionToDisplay.currentOffset, data, dataLength);
+        transactionToDisplay.currentOffset += dataLength;
+    }
 }
 
 static void ethCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
@@ -158,7 +158,7 @@ static void ethCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE
 
     responseAPDU->data[0] = ETH_CORE_VERSION_MAJOR;
     responseAPDU->data[1] = ETH_CORE_VERSION_MINOR;
-    
+
     responseAPDU->data[2] = 0x00;
 
     if (walletState == ETH_GLOBAL_WALLET_STATE_OPERATIONAL)
@@ -381,18 +381,18 @@ static void ethCoreProcessHashAndSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_
     if ((commandAPDU->p1p2 == ETH_CORE_P1P2_HASH_AND_SIGN_INIT_TRANSACTION) ||
         (commandAPDU->p1p2 == ETH_CORE_P1P2_HASH_AND_SIGN_INIT_MESSAGE))
     {
-    	ethCoreClearTransactionToDisplay();
+        ethCoreClearTransactionToDisplay();
 
-    	if(commandAPDU->p1p2 == ETH_CORE_P1P2_HASH_AND_SIGN_INIT_TRANSACTION)
-    	{
-    		transactionToDisplay.type = ETH_CODE_TRANSACTION_TYPE_TRANSACTION;
-    	}
-    	else
-    	{
-    		transactionToDisplay.type = ETH_CODE_TRANSACTION_TYPE_MESSAGE;
-    	}
+        if (commandAPDU->p1p2 == ETH_CORE_P1P2_HASH_AND_SIGN_INIT_TRANSACTION)
+        {
+            transactionToDisplay.type = ETH_CODE_TRANSACTION_TYPE_TRANSACTION;
+        }
+        else
+        {
+            transactionToDisplay.type = ETH_CODE_TRANSACTION_TYPE_MESSAGE;
+        }
 
-    	ethCoreUpdateTransactionToDisplay(commandAPDU->data, commandAPDU->lc);
+        ethCoreUpdateTransactionToDisplay(commandAPDU->data, commandAPDU->lc);
 
         ethHalHashInit();
         ethHalHashUpdate(commandAPDU->data, commandAPDU->lc);
@@ -523,11 +523,11 @@ static void ethCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
     uint16_t i;
     uint64_t remainingTime;
 
-	if(transactionToDisplay.finalized != ETH_TRUE)
-	{
+    if (transactionToDisplay.finalized != ETH_TRUE)
+    {
         sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
         goto END;
-	}
+    }
 
     if (commandAPDU->p1p2 == ETH_CORE_P1P2_READ_TRANSACTION_INFO)
     {
@@ -540,35 +540,35 @@ static void ethCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
         responseAPDU->data[offset++] = ETH_HIBYTE(transactionToDisplay.type);
         responseAPDU->data[offset++] = ETH_LOBYTE(transactionToDisplay.type);
 
-        if(transactionToDisplay.transactionTooBigToDisplay == ETH_TRUE)
+        if (transactionToDisplay.transactionTooBigToDisplay == ETH_TRUE)
         {
-        	responseAPDU->data[offset++] = 0x01;
+            responseAPDU->data[offset++] = 0x01;
         }
         else
         {
-        	responseAPDU->data[offset++] = 0x00;
+            responseAPDU->data[offset++] = 0x00;
         }
 
         responseAPDU->data[offset++] = ETH_HIBYTE(transactionToDisplay.currentOffset);
         responseAPDU->data[offset++] = ETH_LOBYTE(transactionToDisplay.currentOffset);
 
-    	ethHalMemCpy(responseAPDU->data+offset, transactionToDisplay.address, sizeof(transactionToDisplay.address));
+        ethHalMemCpy(responseAPDU->data + offset, transactionToDisplay.address, sizeof(transactionToDisplay.address));
 
-    	offset+= sizeof(transactionToDisplay.address);
+        offset += sizeof(transactionToDisplay.address);
 
-    	remainingTime = ethHalGetRemainingConfirmationTime();
+        remainingTime = ethHalGetRemainingConfirmationTime();
 
-		responseAPDU->data[offset++] = ETH_HIBYTE(ETH_HIWORD(remainingTime));
-		responseAPDU->data[offset++] = ETH_LOBYTE(ETH_HIWORD(remainingTime));
-		responseAPDU->data[offset++] = ETH_HIBYTE(ETH_LOWORD(remainingTime));
-		responseAPDU->data[offset++] = ETH_LOBYTE(ETH_LOWORD(remainingTime));
+        responseAPDU->data[offset++] = ETH_HIBYTE(ETH_HIWORD(remainingTime));
+        responseAPDU->data[offset++] = ETH_LOBYTE(ETH_HIWORD(remainingTime));
+        responseAPDU->data[offset++] = ETH_HIBYTE(ETH_LOWORD(remainingTime));
+        responseAPDU->data[offset++] = ETH_LOBYTE(ETH_LOWORD(remainingTime));
 
-		responseAPDU->dataLength = offset;
-		sw = APDU_CORE_SW_NO_ERROR;
+        responseAPDU->dataLength = offset;
+        sw = APDU_CORE_SW_NO_ERROR;
     }
     else if (commandAPDU->p1p2 == ETH_CORE_P1P2_READ_TRANSACTION_DATA)
     {
-    	uint16_t chunkNumber;
+        uint16_t chunkNumber;
 
         if (commandAPDU->lcPresent != APDU_TRUE)
         {
@@ -576,7 +576,7 @@ static void ethCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
             goto END;
         }
 
-        if(commandAPDU->lc != 2)
+        if (commandAPDU->lc != 2)
         {
             sw = APDU_CORE_SW_WRONG_LENGTH;
             goto END;
@@ -584,13 +584,15 @@ static void ethCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
 
         chunkNumber = ETH_MAKEWORD(commandAPDU->data[1], commandAPDU->data[0]);
 
-        if( chunkNumber >= ETH_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS)
+        if (chunkNumber >= ETH_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS)
         {
             sw = APDU_CORE_SW_CONDITIONS_NOT_SATISFIED;
             goto END;
         }
 
-        ethHalMemCpy(responseAPDU->data, transactionToDisplay.transaction + (chunkNumber*ETH_CORE_TRANSACTION_READ_CHUNK_SIZE), ETH_CORE_TRANSACTION_READ_CHUNK_SIZE);
+        ethHalMemCpy(responseAPDU->data,
+                     transactionToDisplay.transaction + (chunkNumber * ETH_CORE_TRANSACTION_READ_CHUNK_SIZE),
+                     ETH_CORE_TRANSACTION_READ_CHUNK_SIZE);
 
         responseAPDU->dataLength = ETH_CORE_TRANSACTION_READ_CHUNK_SIZE;
         sw = APDU_CORE_SW_NO_ERROR;
@@ -604,7 +606,6 @@ static void ethCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
 END:
     responseAPDU->sw = sw;
 }
-
 
 static void ethCoreProcessWipeout(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
 {
@@ -725,8 +726,8 @@ void ethCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
     }
     else if (walletState == ETH_GLOBAL_WALLET_STATE_OPERATIONAL)
     {
-    	if(transactionToDisplay.finalized == ETH_TRUE)
-    	{
+        if (transactionToDisplay.finalized == ETH_TRUE)
+        {
             switch (commandAPDU.ins)
             {
                 case ETH_CORE_INS_READ_TRANSACTION:
@@ -736,9 +737,9 @@ void ethCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                     responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
                     break;
             }
-    	}
-    	else
-    	{
+        }
+        else
+        {
             switch (commandAPDU.ins)
             {
                 case ETH_CORE_INS_VERIFY_PIN:
@@ -763,7 +764,7 @@ void ethCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                     responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
                     break;
             }
-    	}
+        }
     }
     else
     {

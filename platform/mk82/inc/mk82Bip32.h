@@ -11,7 +11,8 @@
 #define __MK82_BIP32_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define MK82_BIP32_NO_ERROR 0x9999
@@ -36,14 +37,16 @@ extern "C" {
 #define MK82_BIP32_SHA512_LEFT_PART_OFFSET (0)
 #define MK82_BIP32_SHA512_RIGHT_PART_OFFSET (32)
 
-typedef void (*MK82_BIP32_GET_MASTER_KEY_CALLBACK)(uint8_t* masterKey);
+    typedef void (*MK82_BIP32_GET_MASTER_KEY_CALLBACK)(uint8_t* masterKey);
 
-uint16_t mk82Bip32DerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* privateKey,
-                                   uint8_t* chainCode, MK82_BIP32_GET_MASTER_KEY_CALLBACK callback);
+    uint16_t mk82Bip32DerivePrivateKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations,
+                                       uint8_t* privateKey, uint8_t* chainCode,
+                                       MK82_BIP32_GET_MASTER_KEY_CALLBACK callback);
 
-uint16_t mk82Bip32DerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* fullPublicKey,
-                                  uint8_t* compressedPublicKey, uint8_t* chainCode, uint16_t computeFull,
-                                  uint16_t computeCompressed, MK82_BIP32_GET_MASTER_KEY_CALLBACK callback);
+    uint16_t mk82Bip32DerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations,
+                                      uint8_t* fullPublicKey, uint8_t* compressedPublicKey, uint8_t* chainCode,
+                                      uint16_t computeFull, uint16_t computeCompressed,
+                                      MK82_BIP32_GET_MASTER_KEY_CALLBACK callback);
 
 #ifdef __cplusplus
 }

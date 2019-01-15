@@ -11,19 +11,20 @@
 #define __ETH_PIN_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
 
-void ethPinInit(void);
-void ethPinDeinit(void);
+    void ethPinInit(void);
+    void ethPinDeinit(void);
 
-uint16_t ethPinIsPinVerified(void);
-uint16_t ethPinIsPinBlocked(void);
+    uint16_t ethPinIsPinVerified(void);
+    uint16_t ethPinIsPinBlocked(void);
 
-uint16_t ethPinVerifyPin(uint8_t* input, uint32_t inputLength);
-uint16_t ethPinCheckNewPinAndGetPinHash(uint8_t* input, uint32_t inputLength, uint8_t* pinHash);
+    uint16_t ethPinVerifyPin(uint8_t* input, uint32_t inputLength);
+    uint16_t ethPinCheckNewPinAndGetPinHash(uint8_t* input, uint32_t inputLength, uint8_t* pinHash);
 
 #ifdef __cplusplus
 }

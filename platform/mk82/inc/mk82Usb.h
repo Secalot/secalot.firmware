@@ -11,22 +11,21 @@
 #define __MK82_USB_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define MK82_USB_COMMAND_RECEIVED (0x9999)
 #define MK82_USB_COMMAND_NOT_RECEIVED (0x6666)
 
-
-
-
-void mk82UsbInit(void);
-uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t** data, uint32_t* dataLength, uint16_t* dataType);
-void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType);
+    void mk82UsbInit(void);
+    uint16_t mk82UsbCheckForNewCommand(uint32_t dataTypesToProcess, uint8_t** data, uint32_t* dataLength,
+                                       uint16_t* dataType);
+    void mk82UsbSendResponse(uint32_t dataLength, uint16_t dataType);
 
 #ifdef FIRMWARE
-void mk82UsbTypeStringWithAKeyboard(uint8_t* stringToType, uint32_t stringLength);
-void mk82UsbFakeU2fWtx(void);
+    void mk82UsbTypeStringWithAKeyboard(uint8_t* stringToType, uint32_t stringLength);
+    void mk82UsbFakeU2fWtx(void);
 #endif /* FIRMWARE */
 
 #ifdef __cplusplus

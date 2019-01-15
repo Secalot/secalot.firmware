@@ -11,19 +11,20 @@
 #define __BTC_PIN_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
 
-void btcPinInit(void);
-void btcPinDeinit(void);
+    void btcPinInit(void);
+    void btcPinDeinit(void);
 
-uint16_t btcPinIsPinVerified(void);
-uint16_t btcPinIsPinBlocked(void);
+    uint16_t btcPinIsPinVerified(void);
+    uint16_t btcPinIsPinBlocked(void);
 
-uint16_t btcPinVerifyPin(uint8_t* input, uint32_t inputLength);
-uint16_t btcPinCheckNewPinAndGetPinHash(uint8_t* input, uint32_t inputLength, uint8_t* pinHash);
+    uint16_t btcPinVerifyPin(uint8_t* input, uint32_t inputLength);
+    uint16_t btcPinCheckNewPinAndGetPinHash(uint8_t* input, uint32_t inputLength, uint8_t* pinHash);
 
 #ifdef __cplusplus
 }

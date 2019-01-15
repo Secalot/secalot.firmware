@@ -30,7 +30,7 @@ void sfHidInit(SF_HID_HANDLE* hidHandle, uint8_t dataBuffer[SF_HID_MAX_DATA_SIZE
 void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[SF_HID_FRAME_SIZE],
                                uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE],
                                uint16_t* requiredPostFrameProcessingAction, uint16_t* timerAction,
-							   uint16_t copyIncomingData)
+                               uint16_t copyIncomingData)
 {
     SF_HID_FRAME* incomingHidFrame = (SF_HID_FRAME*)incomingFrame;
     SF_HID_FRAME* immediateOutgoingHidFrame = (SF_HID_FRAME*)immediateOutgoingFrame;
@@ -154,11 +154,11 @@ void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[S
 
                     if (incomingMessageSize > sizeof(incomingHidFrame->initialFrame.data))
                     {
-                    	if(copyIncomingData == SF_TRUE)
-                    	{
+                        if (copyIncomingData == SF_TRUE)
+                        {
                             sfHalMemCpy(hidHandle->dataBuffer, incomingHidFrame->initialFrame.data,
                                         sizeof(incomingHidFrame->initialFrame.data));
-                    	}
+                        }
 
                         sfHidClearState(hidHandle);
                         hidHandle->incomingDataBytesRemainingToReceive =
@@ -178,10 +178,11 @@ void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[S
                     }
                     else
                     {
-                    	if(copyIncomingData == SF_TRUE)
-                    	{
-                    		sfHalMemCpy(hidHandle->dataBuffer, incomingHidFrame->initialFrame.data, incomingMessageSize);
-                    	}
+                        if (copyIncomingData == SF_TRUE)
+                        {
+                            sfHalMemCpy(hidHandle->dataBuffer, incomingHidFrame->initialFrame.data,
+                                        incomingMessageSize);
+                        }
 
                         sfHidClearState(hidHandle);
                         hidHandle->currentChannelID = incomingHidFrame->channelID;
@@ -248,12 +249,13 @@ void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[S
 
             if (hidHandle->incomingDataBytesRemainingToReceive > sizeof(incomingHidFrame->continuationFrame.data))
             {
-            	if(copyIncomingData == SF_TRUE)
-            	{
+                if (copyIncomingData == SF_TRUE)
+                {
                     sfHalMemCpy(&hidHandle->dataBuffer[hidHandle->incomingDataTotalSize -
                                                        hidHandle->incomingDataBytesRemainingToReceive],
-                                incomingHidFrame->continuationFrame.data, sizeof(incomingHidFrame->continuationFrame.data));
-            	}
+                                incomingHidFrame->continuationFrame.data,
+                                sizeof(incomingHidFrame->continuationFrame.data));
+                }
 
                 hidHandle->incomingDataBytesRemainingToReceive -= sizeof(incomingHidFrame->continuationFrame.data);
 
@@ -265,12 +267,13 @@ void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[S
             }
             else
             {
-            	if(copyIncomingData == SF_TRUE)
-            	{
+                if (copyIncomingData == SF_TRUE)
+                {
                     sfHalMemCpy(&hidHandle->dataBuffer[hidHandle->incomingDataTotalSize -
                                                        hidHandle->incomingDataBytesRemainingToReceive],
-                                incomingHidFrame->continuationFrame.data, hidHandle->incomingDataBytesRemainingToReceive);
-            	}
+                                incomingHidFrame->continuationFrame.data,
+                                hidHandle->incomingDataBytesRemainingToReceive);
+                }
 
                 hidHandle->state = SF_HID_STATE_TRANSACTION_IN_PROGRESS_PROCESSING_REQUEST;
 
@@ -434,7 +437,6 @@ void sfHidTimeoutHandler(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFram
                                      SF_HID_ERROR_MESSAGE_TIMEOUT);
     sfHidClearState(hidHandle);
 }
-
 
 void sfHidSendChannelBusyError(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE])
 {

@@ -45,11 +45,11 @@ static uint16_t ethHalButtonPressed;
 static uint16_t ethHalConfirmationTimeOngoing;
 static uint64_t ethHAlInitialConfirmationTime;
 
-void ethHalInit(void) {
-
-	ethHalButtonPressed = ETH_FALSE;
-	ethHalConfirmationTimeOngoing = ETH_FALSE;
-	ethHAlInitialConfirmationTime = 0;
+void ethHalInit(void)
+{
+    ethHalButtonPressed = ETH_FALSE;
+    ethHalConfirmationTimeOngoing = ETH_FALSE;
+    ethHAlInitialConfirmationTime = 0;
 }
 
 void ethHalDeinit(void) {}
@@ -281,29 +281,29 @@ uint16_t ethHalDerivePublicKey(uint32_t* derivationIndexes, uint32_t numberOfKey
 
 uint16_t ethHalGetAddress(uint32_t* derivationIndexes, uint32_t numberOfKeyDerivations, uint8_t* address)
 {
-	uint16_t retVal = MK82_BIP32_GENERAL_ERROR;
-	uint8_t publicKey[ETH_GLOBAL_ENCODED_FULL_POINT_SIZE];
-	uint8_t chainCode[ETH_GLOBAL_CHAIN_CODE_SIZE];
-	sha3_context hashingContext;
-	uint8_t* hash;
+    uint16_t retVal = MK82_BIP32_GENERAL_ERROR;
+    uint8_t publicKey[ETH_GLOBAL_ENCODED_FULL_POINT_SIZE];
+    uint8_t chainCode[ETH_GLOBAL_CHAIN_CODE_SIZE];
+    sha3_context hashingContext;
+    uint8_t* hash;
 
-	retVal = ethHalDerivePublicKey(derivationIndexes, numberOfKeyDerivations, publicKey, chainCode);
+    retVal = ethHalDerivePublicKey(derivationIndexes, numberOfKeyDerivations, publicKey, chainCode);
 
-	if(retVal != ETH_NO_ERROR)
-	{
-		goto END;
-	}
+    if (retVal != ETH_NO_ERROR)
+    {
+        goto END;
+    }
 
-	sha3_Init256(&hashingContext);
-	sha3_Update(&hashingContext, publicKey+1, sizeof(publicKey)-1);
-	hash = (uint8_t*)sha3_Finalize(&hashingContext);
+    sha3_Init256(&hashingContext);
+    sha3_Update(&hashingContext, publicKey + 1, sizeof(publicKey) - 1);
+    hash = (uint8_t*)sha3_Finalize(&hashingContext);
 
-	mk82SystemMemCpy(address, hash + (ETH_GLOBAL_KECCAK_256_HASH_SIZE-ETH_GLOBAL_ADDRESS_SIZE), ETH_GLOBAL_ADDRESS_SIZE);
+    mk82SystemMemCpy(address, hash + (ETH_GLOBAL_KECCAK_256_HASH_SIZE - ETH_GLOBAL_ADDRESS_SIZE),
+                     ETH_GLOBAL_ADDRESS_SIZE);
 
 END:
-	return retVal;
+    return retVal;
 }
-
 
 void ethHalHashInit(void) { sha3_Init256(&ethHalHashContext); }
 
@@ -505,9 +505,10 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
             break;
         }
 
-        if(currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
+        if (currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
         {
-        	mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU, MK82_AS_ALLOW_ETH_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
+            mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU,
+                                                 MK82_AS_ALLOW_ETH_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
         }
     }
 
@@ -528,18 +529,17 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 
 uint64_t ethHalGetRemainingConfirmationTime(void)
 {
-	uint64_t currentTime;
+    uint64_t currentTime;
 
-	if(ethHalConfirmationTimeOngoing != ETH_TRUE)
-	{
-		ethHalFatalError();
-	}
+    if (ethHalConfirmationTimeOngoing != ETH_TRUE)
+    {
+        ethHalFatalError();
+    }
 
-	mk82SystemTickerGetMsPassed(&currentTime);
+    mk82SystemTickerGetMsPassed(&currentTime);
 
-	return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - ethHAlInitialConfirmationTime));
+    return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - ethHAlInitialConfirmationTime));
 }
-
 
 void ethHalWipeout(void)
 {

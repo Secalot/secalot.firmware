@@ -11,7 +11,8 @@
 #define __BTC_PIN_INT_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifdef __cplusplus

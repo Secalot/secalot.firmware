@@ -11,7 +11,8 @@
 #define __SF_OPGP_GLOBAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifdef __CC_ARM

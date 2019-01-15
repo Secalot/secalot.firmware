@@ -11,27 +11,28 @@
 #define __APDU_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-typedef struct
-{
-    uint8_t cla;
-    uint8_t ins;
-    uint16_t p1p2;
-    uint16_t lcPresent;
-    uint32_t lc;
-    uint16_t lePresent;
-    uint8_t le;
-    uint8_t* data;
-} APDU_CORE_COMMAND_APDU;
+    typedef struct
+    {
+        uint8_t cla;
+        uint8_t ins;
+        uint16_t p1p2;
+        uint16_t lcPresent;
+        uint32_t lc;
+        uint16_t lePresent;
+        uint8_t le;
+        uint8_t* data;
+    } APDU_CORE_COMMAND_APDU;
 
-typedef struct
-{
-    uint8_t* data;
-    uint32_t dataLength;
-    uint16_t sw;
-} APDU_CORE_RESPONSE_APDU;
+    typedef struct
+    {
+        uint8_t* data;
+        uint32_t dataLength;
+        uint16_t sw;
+    } APDU_CORE_RESPONSE_APDU;
 
 #define APDU_CORE_OFFSET_CLA (0x00)
 #define APDU_CORE_OFFSET_INS (0x01)
@@ -67,12 +68,12 @@ typedef struct
 #define APDU_CORE_SW_UNKNOWN (0x6F00)
 #define APDU_CORE_SW_NO_ERROR (0x9000)
 
-void apduCoreInit(void);
-void apduCoreDeinit(void);
+    void apduCoreInit(void);
+    void apduCoreDeinit(void);
 
-uint16_t apduCoreParseIncomingAPDU(uint8_t* apdu, uint32_t apduLength, APDU_CORE_COMMAND_APDU* parsedAPDU);
-void apduCorePrepareResponseAPDUStructure(uint8_t* apdu, APDU_CORE_RESPONSE_APDU* responseAPDU);
-void apduCorePrepareOutgoingAPDU(uint8_t* apdu, uint32_t* apduLength, APDU_CORE_RESPONSE_APDU* responseAPDU);
+    uint16_t apduCoreParseIncomingAPDU(uint8_t* apdu, uint32_t apduLength, APDU_CORE_COMMAND_APDU* parsedAPDU);
+    void apduCorePrepareResponseAPDUStructure(uint8_t* apdu, APDU_CORE_RESPONSE_APDU* responseAPDU);
+    void apduCorePrepareOutgoingAPDU(uint8_t* apdu, uint32_t* apduLength, APDU_CORE_RESPONSE_APDU* responseAPDU);
 
 #ifdef __cplusplus
 }

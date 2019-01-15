@@ -11,7 +11,8 @@
 #define __SF_CCID_GLOBAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define CCID_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))

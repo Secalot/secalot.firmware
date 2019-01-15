@@ -52,7 +52,6 @@ static uint16_t btcHalButtonPressed;
 static uint16_t btcHalConfirmationTimeOngoing;
 static uint64_t btcHalInitialConfirmationTime;
 
-
 void btcHalInit(void)
 {
     mbedtls_sha256_init(&btcHalTrustedInputHashContext);
@@ -66,8 +65,8 @@ void btcHalInit(void)
 
     btcHalButtonPressed = BTC_FALSE;
 
-	btcHalConfirmationTimeOngoing = BTC_FALSE;
-	btcHalInitialConfirmationTime = 0;
+    btcHalConfirmationTimeOngoing = BTC_FALSE;
+    btcHalInitialConfirmationTime = 0;
 }
 
 void btcHalDeinit() {}
@@ -811,11 +810,12 @@ void btcHalWaitForComfirmation(uint16_t allowCcidApdus, uint16_t* confirmed)
             break;
         }
 
-        if(allowCcidApdus == BTC_TRUE)
+        if (allowCcidApdus == BTC_TRUE)
         {
-            if(currentDataType == MK82_GLOBAL_DATATYPE_BTC_MESSAGE)
+            if (currentDataType == MK82_GLOBAL_DATATYPE_BTC_MESSAGE)
             {
-            	mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU, MK82_AS_ALLOW_BTC_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
+                mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU,
+                                                     MK82_AS_ALLOW_BTC_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
             }
         }
     }
@@ -835,16 +835,16 @@ void btcHalWaitForComfirmation(uint16_t allowCcidApdus, uint16_t* confirmed)
 
 uint64_t btcHalGetRemainingConfirmationTime(void)
 {
-	uint64_t currentTime;
+    uint64_t currentTime;
 
-	if(btcHalConfirmationTimeOngoing != BTC_TRUE)
-	{
-		btcHalFatalError();
-	}
+    if (btcHalConfirmationTimeOngoing != BTC_TRUE)
+    {
+        btcHalFatalError();
+    }
 
-	mk82SystemTickerGetMsPassed(&currentTime);
+    mk82SystemTickerGetMsPassed(&currentTime);
 
-	return (BTC_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - btcHalInitialConfirmationTime));
+    return (BTC_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - btcHalInitialConfirmationTime));
 }
 
 void btcHalWipeout(void)

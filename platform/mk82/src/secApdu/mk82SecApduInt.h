@@ -10,5 +10,4 @@
 #ifndef __MK82_SEC_APDU_INT_H__
 #define __MK82_SEC_APDU_INT_H__
 
-
 #endif /* __MK82_SEC_APDU_INT_H__ */

@@ -11,20 +11,21 @@
 #define __CCID_HAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <stdint.h>
 
-void ccidhalInit(void);
+    void ccidhalInit(void);
 
-void ccidHalDeinit(void);
+    void ccidHalDeinit(void);
 
-void ccidHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
+    void ccidHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
 
-void ccidHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
+    void ccidHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
 
-void ccidHalFatalError(void);
+    void ccidHalFatalError(void);
 
 #ifdef __cplusplus
 }

@@ -27,8 +27,8 @@
 
 #define MK82_SSL_P1P2_WRAPPED_COMMAND (0x0000)
 
-#define MK82_SSL_AID                                              \
-    {                                                              \
+#define MK82_SSL_AID                                         \
+    {                                                        \
         0x53, 0x53, 0x4C, 0x41, 0x50, 0x50, 0x4C, 0x45, 0x54 \
     }
 #define MK82_SSL_AID_LENGTH (0x09)
@@ -41,6 +41,5 @@
 
 #define MK82_SSL_CERTIFICATE_TEMPLATE_SIZE (277)
 #define MK82_SSL_CERTIFICATE_PUBLIC_KEY_OFFSET (127)
-
 
 #endif /* __MK82_SSL_INT_H__ */

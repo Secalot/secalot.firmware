@@ -11,7 +11,8 @@
 #define __SF_HID_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define SF_HID_MAX_DATA_SIZE (7609)
@@ -30,35 +31,35 @@ extern "C" {
 
 #define SF_HID_TIMER_TIMEOUT_IN_MS (800)
 
-typedef struct
-{
-    uint16_t state;
-    uint16_t incomingDataTotalSize;
-    uint16_t incomingDataBytesRemainingToReceive;
-    uint32_t currentChannelID;
-    uint8_t currentSequenceNumber;
-    uint8_t currentCommandBeingProcessed;
-    uint16_t outgoingDataTotalSize;
-    uint16_t outgoingDataBytesRemainingToSend;
-    uint8_t* dataBuffer;
-} SF_HID_HANDLE;
+    typedef struct
+    {
+        uint16_t state;
+        uint16_t incomingDataTotalSize;
+        uint16_t incomingDataBytesRemainingToReceive;
+        uint32_t currentChannelID;
+        uint8_t currentSequenceNumber;
+        uint8_t currentCommandBeingProcessed;
+        uint16_t outgoingDataTotalSize;
+        uint16_t outgoingDataBytesRemainingToSend;
+        uint8_t* dataBuffer;
+    } SF_HID_HANDLE;
 
-void sfHidInit(SF_HID_HANDLE* hidHandle, uint8_t dataBuffer[SF_HID_MAX_DATA_SIZE]);
+    void sfHidInit(SF_HID_HANDLE* hidHandle, uint8_t dataBuffer[SF_HID_MAX_DATA_SIZE]);
 
-void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[SF_HID_FRAME_SIZE],
-                               uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE],
-                               uint16_t* requiredPostFrameProcessingAction, uint16_t* timerAction,
-							   uint16_t copyIncomingData);
+    void sfHidProcessIncomingFrame(SF_HID_HANDLE* hidHandle, uint8_t incomingFrame[SF_HID_FRAME_SIZE],
+                                   uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE],
+                                   uint16_t* requiredPostFrameProcessingAction, uint16_t* timerAction,
+                                   uint16_t copyIncomingData);
 
-void sfHidGetIncomingCommandAndDataSize(SF_HID_HANDLE* hidHandle, uint16_t* command, uint16_t* incomingDataSize);
+    void sfHidGetIncomingCommandAndDataSize(SF_HID_HANDLE* hidHandle, uint16_t* command, uint16_t* incomingDataSize);
 
-void sfHidSetOutgoingDataLength(SF_HID_HANDLE* hidHandle, uint16_t dataLength);
+    void sfHidSetOutgoingDataLength(SF_HID_HANDLE* hidHandle, uint16_t dataLength);
 
-void sfHidProcessOutgoingData(SF_HID_HANDLE* hidHandle, uint8_t outgoingFrame[SF_HID_FRAME_SIZE],
-                              uint16_t* moreFramesAvailable);
+    void sfHidProcessOutgoingData(SF_HID_HANDLE* hidHandle, uint8_t outgoingFrame[SF_HID_FRAME_SIZE],
+                                  uint16_t* moreFramesAvailable);
 
-void sfHidTimeoutHandler(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE]);
-void sfHidSendChannelBusyError(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE]);
+    void sfHidTimeoutHandler(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE]);
+    void sfHidSendChannelBusyError(SF_HID_HANDLE* hidHandle, uint8_t immediateOutgoingFrame[SF_HID_FRAME_SIZE]);
 
 #ifdef __cplusplus
 }

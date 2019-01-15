@@ -8,34 +8,34 @@
  */
 
 /*
-* Copyright (c) 2015, Freescale Semiconductor, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without modification,
-* are permitted provided that the following conditions are met:
-*
-* o Redistributions of source code must retain the above copyright notice, this list
-*   of conditions and the following disclaimer.
-*
-* o Redistributions in binary form must reproduce the above copyright notice, this
-*   list of conditions and the following disclaimer in the documentation and/or
-*   other materials provided with the distribution.
-*
-* o Neither the name of Freescale Semiconductor, Inc. nor the names of its
-*   contributors may be used to endorse or promote products derived from this
-*   software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-* ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-* ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ * Copyright (c) 2015, Freescale Semiconductor, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * o Redistributions of source code must retain the above copyright notice, this list
+ *   of conditions and the following disclaimer.
+ *
+ * o Redistributions in binary form must reproduce the above copyright notice, this
+ *   list of conditions and the following disclaimer in the documentation and/or
+ *   other materials provided with the distribution.
+ *
+ * o Neither the name of Freescale Semiconductor, Inc. nor the names of its
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 #include "usb_device_config.h"
 #include "usb.h"
 #include "usb_device.h"
@@ -49,8 +49,8 @@
 #endif /* FIRMWARE */
 
 /*******************************************************************************
-* API
-******************************************************************************/
+ * API
+ ******************************************************************************/
 /*!
  * @brief USB device callback function.
  *
@@ -65,8 +65,8 @@
 extern usb_status_t USB_DeviceCallback(usb_device_handle handle, uint32_t event, void *param);
 
 /*******************************************************************************
-* Variables
-******************************************************************************/
+ * Variables
+ ******************************************************************************/
 static uint8_t mk82UsbCurrentConfiguration = 0;
 static uint8_t mk82UsbInterfaces[MK82_USB_INTERFACE_COUNT];
 
@@ -122,7 +122,8 @@ static uint8_t mk82UsbDeviceDescriptor[] = {
     /* DEVICE Descriptor Type */
     USB_DESCRIPTOR_TYPE_DEVICE,
     /* USB Specification Release Number in Binary-Coded Decimal (i.e., 2.10 is 210H). */
-    USB_SHORT_GET_LOW(MK82_USB_DEVICE_SPECIFICATION_VERSION), USB_SHORT_GET_HIGH(MK82_USB_DEVICE_SPECIFICATION_VERSION),
+    USB_SHORT_GET_LOW(MK82_USB_DEVICE_SPECIFICATION_VERSION),
+    USB_SHORT_GET_HIGH(MK82_USB_DEVICE_SPECIFICATION_VERSION),
     /* Class code (assigned by the USB-IF). */
     MK82_USB_DEVICE_CLASS,
     /* Subclass code (assigned by the USB-IF). */
@@ -132,15 +133,19 @@ static uint8_t mk82UsbDeviceDescriptor[] = {
     /* Maximum packet size for endpoint zero (only 8, 16, 32, or 64 are valid) */
     USB_CONTROL_MAX_PACKET_SIZE,
     /* Vendor ID (assigned by the USB-IF) */
-    0x09, 0x12,
+    0x09,
+    0x12,
 /* Product ID (assigned by the manufacturer) */
 #ifdef FIRMWARE
-    0x00, 0x70,
+    0x00,
+    0x70,
 #else  /* FIRMWARE */
-    0x01, 0x70,
+    0x01,
+    0x70,
 #endif /* FIRMWARE */
     /* Device release number in binary-coded decimal */
-    USB_SHORT_GET_LOW(MK82_USB_DEVICE_VERSION), USB_SHORT_GET_HIGH(MK82_USB_DEVICE_VERSION),
+    USB_SHORT_GET_LOW(MK82_USB_DEVICE_VERSION),
+    USB_SHORT_GET_HIGH(MK82_USB_DEVICE_VERSION),
     /* Index of string descriptor describing manufacturer */
     0x01,
     /* Index of string descriptor describing product */
@@ -360,16 +365,21 @@ static uint8_t *mk82UsbDeviceStringDescriptorArray[MK82_USB_DEVICE_STRING_COUNT]
 static uint32_t mk82UsbDeviceStringDescriptorLength[MK82_USB_DEVICE_STRING_COUNT] = {
     sizeof(mk82UsbDeviceString0), sizeof(mk82UsbDeviceString1), sizeof(mk82UsbDeviceString2)};
 static usb_language_t mk82UsbDeviceLanguage[MK82_USB_DEVICE_LANGUAGE_COUNT] = {{
-    mk82UsbDeviceStringDescriptorArray, mk82UsbDeviceStringDescriptorLength, (uint16_t)0x0409,
+    mk82UsbDeviceStringDescriptorArray,
+    mk82UsbDeviceStringDescriptorLength,
+    (uint16_t)0x0409,
 }};
 
 static usb_language_list_t g_UsbDeviceLanguageList = {
-    mk82UsbDeviceString0, sizeof(mk82UsbDeviceString0), mk82UsbDeviceLanguage, MK82_USB_DEVICE_LANGUAGE_COUNT,
+    mk82UsbDeviceString0,
+    sizeof(mk82UsbDeviceString0),
+    mk82UsbDeviceLanguage,
+    MK82_USB_DEVICE_LANGUAGE_COUNT,
 };
 
 /*******************************************************************************
-* Code
-******************************************************************************/
+ * Code
+ ******************************************************************************/
 /*!
  * @brief Get the descritpor.
  *

@@ -11,15 +11,16 @@
 #define __OTP_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void otpCoreInit(void);
-void otpCoreDeinit(void);
+    void otpCoreInit(void);
+    void otpCoreDeinit(void);
 
-void otpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
-void otpCoreProcessControlAPDU(uint8_t* apdu, uint32_t* apduLength);
-uint16_t otpCoreComputeOtp(uint8_t* otp, uint32_t* otpLength);
+    void otpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
+    void otpCoreProcessControlAPDU(uint8_t* apdu, uint32_t* apduLength);
+    uint16_t otpCoreComputeOtp(uint8_t* otp, uint32_t* otpLength);
 
 #ifdef __cplusplus
 }

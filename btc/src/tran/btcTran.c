@@ -22,7 +22,8 @@ static uint32_t btcTranParseVarInt(uint8_t** data, uint32_t* dataRemaining, uint
 static void btcTranParseArray(uint8_t** data, uint32_t* dataRemaining, uint32_t arrayLength,
                               uint16_t* parsingSuccessful);
 static uint16_t btcTranTIGenerationProcessTransactionElement(uint8_t** data, uint32_t* dataLength);
-static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint32_t* dataLength, uint16_t firstSignatureGenerated);
+static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint32_t* dataLength,
+                                                            uint16_t firstSignatureGenerated);
 static uint16_t btcTranSigningProcessOutputsElement(uint8_t** data, uint32_t* dataLength);
 static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data, uint32_t* dataLength,
                                                                   uint16_t initialProcessing);
@@ -530,21 +531,21 @@ void btcTranTIGenerationGetHashIndexAndAmount(uint8_t* data)
 
 static void btcTranUpdateTransactionToDisplay(uint8_t* data, uint16_t dataLength)
 {
-	if( (btcTranSigningContext.transactionToDisplay.currentOffset +  dataLength) > BTC_TRAN_MAX_VIEWABLE_TRANSACTION_SIZE )
-	{
-		btcTranSigningContext.transactionToDisplay.transactionTooBigToDisplay = BTC_TRUE;
-	}
-	else
-	{
-		btcHalMemCpy(btcTranSigningContext.transactionToDisplay.transaction+btcTranSigningContext.transactionToDisplay.currentOffset, data, dataLength);
-		btcTranSigningContext.transactionToDisplay.currentOffset += dataLength;
-	}
+    if ((btcTranSigningContext.transactionToDisplay.currentOffset + dataLength) >
+        BTC_TRAN_MAX_VIEWABLE_TRANSACTION_SIZE)
+    {
+        btcTranSigningContext.transactionToDisplay.transactionTooBigToDisplay = BTC_TRUE;
+    }
+    else
+    {
+        btcHalMemCpy(btcTranSigningContext.transactionToDisplay.transaction +
+                         btcTranSigningContext.transactionToDisplay.currentOffset,
+                     data, dataLength);
+        btcTranSigningContext.transactionToDisplay.currentOffset += dataLength;
+    }
 }
 
-void btcTranSigningClearState(void)
-{
-	btcTranSigningClearStateInternal(BTC_TRUE, BTC_TRUE);
-}
+void btcTranSigningClearState(void) { btcTranSigningClearStateInternal(BTC_TRUE, BTC_TRUE); }
 
 static void btcTranSigningClearStateInternal(uint16_t clearSegwitData, uint16_t clearInputAmountsData)
 {
@@ -563,7 +564,7 @@ static void btcTranSigningClearStateInternal(uint16_t clearSegwitData, uint16_t 
 
     btcHalMemSet(btcTranSigningContext.hashOfTransactionWithoutInputScripts, 0x00, BTC_GLOBAL_SHA256_SIZE);
 
-    if(clearSegwitData == BTC_TRUE)
+    if (clearSegwitData == BTC_TRUE)
     {
         btcTranSigningContext.segWit = BTC_FALSE;
         btcTranSigningContext.segwitSignatureNumber = 0;
@@ -584,16 +585,16 @@ static void btcTranSigningClearStateInternal(uint16_t clearSegwitData, uint16_t 
     btcTranSigningContext.transactionToDisplay.transactionTooBigToDisplay = BTC_FALSE;
     btcHalMemSet(btcTranSigningContext.transactionToDisplay.transaction, 0x00, BTC_TRAN_MAX_VIEWABLE_TRANSACTION_SIZE);
 
-    if(clearInputAmountsData == BTC_TRUE)
+    if (clearInputAmountsData == BTC_TRUE)
     {
-    	uint32_t i;
+        uint32_t i;
 
-    	for(i=0; i<BTC_TRANS_MAX_NUMBER_OF_INPUTS; i++)
-    	{
-    		btcTranSigningContext.inputAmounts[i] = 0x00;
-    	}
+        for (i = 0; i < BTC_TRANS_MAX_NUMBER_OF_INPUTS; i++)
+        {
+            btcTranSigningContext.inputAmounts[i] = 0x00;
+        }
 
-    	btcTranSigningContext.numberOfInputAmounts = 0;
+        btcTranSigningContext.numberOfInputAmounts = 0;
     }
 }
 
@@ -732,7 +733,8 @@ END:
     return retVal;
 }
 
-static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint32_t* dataLength, uint16_t firstSignatureGenerated)
+static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint32_t* dataLength,
+                                                            uint16_t firstSignatureGenerated)
 {
     uint16_t retVal = BTC_GENERAL_ERROR;
     uint16_t parsingSuccessful = BTC_FALSE;
@@ -753,9 +755,9 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_SIGNING, originalDataPointer, sizeof(uint32_t));
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_INTEGRITY_CHECK, originalDataPointer, sizeof(uint32_t));
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
             }
 
             btcTranSigningContext.headerAndInputsProcessingState =
@@ -776,9 +778,9 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_INTEGRITY_CHECK, originalDataPointer,
                                (originalDataLength - (*dataLength)));
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
             }
 
             btcTranSigningContext.headerAndInputsProcessingState =
@@ -877,19 +879,21 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
                                &blob[BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_OFFSET],
                                BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_LENGTH);
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	if(btcTranSigningContext.currentInputNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
-            	{
+                if (btcTranSigningContext.currentInputNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
+                {
                     retVal = BTC_TRANSACTION_PARSING_FAILED_ERROR;
                     goto END;
-            	}
+                }
 
-            	btcTranSigningContext.inputAmounts[btcTranSigningContext.currentInputNumber] = amount;
-            	btcTranSigningContext.numberOfInputAmounts++;
+                btcTranSigningContext.inputAmounts[btcTranSigningContext.currentInputNumber] = amount;
+                btcTranSigningContext.numberOfInputAmounts++;
 
-            	btcTranUpdateTransactionToDisplay(&blob[BTC_GLOBAL_TRUSTED_INPUT_BLOB_HASH_OFFSET], BTC_GLOBAL_TRUSTED_INPUT_BLOB_HASH_LENGTH);
-            	btcTranUpdateTransactionToDisplay(&blob[BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_OFFSET],BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_LENGTH);
+                btcTranUpdateTransactionToDisplay(&blob[BTC_GLOBAL_TRUSTED_INPUT_BLOB_HASH_OFFSET],
+                                                  BTC_GLOBAL_TRUSTED_INPUT_BLOB_HASH_LENGTH);
+                btcTranUpdateTransactionToDisplay(&blob[BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_OFFSET],
+                                                  BTC_GLOBAL_TRUSTED_INPUT_BLOB_INDEX_LENGTH);
             }
 
             btcTranSigningContext.headerAndInputsProcessingState =
@@ -908,9 +912,9 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_SIGNING, originalDataPointer,
                                (originalDataLength - (*dataLength)));
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
             }
 
             btcTranSigningContext.headerAndInputsProcessingState =
@@ -947,11 +951,10 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_SIGNING, originalDataPointer,
                                (originalDataLength - (*dataLength)));
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
             }
-
         }
         break;
         case BTC_TRAN_HEADER_AND_INPUTS_PROCESSING_STATE_PARSING_INPUT_SEQUENCE:
@@ -966,9 +969,9 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElement(uint8_t** data, uint
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_SIGNING, originalDataPointer, sizeof(uint32_t));
             btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_INTEGRITY_CHECK, originalDataPointer, sizeof(uint32_t));
 
-            if(firstSignatureGenerated == BTC_FALSE)
+            if (firstSignatureGenerated == BTC_FALSE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
             }
 
             btcTranSigningContext.currentInputNumber++;
@@ -1028,7 +1031,7 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
             if (initialProcessing == BTC_TRUE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, sizeof(uint32_t));
             }
             else
             {
@@ -1054,7 +1057,7 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
             if (initialProcessing == BTC_TRUE)
             {
-				btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
             }
             else
             {
@@ -1125,14 +1128,14 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
             if (initialProcessing == BTC_TRUE)
             {
-            	if(btcTranSigningContext.currentInputNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
-            	{
+                if (btcTranSigningContext.currentInputNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
+                {
                     retVal = BTC_TRANSACTION_PARSING_FAILED_ERROR;
                     goto END;
-            	}
+                }
 
-            	btcTranSigningContext.inputAmounts[btcTranSigningContext.currentInputNumber] = amount;
-            	btcTranSigningContext.numberOfInputAmounts++;
+                btcTranSigningContext.inputAmounts[btcTranSigningContext.currentInputNumber] = amount;
+                btcTranSigningContext.numberOfInputAmounts++;
 
                 btcHalSha256Update(BTC_HAL_HASH_ID_SEGWIT_PREVOUTS, originalDataPointer,
                                    BTC_GLOBAL_SHA256_SIZE + sizeof(uint32_t));
@@ -1141,17 +1144,17 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
             }
             else
             {
-            	if(btcTranSigningContext.segwitSignatureNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
-            	{
+                if (btcTranSigningContext.segwitSignatureNumber > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
+                {
                     retVal = BTC_TRANSACTION_PARSING_FAILED_ERROR;
                     goto END;
-            	}
+                }
 
-            	if(btcTranSigningContext.inputAmounts[btcTranSigningContext.segwitSignatureNumber] != amount)
-            	{
+                if (btcTranSigningContext.inputAmounts[btcTranSigningContext.segwitSignatureNumber] != amount)
+                {
                     retVal = BTC_TRANSACTION_PARSING_FAILED_ERROR;
                     goto END;
-            	}
+                }
 
                 btcHalSha256Update(BTC_HAL_HASH_ID_TRANSACTION_SIGNING, originalDataPointer,
                                    BTC_GLOBAL_SHA256_SIZE + sizeof(uint32_t));
@@ -1175,7 +1178,7 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
             if (initialProcessing == BTC_TRUE)
             {
-            	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
             }
             else
             {
@@ -1200,7 +1203,7 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
                 if (initialProcessing == BTC_TRUE)
                 {
-                	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                    btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
                 }
                 else
                 {
@@ -1225,7 +1228,7 @@ static uint16_t btcTranSigningProcessHeaderAndInputsElementSegWit(uint8_t** data
 
                 if (initialProcessing == BTC_TRUE)
                 {
-                	btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
+                    btcTranUpdateTransactionToDisplay(originalDataPointer, (originalDataLength - (*dataLength)));
                 }
                 else
                 {
@@ -1465,7 +1468,8 @@ uint16_t btcTranSigningProcessHeaderAndInputs(uint8_t* data, uint32_t dataLength
         }
         else
         {
-            calleeRetVal = btcTranSigningProcessHeaderAndInputsElement(&data, &dataLength, btcTranSigningContext.firstSignatureGenerated);
+            calleeRetVal = btcTranSigningProcessHeaderAndInputsElement(&data, &dataLength,
+                                                                       btcTranSigningContext.firstSignatureGenerated);
         }
 
         if (calleeRetVal != BTC_NO_ERROR)
@@ -1536,16 +1540,16 @@ uint16_t btcTranSigningProcessOutputs(uint8_t* data, uint32_t dataLength)
     {
         if (btcTranSigningContext.segWit == BTC_TRUE)
         {
-			btcTranUpdateTransactionToDisplay(data, dataLength);
+            btcTranUpdateTransactionToDisplay(data, dataLength);
 
             calleeRetVal = btcTranSigningProcessOutputsElementSegWit(&data, &dataLength);
         }
         else
         {
-	        if(btcTranSigningContext.firstSignatureGenerated == BTC_FALSE)
-	        {
-	        	btcTranUpdateTransactionToDisplay(data, dataLength);
-	        }
+            if (btcTranSigningContext.firstSignatureGenerated == BTC_FALSE)
+            {
+                btcTranUpdateTransactionToDisplay(data, dataLength);
+            }
 
             calleeRetVal = btcTranSigningProcessOutputsElement(&data, &dataLength);
         }
@@ -1664,7 +1668,7 @@ uint16_t btcTranSigningSign(uint32_t* derivationIndexes, uint32_t numberOfKeyDer
     }
     else
     {
-    	btcTranSigningClearStateInternal(BTC_TRUE, BTC_FALSE);
+        btcTranSigningClearStateInternal(BTC_TRUE, BTC_FALSE);
         btcHalMemCpy(btcTranSigningContext.hashOfTransactionWithoutInputScripts, integrityHash, BTC_GLOBAL_SHA256_SIZE);
         btcTranSigningContext.state = BTC_TRAN_SIGNING_STATE_PROCESSING_HEADER_AND_INPUTS;
         btcTranSigningContext.firstSignatureGenerated = BTC_TRUE;
@@ -1802,29 +1806,30 @@ END:
     return retVal;
 }
 
-void btcTranGetTransactionReadoutData(BTC_TRAN_TRANSACTION_TO_DISPLAY** transactionToDisplay, int64_t** amountsInInputs, uint32_t* numberOfInputs)
+void btcTranGetTransactionReadoutData(BTC_TRAN_TRANSACTION_TO_DISPLAY** transactionToDisplay, int64_t** amountsInInputs,
+                                      uint32_t* numberOfInputs)
 {
-    if ((transactionToDisplay == NULL) || (amountsInInputs == NULL) || (numberOfInputs == NULL) )
+    if ((transactionToDisplay == NULL) || (amountsInInputs == NULL) || (numberOfInputs == NULL))
     {
         btcHalFatalError();
     }
 
     if (btcTranSigningContext.state != BTC_TRAN_SIGNING_STATE_COMPUTING_SIGNATURE)
     {
-    	btcHalFatalError();
+        btcHalFatalError();
     }
 
     if (btcTranSigningContext.firstSignatureGenerated != BTC_FALSE)
     {
-    	btcHalFatalError();
+        btcHalFatalError();
     }
 
-    if(btcTranSigningContext.numberOfInputAmounts > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
+    if (btcTranSigningContext.numberOfInputAmounts > BTC_TRANS_MAX_NUMBER_OF_INPUTS)
     {
-    	btcHalFatalError();
+        btcHalFatalError();
     }
 
     *transactionToDisplay = &btcTranSigningContext.transactionToDisplay;
     *amountsInInputs = btcTranSigningContext.inputAmounts;
-    *numberOfInputs= btcTranSigningContext.numberOfInputAmounts;
+    *numberOfInputs = btcTranSigningContext.numberOfInputAmounts;
 }

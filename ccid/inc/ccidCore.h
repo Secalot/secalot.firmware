@@ -11,7 +11,8 @@
 #define __SF_CCID_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <stdint.h>
@@ -23,33 +24,33 @@ extern "C" {
 
 #define CCID_CORE_ATR_MAX_LENGTH (32)
 
-typedef struct
-{
-    uint16_t state;
-    uint8_t currentSequenceNumber;
-    uint8_t* dataBuffer;
-    uint32_t responseLength;
-    uint32_t totalBytesReceived;
-    uint8_t atr[CCID_CORE_ATR_MAX_LENGTH];
-    uint8_t atrLength;
-} CCID_CORE_HANDLE;
+    typedef struct
+    {
+        uint16_t state;
+        uint8_t currentSequenceNumber;
+        uint8_t* dataBuffer;
+        uint32_t responseLength;
+        uint32_t totalBytesReceived;
+        uint8_t atr[CCID_CORE_ATR_MAX_LENGTH];
+        uint8_t atrLength;
+    } CCID_CORE_HANDLE;
 
-void ccidCoreInit(CCID_CORE_HANDLE* ccidHandle, uint8_t dataBuffer[CCID_MAX_MESSAGE_LENGTH], uint8_t* atrHistChars,
-                  uint16_t atrHistCharsLength);
+    void ccidCoreInit(CCID_CORE_HANDLE* ccidHandle, uint8_t dataBuffer[CCID_MAX_MESSAGE_LENGTH], uint8_t* atrHistChars,
+                      uint16_t atrHistCharsLength);
 
-void ccidCoreProcessIncomingPacket(CCID_CORE_HANDLE* ccidHandle, uint8_t* incomingPacket, uint16_t incomingPacketLength,
-                                   uint16_t* requiredPostProcessingAction);
+    void ccidCoreProcessIncomingPacket(CCID_CORE_HANDLE* ccidHandle, uint8_t* incomingPacket,
+                                       uint16_t incomingPacketLength, uint16_t* requiredPostProcessingAction);
 
-void ccidCoreGetAPDU(CCID_CORE_HANDLE* ccidHandle, uint8_t** apdu, uint32_t* apduLength);
+    void ccidCoreGetAPDU(CCID_CORE_HANDLE* ccidHandle, uint8_t** apdu, uint32_t* apduLength);
 
-void ccidCoreGetResponse(CCID_CORE_HANDLE* ccidHandle, uint8_t** response, uint32_t* resposneLength);
+    void ccidCoreGetResponse(CCID_CORE_HANDLE* ccidHandle, uint8_t** response, uint32_t* resposneLength);
 
-void ccidCoreGetWTXRequest(CCID_CORE_HANDLE* ccidHandle, uint8_t** request, uint32_t* requestLength);
+    void ccidCoreGetWTXRequest(CCID_CORE_HANDLE* ccidHandle, uint8_t** request, uint32_t* requestLength);
 
-void ccidCoreResponseSent(CCID_CORE_HANDLE* ccidHandle);
+    void ccidCoreResponseSent(CCID_CORE_HANDLE* ccidHandle);
 
-void ccidCorePrepareResponseAPDU(CCID_CORE_HANDLE* ccidHandle, uint32_t apduLength, uint8_t** response,
-                                 uint32_t* resposneLength);
+    void ccidCorePrepareResponseAPDU(CCID_CORE_HANDLE* ccidHandle, uint32_t apduLength, uint8_t** response,
+                                     uint32_t* resposneLength);
 
 #ifdef __cplusplus
 }

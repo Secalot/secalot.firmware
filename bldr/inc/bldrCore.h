@@ -11,17 +11,18 @@
 #define __BLDR_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void bldrCoreInit(void);
-void bldrCoreDeinit(void);
+    void bldrCoreInit(void);
+    void bldrCoreDeinit(void);
 
 #ifdef FIRMWARE
-void bldrCoreGetAID(uint8_t* aid, uint32_t* aidLength);
+    void bldrCoreGetAID(uint8_t* aid, uint32_t* aidLength);
 #endif /* FIRMWARE */
 
-void bldrCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
+    void bldrCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
 
 #ifdef __cplusplus
 }

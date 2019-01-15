@@ -11,14 +11,15 @@
 #define __SF_OPGP_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void opgpCoreInit(void);
-void opgpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
-void opgpCoreSelect(uint16_t* sw);
-void opgpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
-void opgpCoreGetHistChars(uint8_t* histChars, uint32_t* histCharsLength);
+    void opgpCoreInit(void);
+    void opgpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
+    void opgpCoreSelect(uint16_t* sw);
+    void opgpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
+    void opgpCoreGetHistChars(uint8_t* histChars, uint32_t* histCharsLength);
 
 #ifdef __cplusplus
 }

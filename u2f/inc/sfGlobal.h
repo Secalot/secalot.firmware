@@ -11,7 +11,8 @@
 #define __SF_GLOBAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include <stdint.h>

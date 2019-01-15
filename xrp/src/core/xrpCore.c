@@ -52,26 +52,26 @@ void xrpCoreDeinit()
 
 static void xrpCoreClearTransactionToDisplay(void)
 {
-	uint16_t i;
+    uint16_t i;
 
-	transactionToDisplay.finalized = XRP_FALSE;
-	transactionToDisplay.transactionTooBigToDisplay = XRP_FALSE;
-	transactionToDisplay.currentOffset = 0;
+    transactionToDisplay.finalized = XRP_FALSE;
+    transactionToDisplay.transactionTooBigToDisplay = XRP_FALSE;
+    transactionToDisplay.currentOffset = 0;
 
-	xrpHalMemSet(transactionToDisplay.transaction, 0x00, sizeof(transactionToDisplay.transaction));
+    xrpHalMemSet(transactionToDisplay.transaction, 0x00, sizeof(transactionToDisplay.transaction));
 }
 
 static void xrpCoreUpdateTransactionToDisplay(uint8_t* data, uint16_t dataLength)
 {
-	if( (transactionToDisplay.currentOffset +  dataLength) > XRP_CORE_MAX_VIEWABLE_TRANSACTION_SIZE )
-	{
-		transactionToDisplay.transactionTooBigToDisplay = XRP_TRUE;
-	}
-	else
-	{
-		xrpHalMemCpy(transactionToDisplay.transaction+transactionToDisplay.currentOffset, data, dataLength);
-		transactionToDisplay.currentOffset += dataLength;
-	}
+    if ((transactionToDisplay.currentOffset + dataLength) > XRP_CORE_MAX_VIEWABLE_TRANSACTION_SIZE)
+    {
+        transactionToDisplay.transactionTooBigToDisplay = XRP_TRUE;
+    }
+    else
+    {
+        xrpHalMemCpy(transactionToDisplay.transaction + transactionToDisplay.currentOffset, data, dataLength);
+        transactionToDisplay.currentOffset += dataLength;
+    }
 }
 
 static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
@@ -90,8 +90,8 @@ static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_R
         goto END;
     }
 
-    if ( (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_PRIVATE_KEY) &&
-		 (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_SECRET) )
+    if ((commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_PRIVATE_KEY) &&
+        (commandAPDU->p1p2 != XRP_CORE_P1P2_SETUP_WITH_SECRET))
     {
         sw = APDU_CORE_SW_WRONG_P1P2;
         goto END;
@@ -165,7 +165,7 @@ static void xrpCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE
     responseAPDU->data[1] = XRP_CORE_VERSION_MINOR;
 
     responseAPDU->data[2] = 0x00;
-    
+
     if (walletState == XRP_GLOBAL_WALLET_STATE_OPERATIONAL)
     {
         responseAPDU->data[2] |= XRP_CORE_GET_INFO_WALLET_OPERATIONAL;
@@ -343,21 +343,23 @@ static void xrpCoreProcessHashAndSign(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_
             goto END;
         }
 
-        if(commandAPDU->lc < XRP_CORE_TRANSACTION_HEADER_SIZE)
+        if (commandAPDU->lc < XRP_CORE_TRANSACTION_HEADER_SIZE)
         {
             sw = APDU_CORE_SW_WRONG_LENGTH;
             goto END;
         }
 
-        if( (commandAPDU->data[0] != 'S') || (commandAPDU->data[1] != 'T') || (commandAPDU->data[2] != 'X') || (commandAPDU->data[3] != '\0') )
+        if ((commandAPDU->data[0] != 'S') || (commandAPDU->data[1] != 'T') || (commandAPDU->data[2] != 'X') ||
+            (commandAPDU->data[3] != '\0'))
         {
             sw = APDU_CORE_SW_WRONG_DATA;
             goto END;
         }
 
-    	xrpCoreClearTransactionToDisplay();
+        xrpCoreClearTransactionToDisplay();
 
-    	xrpCoreUpdateTransactionToDisplay(commandAPDU->data+XRP_CORE_TRANSACTION_HEADER_SIZE, commandAPDU->lc-XRP_CORE_TRANSACTION_HEADER_SIZE);
+        xrpCoreUpdateTransactionToDisplay(commandAPDU->data + XRP_CORE_TRANSACTION_HEADER_SIZE,
+                                          commandAPDU->lc - XRP_CORE_TRANSACTION_HEADER_SIZE);
 
         xrpHalHashInit();
         xrpHalHashUpdate(commandAPDU->data, commandAPDU->lc);
@@ -445,11 +447,11 @@ static void xrpCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
     uint16_t i;
     uint64_t remainingTime;
 
-	if(transactionToDisplay.finalized != XRP_TRUE)
-	{
+    if (transactionToDisplay.finalized != XRP_TRUE)
+    {
         sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
         goto END;
-	}
+    }
 
     if (commandAPDU->p1p2 == XRP_CORE_P1P2_READ_TRANSACTION_INFO)
     {
@@ -459,31 +461,31 @@ static void xrpCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
             goto END;
         }
 
-        if(transactionToDisplay.transactionTooBigToDisplay == XRP_TRUE)
+        if (transactionToDisplay.transactionTooBigToDisplay == XRP_TRUE)
         {
-        	responseAPDU->data[offset++] = 0x01;
+            responseAPDU->data[offset++] = 0x01;
         }
         else
         {
-        	responseAPDU->data[offset++] = 0x00;
+            responseAPDU->data[offset++] = 0x00;
         }
 
         responseAPDU->data[offset++] = XRP_HIBYTE(transactionToDisplay.currentOffset);
         responseAPDU->data[offset++] = XRP_LOBYTE(transactionToDisplay.currentOffset);
 
-    	remainingTime = xrpHalGetRemainingConfirmationTime();
+        remainingTime = xrpHalGetRemainingConfirmationTime();
 
-		responseAPDU->data[offset++] = XRP_HIBYTE(XRP_HIWORD(remainingTime));
-		responseAPDU->data[offset++] = XRP_LOBYTE(XRP_HIWORD(remainingTime));
-		responseAPDU->data[offset++] = XRP_HIBYTE(XRP_LOWORD(remainingTime));
-		responseAPDU->data[offset++] = XRP_LOBYTE(XRP_LOWORD(remainingTime));
+        responseAPDU->data[offset++] = XRP_HIBYTE(XRP_HIWORD(remainingTime));
+        responseAPDU->data[offset++] = XRP_LOBYTE(XRP_HIWORD(remainingTime));
+        responseAPDU->data[offset++] = XRP_HIBYTE(XRP_LOWORD(remainingTime));
+        responseAPDU->data[offset++] = XRP_LOBYTE(XRP_LOWORD(remainingTime));
 
-		responseAPDU->dataLength = offset;
-		sw = APDU_CORE_SW_NO_ERROR;
+        responseAPDU->dataLength = offset;
+        sw = APDU_CORE_SW_NO_ERROR;
     }
     else if (commandAPDU->p1p2 == XRP_CORE_P1P2_READ_TRANSACTION_DATA)
     {
-    	uint16_t chunkNumber;
+        uint16_t chunkNumber;
 
         if (commandAPDU->lcPresent != APDU_TRUE)
         {
@@ -491,7 +493,7 @@ static void xrpCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
             goto END;
         }
 
-        if(commandAPDU->lc != 2)
+        if (commandAPDU->lc != 2)
         {
             sw = APDU_CORE_SW_WRONG_LENGTH;
             goto END;
@@ -499,13 +501,15 @@ static void xrpCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
 
         chunkNumber = XRP_MAKEWORD(commandAPDU->data[1], commandAPDU->data[0]);
 
-        if( chunkNumber >= XRP_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS)
+        if (chunkNumber >= XRP_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS)
         {
             sw = APDU_CORE_SW_CONDITIONS_NOT_SATISFIED;
             goto END;
         }
 
-        xrpHalMemCpy(responseAPDU->data, transactionToDisplay.transaction + (chunkNumber*XRP_CORE_TRANSACTION_READ_CHUNK_SIZE), XRP_CORE_TRANSACTION_READ_CHUNK_SIZE);
+        xrpHalMemCpy(responseAPDU->data,
+                     transactionToDisplay.transaction + (chunkNumber * XRP_CORE_TRANSACTION_READ_CHUNK_SIZE),
+                     XRP_CORE_TRANSACTION_READ_CHUNK_SIZE);
 
         responseAPDU->dataLength = XRP_CORE_TRANSACTION_READ_CHUNK_SIZE;
         sw = APDU_CORE_SW_NO_ERROR;
@@ -519,7 +523,6 @@ static void xrpCoreProcessReadTransaction(APDU_CORE_COMMAND_APDU* commandAPDU, A
 END:
     responseAPDU->sw = sw;
 }
-
 
 static void xrpCoreProcessWipeout(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
 {
@@ -640,8 +643,8 @@ void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
     }
     else if (walletState == XRP_GLOBAL_WALLET_STATE_OPERATIONAL)
     {
-    	if(transactionToDisplay.finalized == XRP_TRUE)
-    	{
+        if (transactionToDisplay.finalized == XRP_TRUE)
+        {
             switch (commandAPDU.ins)
             {
                 case XRP_CORE_INS_READ_TRANSACTION:
@@ -651,9 +654,9 @@ void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                     responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
                     break;
             }
-    	}
-    	else
-    	{
+        }
+        else
+        {
             switch (commandAPDU.ins)
             {
                 case XRP_CORE_INS_VERIFY_PIN:
@@ -678,7 +681,7 @@ void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                     responseAPDU.sw = APDU_CORE_SW_INS_NOT_SUPPORTED;
                     break;
             }
-    	}
+        }
     }
     else
     {

@@ -11,7 +11,8 @@
 #define __MK82_GLOBAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
@@ -19,12 +20,12 @@ extern "C" {
 
 #ifndef BOOTSTRAPPER
 #include "fsl_flash.h"
-extern flash_config_t mk82FlashDriver;
+    extern flash_config_t mk82FlashDriver;
 #endif /* BOOTSTRAPPER */
 
 #ifndef NULL
 #define NULL (0)
-#endif\
+#endif
 
 #define MK82_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
 #define MK82_HIWORD(d) ((unsigned short)((((unsigned long)(d)) >> 16) & 0xFFFF))

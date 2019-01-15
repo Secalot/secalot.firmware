@@ -44,12 +44,12 @@ static uint16_t xrpHalButtonPressed;
 static uint16_t xrpHalConfirmationTimeOngoing;
 static uint64_t xrpHalInitialConfirmationTime;
 
-void xrpHalInit(void) {
+void xrpHalInit(void)
+{
+    xrpHalButtonPressed = XRP_FALSE;
+    xrpHalConfirmationTimeOngoing = XRP_FALSE;
+    xrpHalInitialConfirmationTime = 0;
 
-	xrpHalButtonPressed = XRP_FALSE;
-	xrpHalConfirmationTimeOngoing = XRP_FALSE;
-	xrpHalInitialConfirmationTime = 0;
-    
     mbedtls_sha512_init(&xrpHalHashContext);
 }
 
@@ -125,7 +125,8 @@ void xrpHalSetPrivateKey(uint8_t* privateKey)
         xrpHalFatalError();
     }
 
-    mk82KeysafeWrapKey(MK82_KEYSAFE_CCR_KEK_ID, privateKey, XRP_GLOBAL_PRIVATE_KEY_SIZE, encryptedPrivateKey, NULL, 0, nonce, tag);
+    mk82KeysafeWrapKey(MK82_KEYSAFE_CCR_KEK_ID, privateKey, XRP_GLOBAL_PRIVATE_KEY_SIZE, encryptedPrivateKey, NULL, 0,
+                       nonce, tag);
 
     mk82FsWriteFile(MK82_FS_FILE_ID_XRP_KEYS, offsetof(XRP_HAL_NVM_KEYS, privateKey), encryptedPrivateKey,
                     XRP_GLOBAL_PRIVATE_KEY_SIZE);
@@ -133,7 +134,7 @@ void xrpHalSetPrivateKey(uint8_t* privateKey)
                     MK82_KEYSAFE_NONCE_LENGTH);
     mk82FsWriteFile(MK82_FS_FILE_ID_XRP_KEYS, offsetof(XRP_HAL_NVM_KEYS, privateKeyTag), tag, MK82_KEYSAFE_TAG_LENGTH);
     trueFalse = XRP_TRUE;
-    mk82FsWriteFile(MK82_FS_FILE_ID_XRP_KEYS, offsetof(XRP_HAL_NVM_KEYS,privateKeyInitialized), (uint8_t*)&trueFalse,
+    mk82FsWriteFile(MK82_FS_FILE_ID_XRP_KEYS, offsetof(XRP_HAL_NVM_KEYS, privateKeyInitialized), (uint8_t*)&trueFalse,
                     sizeof(trueFalse));
 
     mk82FsCommitWrite(MK82_FS_FILE_ID_XRP_KEYS);
@@ -237,82 +238,82 @@ static void xrpHalGetPrivateKey(uint8_t* privateKey)
 
 void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey)
 {
-	uint8_t publicKey[XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE];
-	uint8_t hash[XRP_GLOBAL_SHA512_SIZE];
+    uint8_t publicKey[XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE];
+    uint8_t hash[XRP_GLOBAL_SHA512_SIZE];
 
-	int tlsCalleeRetVal = -1;
-	mbedtls_sha512_context hashContext;
-	uint32_t counter = 0;
+    int tlsCalleeRetVal = -1;
+    mbedtls_sha512_context hashContext;
+    uint32_t counter = 0;
     mbedtls_ecp_group ecpGroup;
     mbedtls_ecp_point ecpPoint;
-	mbedtls_mpi scalar;
-	mbedtls_mpi scalar2;
-	mbedtls_mpi mpiZero;
-	uint8_t zero = 0;
-	uint32_t pointLength;
+    mbedtls_mpi scalar;
+    mbedtls_mpi scalar2;
+    mbedtls_mpi mpiZero;
+    uint8_t zero = 0;
+    uint32_t pointLength;
 
-	if( (secret == NULL) || (privateKey == NULL) )
-	{
-		xrpHalFatalError();
-	}
+    if ((secret == NULL) || (privateKey == NULL))
+    {
+        xrpHalFatalError();
+    }
 
-	mbedtls_sha512_init(&hashContext);
+    mbedtls_sha512_init(&hashContext);
 
     mbedtls_ecp_group_init(&ecpGroup);
     mbedtls_ecp_point_init(&ecpPoint);
-	mbedtls_mpi_init(&scalar);
-	mbedtls_mpi_init(&scalar2);
-	mbedtls_mpi_init(&mpiZero);
+    mbedtls_mpi_init(&scalar);
+    mbedtls_mpi_init(&scalar2);
+    mbedtls_mpi_init(&mpiZero);
 
     tlsCalleeRetVal = mbedtls_ecp_group_load(&ecpGroup, MBEDTLS_ECP_DP_SECP256K1);
 
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
     tlsCalleeRetVal = mbedtls_mpi_read_binary(&mpiZero, &zero, sizeof(zero));
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
     counter = 0;
 
-    while(true)
+    while (true)
     {
-    	uint8_t counterAsAnArray[4];
+        uint8_t counterAsAnArray[4];
 
-    	counterAsAnArray[0] = (uint8_t)(counter>>24);
-    	counterAsAnArray[1] = (uint8_t)(counter>>16);
-    	counterAsAnArray[2] = (uint8_t)(counter>>8);
-    	counterAsAnArray[3] = (uint8_t)(counter);
+        counterAsAnArray[0] = (uint8_t)(counter >> 24);
+        counterAsAnArray[1] = (uint8_t)(counter >> 16);
+        counterAsAnArray[2] = (uint8_t)(counter >> 8);
+        counterAsAnArray[3] = (uint8_t)(counter);
 
-    	mbedtls_sha512_starts(&hashContext, 0);
-    	mbedtls_sha512_update(&hashContext, secret, XRP_GLOBAL_SECRET_SIZE);
-    	mbedtls_sha512_update(&hashContext, counterAsAnArray, sizeof(counterAsAnArray));
-    	mbedtls_sha512_finish(&hashContext, hash);
+        mbedtls_sha512_starts(&hashContext, 0);
+        mbedtls_sha512_update(&hashContext, secret, XRP_GLOBAL_SECRET_SIZE);
+        mbedtls_sha512_update(&hashContext, counterAsAnArray, sizeof(counterAsAnArray));
+        mbedtls_sha512_finish(&hashContext, hash);
 
-    	tlsCalleeRetVal = mbedtls_mpi_read_binary(&scalar, hash, XRP_GLOBAL_PRIVATE_KEY_SIZE);
+        tlsCalleeRetVal = mbedtls_mpi_read_binary(&scalar, hash, XRP_GLOBAL_PRIVATE_KEY_SIZE);
         if (tlsCalleeRetVal != 0)
         {
-        	xrpHalFatalError();
+            xrpHalFatalError();
         }
 
         tlsCalleeRetVal = mbedtls_mpi_cmp_abs(&scalar, &mpiZero);
 
         if (tlsCalleeRetVal == 0)
         {
-        	counter++;
-        	continue;
+            counter++;
+            continue;
         }
 
         tlsCalleeRetVal = mbedtls_mpi_cmp_abs(&scalar, &(ecpGroup.N));
 
         if (tlsCalleeRetVal != -1)
         {
-        	counter++;
-        	continue;
+            counter++;
+            continue;
         }
 
         break;
@@ -321,67 +322,67 @@ void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey)
     tlsCalleeRetVal = mbedtls_ecp_mul(&ecpGroup, &ecpPoint, &scalar, &(ecpGroup.G), mk82SystemGetRandomForTLS, NULL);
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
-	pointLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
+    pointLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
 
-	tlsCalleeRetVal =
-		mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
-				publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
+    tlsCalleeRetVal =
+        mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
+                                       publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
-	if (pointLength != XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
-	{
-		xrpHalFatalError();
-	}
+    if (pointLength != XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
+    {
+        xrpHalFatalError();
+    }
 
     counter = 0;
 
-    while(true)
+    while (true)
     {
-    	uint8_t counterAsAnArray[4];
-    	uint8_t indexNumber[4];
+        uint8_t counterAsAnArray[4];
+        uint8_t indexNumber[4];
 
-    	indexNumber[0] = 0x00;
-    	indexNumber[1] = 0x00;
-    	indexNumber[2] = 0x00;
-    	indexNumber[3] = 0x00;
+        indexNumber[0] = 0x00;
+        indexNumber[1] = 0x00;
+        indexNumber[2] = 0x00;
+        indexNumber[3] = 0x00;
 
-    	counterAsAnArray[0] = (uint8_t)(counter>>24);
-    	counterAsAnArray[1] = (uint8_t)(counter>>16);
-    	counterAsAnArray[2] = (uint8_t)(counter>>8);
-    	counterAsAnArray[3] = (uint8_t)(counter);
+        counterAsAnArray[0] = (uint8_t)(counter >> 24);
+        counterAsAnArray[1] = (uint8_t)(counter >> 16);
+        counterAsAnArray[2] = (uint8_t)(counter >> 8);
+        counterAsAnArray[3] = (uint8_t)(counter);
 
-    	mbedtls_sha512_starts(&hashContext, 0);
-    	mbedtls_sha512_update(&hashContext, publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
-    	mbedtls_sha512_update(&hashContext, indexNumber, sizeof(indexNumber));
-    	mbedtls_sha512_update(&hashContext, counterAsAnArray, sizeof(counterAsAnArray));
-    	mbedtls_sha512_finish(&hashContext, hash);
+        mbedtls_sha512_starts(&hashContext, 0);
+        mbedtls_sha512_update(&hashContext, publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
+        mbedtls_sha512_update(&hashContext, indexNumber, sizeof(indexNumber));
+        mbedtls_sha512_update(&hashContext, counterAsAnArray, sizeof(counterAsAnArray));
+        mbedtls_sha512_finish(&hashContext, hash);
 
-    	tlsCalleeRetVal = mbedtls_mpi_read_binary(&scalar2, hash, XRP_GLOBAL_PRIVATE_KEY_SIZE);
+        tlsCalleeRetVal = mbedtls_mpi_read_binary(&scalar2, hash, XRP_GLOBAL_PRIVATE_KEY_SIZE);
         if (tlsCalleeRetVal != 0)
         {
-        	xrpHalFatalError();
+            xrpHalFatalError();
         }
 
         tlsCalleeRetVal = mbedtls_mpi_cmp_abs(&scalar2, &mpiZero);
 
         if (tlsCalleeRetVal == 0)
         {
-        	counter++;
-        	continue;
+            counter++;
+            continue;
         }
 
         tlsCalleeRetVal = mbedtls_mpi_cmp_abs(&scalar2, &(ecpGroup.N));
 
         if (tlsCalleeRetVal != -1)
         {
-        	counter++;
-        	continue;
+            counter++;
+            continue;
         }
 
         break;
@@ -390,28 +391,26 @@ void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey)
     tlsCalleeRetVal = mbedtls_mpi_add_abs(&scalar, &scalar, &scalar2);
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
     tlsCalleeRetVal = mbedtls_mpi_mod_mpi(&scalar, &scalar, &(ecpGroup.N));
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
-    tlsCalleeRetVal = mbedtls_mpi_write_binary(&scalar, privateKey,
-                                            XRP_GLOBAL_PRIVATE_KEY_SIZE);
+    tlsCalleeRetVal = mbedtls_mpi_write_binary(&scalar, privateKey, XRP_GLOBAL_PRIVATE_KEY_SIZE);
     if (tlsCalleeRetVal != 0)
     {
         mk82SystemFatalError();
     }
 
-
-	END:
-		mbedtls_ecp_group_free(&ecpGroup);
-		mbedtls_ecp_point_free(&ecpPoint);
-	    mbedtls_mpi_free(&scalar);
-	    mbedtls_mpi_free(&scalar2);
-	    mbedtls_mpi_free(&mpiZero);
+END:
+    mbedtls_ecp_group_free(&ecpGroup);
+    mbedtls_ecp_point_free(&ecpPoint);
+    mbedtls_mpi_free(&scalar);
+    mbedtls_mpi_free(&scalar2);
+    mbedtls_mpi_free(&mpiZero);
 }
 
 void xrpHalDerivePublicKey(uint8_t* publicKey)
@@ -447,17 +446,16 @@ void xrpHalDerivePublicKey(uint8_t* publicKey)
         mk82SystemFatalError();
     }
 
-	pointLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
+    pointLength = XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE;
 
-	calleeRetVal =
-		mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
-				publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
+    calleeRetVal =
+        mbedtls_ecp_point_write_binary(&ecpGroup, &ecpPoint, MBEDTLS_ECP_PF_COMPRESSED, (size_t*)&pointLength,
+                                       publicKey, XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE);
 
-	if (pointLength != XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
-	{
-		mk82SystemFatalError();
-	}
-
+    if (pointLength != XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE)
+    {
+        mk82SystemFatalError();
+    }
 
     if (calleeRetVal != 0)
     {
@@ -470,10 +468,7 @@ void xrpHalDerivePublicKey(uint8_t* publicKey)
     mbedtls_mpi_free(&multiplier);
 }
 
-void xrpHalHashInit(void)
-{
-    mbedtls_sha512_starts(&xrpHalHashContext, 0);
-}
+void xrpHalHashInit(void) { mbedtls_sha512_starts(&xrpHalHashContext, 0); }
 
 void xrpHalHashUpdate(uint8_t* data, uint32_t dataLength)
 {
@@ -513,9 +508,8 @@ void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength
                               0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x5D, 0x57, 0x6E, 0x73, 0x57, 0xA4,
                               0x50, 0x1D, 0xDF, 0xE9, 0x2F, 0x46, 0x68, 0x1B, 0x20, 0xA0};
     int rYSign;
-   
 
-    if ( (hash == NULL) || (signature == NULL) || (signatureLength == NULL) )
+    if ((hash == NULL) || (signature == NULL) || (signatureLength == NULL))
     {
         xrpHalFatalError();
     }
@@ -540,21 +534,20 @@ void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength
     {
         xrpHalFatalError();
     }
-    
+
     tlsCalleeRetVal = mbedtls_ecdsa_sign_det(&ecsdaContext.grp, &r, &s, &ecsdaContext.d, hash, &rYSign,
-    		XRP_GLOBAL_SHA256_SIZE, MBEDTLS_MD_SHA256);
+                                             XRP_GLOBAL_SHA256_SIZE, MBEDTLS_MD_SHA256);
 
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
-
 
     tlsCalleeRetVal = mbedtls_mpi_read_binary(&nDivBy2, nDivBy2Array, sizeof(nDivBy2Array));
 
     if (tlsCalleeRetVal != 0)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
     tlsCalleeRetVal = mbedtls_mpi_cmp_abs(&s, &nDivBy2);
@@ -565,20 +558,20 @@ void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength
 
         if (tlsCalleeRetVal != 0)
         {
-        	xrpHalFatalError();
+            xrpHalFatalError();
         }
     }
 
-    tlsCalleeRetVal = ecdsa_signature_to_asn1(&r, &s, signatureInternal, (size_t*)&signatureLengthInternal );
+    tlsCalleeRetVal = ecdsa_signature_to_asn1(&r, &s, signatureInternal, (size_t*)&signatureLengthInternal);
 
-	if (tlsCalleeRetVal != 0)
-	{
-		xrpHalFatalError();
-	}
+    if (tlsCalleeRetVal != 0)
+    {
+        xrpHalFatalError();
+    }
 
     if (signatureLengthInternal > MBEDTLS_ECDSA_MAX_LEN)
     {
-    	xrpHalFatalError();
+        xrpHalFatalError();
     }
 
     *signatureLength = (uint16_t)signatureLengthInternal;
@@ -635,12 +628,12 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if(currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
+        if (currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
         {
             if (currentTime > busyIndicationTime)
             {
-            	mk82UsbFakeU2fWtx();
-            	busyIndicationTime += XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
+                mk82UsbFakeU2fWtx();
+                busyIndicationTime += XRP_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
             }
         }
 
@@ -650,9 +643,10 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
             break;
         }
 
-        if(currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
+        if (currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
         {
-        	mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU, MK82_AS_ALLOW_XRP_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
+            mk82SecApduProcessCommandIfAvailable(MK82_GLOBAL_PROCESS_CCID_APDU,
+                                                 MK82_AS_ALLOW_XRP_COMMANDS | MK82_AS_ALLOW_SSL_COMMANDS);
         }
     }
 
@@ -673,18 +667,17 @@ void xrpHalWaitForComfirmation(uint16_t* confirmed)
 
 uint64_t xrpHalGetRemainingConfirmationTime(void)
 {
-	uint64_t currentTime;
+    uint64_t currentTime;
 
-	if(xrpHalConfirmationTimeOngoing != XRP_TRUE)
-	{
-		xrpHalFatalError();
-	}
+    if (xrpHalConfirmationTimeOngoing != XRP_TRUE)
+    {
+        xrpHalFatalError();
+    }
 
-	mk82SystemTickerGetMsPassed(&currentTime);
+    mk82SystemTickerGetMsPassed(&currentTime);
 
-	return (XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - xrpHalInitialConfirmationTime));
+    return (XRP_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - xrpHalInitialConfirmationTime));
 }
-
 
 void xrpHalWipeout(void)
 {
@@ -749,4 +742,3 @@ void xrpHalWipeout(void)
 }
 
 void xrpHalFatalError(void) { mk82SystemFatalError(); }
-

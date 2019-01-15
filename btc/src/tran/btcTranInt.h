@@ -89,7 +89,6 @@ typedef struct
     uint8_t segWitHashSequence[BTC_GLOBAL_SHA256_SIZE];
     uint8_t segWitHashOutputs[BTC_GLOBAL_SHA256_SIZE];
 
-
     BTC_TRAN_TRANSACTION_TO_DISPLAY transactionToDisplay;
 
 } BTC_TRAN_SIGNING_CONTEXT;

@@ -11,12 +11,13 @@
 #define __SF_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void sfCoreInit(void);
-void sfCoreDeinit(void);
-void sfCoreProcessAPDU(uint8_t* apduBuffer, uint32_t* apduBufferLength);
+    void sfCoreInit(void);
+    void sfCoreDeinit(void);
+    void sfCoreProcessAPDU(uint8_t* apduBuffer, uint32_t* apduBufferLength);
 
 #ifdef __cplusplus
 }

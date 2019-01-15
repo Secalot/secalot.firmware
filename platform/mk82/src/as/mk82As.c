@@ -55,8 +55,6 @@ static uint8_t mk82AsXrpAid[MK82_AS_MAX_AID_LENGTH];
 static uint32_t mk82AsXrpAidLength;
 static uint32_t mk82AsSelectedApplication = MK82_AS_NONE_SELECTED;
 
-
-
 static void mk82AsFatalError(void) { mk82SystemFatalError(); }
 
 void mk82AsInit(void)
@@ -163,37 +161,38 @@ void mk82AsProcessAPDU(uint8_t* apdu, uint32_t* apduLength, uint32_t allowedComm
     }
     else
     {
-        if ( (mk82AsSelectedApplication == MK82_AS_OPGP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OPGP_COMMANDS) )
+        if ((mk82AsSelectedApplication == MK82_AS_OPGP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OPGP_COMMANDS))
         {
             opgpCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_OTP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OTP_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_OTP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_OTP_COMMANDS))
         {
             otpCoreProcessControlAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_BLDR_SELECTED) && (allowedCommands & MK82_AS_ALLOW_BLDR_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_BLDR_SELECTED) &&
+                 (allowedCommands & MK82_AS_ALLOW_BLDR_COMMANDS))
         {
             bldrCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_ETH_SELECTED) && (allowedCommands & MK82_AS_ALLOW_ETH_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_ETH_SELECTED) && (allowedCommands & MK82_AS_ALLOW_ETH_COMMANDS))
         {
             ethCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_SSL_SELECTED) && (allowedCommands & MK82_AS_ALLOW_SSL_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_SSL_SELECTED) && (allowedCommands & MK82_AS_ALLOW_SSL_COMMANDS))
         {
             mk82SslProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_BTC_SELECTED) && (allowedCommands & MK82_AS_ALLOW_BTC_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_BTC_SELECTED) && (allowedCommands & MK82_AS_ALLOW_BTC_COMMANDS))
         {
             btcCoreProcessAPDU(apdu, apduLength);
             goto END;
         }
-        else if ( (mk82AsSelectedApplication == MK82_AS_XRP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_XRP_COMMANDS) )
+        else if ((mk82AsSelectedApplication == MK82_AS_XRP_SELECTED) && (allowedCommands & MK82_AS_ALLOW_XRP_COMMANDS))
         {
             xrpCoreProcessAPDU(apdu, apduLength);
             goto END;

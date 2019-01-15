@@ -178,16 +178,15 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
 
 #ifdef MEW_HACK
     {
-    	uint8_t magicString[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+        uint8_t magicString[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
 
-    	if(authenticateRequest->keyHandleLength > sizeof(magicString))
-    	{
-            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) ==
-                SF_CMP_EQUAL)
+        if (authenticateRequest->keyHandleLength > sizeof(magicString))
+        {
+            if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
             {
                 uint32_t ethApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
 
-                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle+sizeof(magicString), ethApduLength);
+                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), ethApduLength);
 
                 ethCoreProcessAPDU(apduBuffer, &ethApduLength);
 
@@ -197,7 +196,7 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
 
                 goto END;
             }
-    	}
+        }
     }
 #endif /* MEW_HACK */
 

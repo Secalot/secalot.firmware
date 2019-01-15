@@ -16,20 +16,20 @@
 #define ETH_CODE_TRANSACTION_TYPE_TRANSACTION (0x9999)
 
 #define ETH_CORE_TRANSACTION_READ_CHUNK_SIZE (128)
-#define ETH_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS (ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE/ETH_CORE_TRANSACTION_READ_CHUNK_SIZE)
+#define ETH_CORE_TRANSACTION_READ_NUMBER_OF_CHUNKS \
+    (ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE / ETH_CORE_TRANSACTION_READ_CHUNK_SIZE)
 
 typedef struct
 {
-	uint16_t finalized;
-	uint16_t transactionTooBigToDisplay;
-	uint16_t type;
-	uint8_t transaction[ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE];
-	uint8_t address[ETH_GLOBAL_ADDRESS_SIZE];
+    uint16_t finalized;
+    uint16_t transactionTooBigToDisplay;
+    uint16_t type;
+    uint8_t transaction[ETH_CORE_MAX_VIEWABLE_TRANSACTION_SIZE];
+    uint8_t address[ETH_GLOBAL_ADDRESS_SIZE];
 
-	uint16_t currentOffset;
+    uint16_t currentOffset;
 
 } ETH_CORE_TRANSACTION_TO_DISPLAY;
-
 
 #define ETH_CORE_SW_REMAINING_PIN_TRIES (0x63C0)
 

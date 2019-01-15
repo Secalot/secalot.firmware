@@ -11,18 +11,19 @@
 #define __OPGP_PIN_INT_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
 
-typedef struct
-{
-    uint16_t PW1_81_Verified;
-    uint16_t PW1_82_Verified;
-    uint16_t PW3Verified;
+    typedef struct
+    {
+        uint16_t PW1_81_Verified;
+        uint16_t PW1_82_Verified;
+        uint16_t PW3Verified;
 
-} OPGP_PIN_VOLATILE_PIN_STATUS;
+    } OPGP_PIN_VOLATILE_PIN_STATUS;
 
 #ifdef __cplusplus
 }

@@ -11,46 +11,48 @@
 #define __SF_HAL_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-SF_MAKE_PACKED(typedef struct) { uint32_t signatureCounter; }
-SF_HAL_NVM_COUNTERS;
+    SF_MAKE_PACKED(typedef struct) { uint32_t signatureCounter; }
+    SF_HAL_NVM_COUNTERS;
 
-void sfhalInit(void);
+    void sfhalInit(void);
 
-void sfHalDeinit(void);
+    void sfHalDeinit(void);
 
-void sfhalCheckKeyPresence(uint8_t* keyHandle, uint8_t keyLength, uint8_t* applicationId, uint16_t* keyFound);
+    void sfhalCheckKeyPresence(uint8_t* keyHandle, uint8_t keyLength, uint8_t* applicationId, uint16_t* keyFound);
 
-void sfHalComputeAuthenticationSignature(uint8_t* keyHandle, uint8_t* applicationId, uint8_t userPresenceByte,
-                                         uint8_t* counter, uint8_t* challenge, uint8_t* signature,
-                                         uint16_t* signatureLength);
+    void sfHalComputeAuthenticationSignature(uint8_t* keyHandle, uint8_t* applicationId, uint8_t userPresenceByte,
+                                             uint8_t* counter, uint8_t* challenge, uint8_t* signature,
+                                             uint16_t* signatureLength);
 
-void sfHalComputeRegistrationSignature(uint8_t hashID, uint8_t* applicationId, uint8_t* challenge, uint8_t* keyHandle,
-                                       uint8_t* publicKey, uint8_t* signature, uint16_t* signatureLength);
+    void sfHalComputeRegistrationSignature(uint8_t hashID, uint8_t* applicationId, uint8_t* challenge,
+                                           uint8_t* keyHandle, uint8_t* publicKey, uint8_t* signature,
+                                           uint16_t* signatureLength);
 
-void sfHalGenerateKeyPair(uint8_t* publicKey, uint8_t* applicationId, uint8_t* keyHandle);
+    void sfHalGenerateKeyPair(uint8_t* publicKey, uint8_t* applicationId, uint8_t* keyHandle);
 
-void sfhalCheckUserPresence(uint16_t* userPresent);
+    void sfhalCheckUserPresence(uint16_t* userPresent);
 
-void sfHalDiscardUserPresence(void);
+    void sfHalDiscardUserPresence(void);
 
-void sfHalGetAndIncrementACounter(uint32_t* counterValue);
+    void sfHalGetAndIncrementACounter(uint32_t* counterValue);
 
-void sfHalGetAttestationCertificate(uint8_t* certificate, uint16_t* certificateLength);
+    void sfHalGetAttestationCertificate(uint8_t* certificate, uint16_t* certificateLength);
 
-void sfHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
+    void sfHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
 
-void sfHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
+    void sfHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
 
-uint16_t sfHalMemCmp(uint8_t* array1, uint8_t* array2, uint16_t length);
+    uint16_t sfHalMemCmp(uint8_t* array1, uint8_t* array2, uint16_t length);
 
-void sfHalGenerateNonSecureRandom(uint8_t* data, uint16_t length);
+    void sfHalGenerateNonSecureRandom(uint8_t* data, uint16_t length);
 
-void sfHalWipeout(void);
+    void sfHalWipeout(void);
 
-void sfHalFatalError(void);
+    void sfHalFatalError(void);
 
 #ifdef __cplusplus
 }

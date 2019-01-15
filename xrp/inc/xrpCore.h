@@ -11,14 +11,15 @@
 #define __XRP_CORE_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void xrpCoreInit(void);
-void xrpCoreDeinit(void);
+    void xrpCoreInit(void);
+    void xrpCoreDeinit(void);
 
-void xrpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
-void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
+    void xrpCoreGetAID(uint8_t* aid, uint32_t* aidLength);
+    void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength);
 
 #ifdef __cplusplus
 }

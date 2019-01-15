@@ -11,18 +11,19 @@
 #define __MK82_BUTTON_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-typedef void (*MK82_BUTTON_ACTION_CALLBACK)(void);
+    typedef void (*MK82_BUTTON_ACTION_CALLBACK)(void);
 
-void mk82ButtonInit(void);
+    void mk82ButtonInit(void);
 
-void mk82ButtonRegisterButtonClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonClickedCallback);
-void mk82ButtonRegisterButtonDoubleClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonDoubleClickedCallback);
-void mk82ButtonRegisterButtonLongPressedCallback(MK82_BUTTON_ACTION_CALLBACK buttonLongPressedCallback);
+    void mk82ButtonRegisterButtonClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonClickedCallback);
+    void mk82ButtonRegisterButtonDoubleClickedCallback(MK82_BUTTON_ACTION_CALLBACK buttonDoubleClickedCallback);
+    void mk82ButtonRegisterButtonLongPressedCallback(MK82_BUTTON_ACTION_CALLBACK buttonLongPressedCallback);
 
-void mk82ButtonDeregisterButtonDoubleClickedCallback(void);
+    void mk82ButtonDeregisterButtonDoubleClickedCallback(void);
 
 #ifdef __cplusplus
 }

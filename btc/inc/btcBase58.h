@@ -11,18 +11,19 @@
 #define __BTC_BASE58_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
 
-void btcBase58Init(void);
-void btcBase58Deinit(void);
+    void btcBase58Init(void);
+    void btcBase58Deinit(void);
 
-void btcBase58EncodeBitcoinAddress(uint8_t* data, uint32_t dataLength, uint8_t* encodedData,
-                                   uint32_t* encodedDataLength, uint8_t version);
-uint16_t btcBase58DecodeAndCheckBitcoinAddress(uint8_t* data, uint32_t dataLength, uint8_t* decodedData,
-                                               uint8_t version);
+    void btcBase58EncodeBitcoinAddress(uint8_t* data, uint32_t dataLength, uint8_t* encodedData,
+                                       uint32_t* encodedDataLength, uint8_t version);
+    uint16_t btcBase58DecodeAndCheckBitcoinAddress(uint8_t* data, uint32_t dataLength, uint8_t* decodedData,
+                                                   uint8_t version);
 
 #ifdef __cplusplus
 }

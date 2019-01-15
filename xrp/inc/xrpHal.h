@@ -14,64 +14,65 @@
 #include "mk82KeySafe.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-XRP_MAKE_PACKED(typedef struct) { uint8_t pinErrorCounter; /* 0 */ }
-XRP_HAL_NVM_COUNTERS;
+    XRP_MAKE_PACKED(typedef struct) { uint8_t pinErrorCounter; /* 0 */ }
+    XRP_HAL_NVM_COUNTERS;
 
-XRP_MAKE_PACKED(typedef struct)
-{
-    uint16_t privateKeyInitialized; /* XRP_FALSE16 */
-    uint8_t privateKey[XRP_GLOBAL_PRIVATE_KEY_SIZE];
-    uint8_t privateKeyNonce[MK82_KEYSAFE_NONCE_LENGTH];
-    uint8_t privateKeyTag[MK82_KEYSAFE_TAG_LENGTH];
-}
-XRP_HAL_NVM_KEYS;
+    XRP_MAKE_PACKED(typedef struct)
+    {
+        uint16_t privateKeyInitialized; /* XRP_FALSE16 */
+        uint8_t privateKey[XRP_GLOBAL_PRIVATE_KEY_SIZE];
+        uint8_t privateKeyNonce[MK82_KEYSAFE_NONCE_LENGTH];
+        uint8_t privateKeyTag[MK82_KEYSAFE_TAG_LENGTH];
+    }
+    XRP_HAL_NVM_KEYS;
 
-XRP_MAKE_PACKED(typedef struct)
-{
-    uint16_t walletState; /* XRP_GLOBAL_WALLET_STATE_INITIALIZATION */
-    uint8_t pinHash[XRP_GLOBAL_PIN_HASH_LENGTH];
-    uint16_t wipeoutInProgress; /* XRP_FALSE16 */
-}
-XRP_HAL_NVM_DATA;
+    XRP_MAKE_PACKED(typedef struct)
+    {
+        uint16_t walletState; /* XRP_GLOBAL_WALLET_STATE_INITIALIZATION */
+        uint8_t pinHash[XRP_GLOBAL_PIN_HASH_LENGTH];
+        uint16_t wipeoutInProgress; /* XRP_FALSE16 */
+    }
+    XRP_HAL_NVM_DATA;
 
-void xrpHalInit(void);
-void xrpHalDeinit(void);
+    void xrpHalInit(void);
+    void xrpHalDeinit(void);
 
-uint16_t xrpHalMemCmp(uint8_t* array1, uint8_t* array2, uint16_t length);
-void xrpHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
-void xrpHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
+    uint16_t xrpHalMemCmp(uint8_t* array1, uint8_t* array2, uint16_t length);
+    void xrpHalMemSet(uint8_t* dst, uint8_t value, uint16_t length);
+    void xrpHalMemCpy(uint8_t* dst, uint8_t* src, uint16_t length);
 
-void xrpHalGetPinErrorCounter(uint8_t* errorCounter);
-void xrpHalSetPinErrorCounter(uint8_t errorCounter);
-void xrpHalGetPinHash(uint8_t* pinHash);
-void xrpHalComputePinHash(uint8_t* pin, uint32_t pinLength, uint8_t* pinHash);
+    void xrpHalGetPinErrorCounter(uint8_t* errorCounter);
+    void xrpHalSetPinErrorCounter(uint8_t errorCounter);
+    void xrpHalGetPinHash(uint8_t* pinHash);
+    void xrpHalComputePinHash(uint8_t* pin, uint32_t pinLength, uint8_t* pinHash);
 
-void xrpHalSetPrivateKey(uint8_t* privateKey);
-void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash);
+    void xrpHalSetPrivateKey(uint8_t* privateKey);
+    void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash);
 
-uint16_t xrpHalGetWalletState(void);
-uint16_t xrpHalIsWipeoutInProgress(void);
+    uint16_t xrpHalGetWalletState(void);
+    uint16_t xrpHalIsWipeoutInProgress(void);
 
-void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey);
-void xrpHalDerivePublicKey(uint8_t* publicKey);
+    void xrpHalDerivePrivateKey(uint8_t* secret, uint8_t* privateKey);
+    void xrpHalDerivePublicKey(uint8_t* publicKey);
 
-void xrpHalGetRandom(uint8_t* buffer, uint32_t length);
+    void xrpHalGetRandom(uint8_t* buffer, uint32_t length);
 
-void xrpHalHashInit(void);
-void xrpHalHashUpdate(uint8_t* data, uint32_t dataLength);
-void xrpHalHashFinal(uint8_t* hash);
+    void xrpHalHashInit(void);
+    void xrpHalHashUpdate(uint8_t* data, uint32_t dataLength);
+    void xrpHalHashFinal(uint8_t* hash);
 
-void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength);
+    void xrpHalSignHash(uint8_t* hash, uint8_t* signature, uint16_t* signatureLength);
 
-void xrpHalWaitForComfirmation(uint16_t* confirmed);
-uint64_t xrpHalGetRemainingConfirmationTime(void);
+    void xrpHalWaitForComfirmation(uint16_t* confirmed);
+    uint64_t xrpHalGetRemainingConfirmationTime(void);
 
-void xrpHalWipeout(void);
+    void xrpHalWipeout(void);
 
-void xrpHalFatalError(void);
+    void xrpHalFatalError(void);
 
 #ifdef __cplusplus
 }

@@ -39,7 +39,9 @@ static const struct nt_keydetector_afid mk82TouchKeyDetector = {
     .reset_rate = 10,
     .asc =
         {
-            .touch_treshold_fall_rate = 1000, .noise_resets_minimum = 256, .resets_for_touch = 5,
+            .touch_treshold_fall_rate = 1000,
+            .noise_resets_minimum = 256,
+            .resets_for_touch = 5,
         },
 };
 
@@ -78,7 +80,8 @@ static const struct nt_module mk82TouchModule = {
 };
 
 static const struct nt_control_keypad mk82TouchKeypadParams = {
-    .groups = NULL, .groups_size = 0,
+    .groups = NULL,
+    .groups_size = 0,
 };
 
 static const struct nt_control mk82TouchKeypad = {

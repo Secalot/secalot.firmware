@@ -11,25 +11,26 @@
 #define __OPGP_PIN_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stdint.h"
 
-void opgpPinInit(void);
+    void opgpPinInit(void);
 
-void opgpPinResetVolatilePinStatus(void);
-void opgpPinResetPW1_81_Status(void);
+    void opgpPinResetVolatilePinStatus(void);
+    void opgpPinResetPW1_81_Status(void);
 
-uint16_t opgpPinIsPW1_81_Verified(void);
-uint16_t opgpPinIsPW1_82_Verified(void);
-uint16_t opgpPinIsPW3Verified(void);
+    uint16_t opgpPinIsPW1_81_Verified(void);
+    uint16_t opgpPinIsPW1_82_Verified(void);
+    uint16_t opgpPinIsPW3Verified(void);
 
-uint16_t opgpPinVerifyPin(uint8_t pinID, uint8_t* input, uint32_t inputLength);
-uint16_t opgpPinChangePin(uint8_t pinID, uint8_t* input, uint32_t inputLength);
-uint16_t opgpPinUnblockPW1WithRC(uint8_t* input, uint32_t inputLength);
-uint16_t opgpPinUnblockPW1(uint8_t* input, uint32_t inputLength);
-uint16_t opgpPinSetResettingCode(uint8_t* input, uint32_t inputLength);
+    uint16_t opgpPinVerifyPin(uint8_t pinID, uint8_t* input, uint32_t inputLength);
+    uint16_t opgpPinChangePin(uint8_t pinID, uint8_t* input, uint32_t inputLength);
+    uint16_t opgpPinUnblockPW1WithRC(uint8_t* input, uint32_t inputLength);
+    uint16_t opgpPinUnblockPW1(uint8_t* input, uint32_t inputLength);
+    uint16_t opgpPinSetResettingCode(uint8_t* input, uint32_t inputLength);
 
 #ifdef __cplusplus
 }

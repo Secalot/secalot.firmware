@@ -11,7 +11,8 @@
 #define __BTC_HID_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #define BTC_HID_MAX_DATA_SIZE (261)
@@ -20,28 +21,28 @@ extern "C" {
 #define BTC_HID_ACTION_DO_NOTHING (0x9999)
 #define BTC_HID_ACTION_PROCESS_RECEIVED_COMMAND (0x6666)
 
-typedef struct
-{
-    uint16_t state;
-    uint16_t incomingDataTotalSize;
-    uint16_t incomingDataBytesRemainingToReceive;
-    uint8_t currentSequenceNumber;
-    uint16_t outgoingDataTotalSize;
-    uint16_t outgoingDataBytesRemainingToSend;
-    uint8_t* dataBuffer;
-} BTC_HID_HANDLE;
+    typedef struct
+    {
+        uint16_t state;
+        uint16_t incomingDataTotalSize;
+        uint16_t incomingDataBytesRemainingToReceive;
+        uint8_t currentSequenceNumber;
+        uint16_t outgoingDataTotalSize;
+        uint16_t outgoingDataBytesRemainingToSend;
+        uint8_t* dataBuffer;
+    } BTC_HID_HANDLE;
 
-void btcHidInit(BTC_HID_HANDLE* hidHandle, uint8_t dataBuffer[BTC_HID_MAX_DATA_SIZE]);
+    void btcHidInit(BTC_HID_HANDLE* hidHandle, uint8_t dataBuffer[BTC_HID_MAX_DATA_SIZE]);
 
-void btcHidProcessIncomingFrame(BTC_HID_HANDLE* hidHandle, uint8_t incomingFrame[BTC_HID_FRAME_SIZE],
-                                uint16_t* requiredPostFrameProcessingAction);
+    void btcHidProcessIncomingFrame(BTC_HID_HANDLE* hidHandle, uint8_t incomingFrame[BTC_HID_FRAME_SIZE],
+                                    uint16_t* requiredPostFrameProcessingAction);
 
-void btcHidGetIncomingDataSize(BTC_HID_HANDLE* hidHandle, uint16_t* incomingDataSize);
+    void btcHidGetIncomingDataSize(BTC_HID_HANDLE* hidHandle, uint16_t* incomingDataSize);
 
-void btcHidSetOutgoingDataLength(BTC_HID_HANDLE* hidHandle, uint16_t dataLength);
+    void btcHidSetOutgoingDataLength(BTC_HID_HANDLE* hidHandle, uint16_t dataLength);
 
-void btcHidProcessOutgoingData(BTC_HID_HANDLE* hidHandle, uint8_t outgoingFrame[BTC_HID_FRAME_SIZE],
-                               uint16_t* moreFramesAvailable);
+    void btcHidProcessOutgoingData(BTC_HID_HANDLE* hidHandle, uint8_t outgoingFrame[BTC_HID_FRAME_SIZE],
+                                   uint16_t* moreFramesAvailable);
 
 #ifdef __cplusplus
 }
