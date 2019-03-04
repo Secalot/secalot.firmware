@@ -184,17 +184,40 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
         {
             if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
             {
-                uint32_t ethApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
+                if (commandAPDU->p1 == SF_CORE_AUTHENTICATION_CHECK_ONLY)
+                {
+                    sw = SF_CORE_SW_CONDITIONS_NOT_SATISFIED;
+                    goto END;
+                }
+                else if (commandAPDU->p1 == SF_CORE_ENFORCE_AUTHENTICATION)
+                {
+                    uint32_t ethApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
 
-                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), ethApduLength);
+                    sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), ethApduLength);
 
-                ethCoreProcessAPDU(apduBuffer, &ethApduLength);
+                    ethCoreProcessAPDU(apduBuffer, &ethApduLength);
 
-                *apduBufferLength = ethApduLength;
+                    sfHalMemCpy(apduBuffer + 5, apduBuffer, ethApduLength);
 
-                sw = SF_CORE_SW_NO_ERROR;
+                    apduBuffer[0] = SF_CORE_AUTHENTICATION_FLAG_TUP;
+                    apduBuffer[1] = 0x00;
+                    apduBuffer[2] = 0x00;
+                    apduBuffer[3] = 0x00;
+                    apduBuffer[4] = 0x00;
 
-                goto END;
+                    ethApduLength += 5;
+
+                    *apduBufferLength = ethApduLength;
+
+                    sw = SF_CORE_SW_NO_ERROR;
+
+                    goto END;
+                }
+                else
+                {
+                    sw = SF_CORE_SW_GENERAL_ERROR;
+                    goto END;
+                }
             }
         }
     }
@@ -208,17 +231,40 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
         {
             if (sfHalMemCmp(authenticateRequest->keyHandle, magicString, sizeof(magicString)) == SF_CMP_EQUAL)
             {
-                uint32_t xrpApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
+                if (commandAPDU->p1 == SF_CORE_AUTHENTICATION_CHECK_ONLY)
+                {
+                    sw = SF_CORE_SW_CONDITIONS_NOT_SATISFIED;
+                    goto END;
+                }
+                else if (commandAPDU->p1 == SF_CORE_ENFORCE_AUTHENTICATION)
+                {
+                    uint32_t xrpApduLength = authenticateRequest->keyHandleLength - sizeof(magicString);
 
-                sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), xrpApduLength);
+                    sfHalMemCpy(apduBuffer, authenticateRequest->keyHandle + sizeof(magicString), xrpApduLength);
 
-                xrpCoreProcessAPDU(apduBuffer, &xrpApduLength);
+                    xrpCoreProcessAPDU(apduBuffer, &xrpApduLength);
 
-                *apduBufferLength = xrpApduLength;
+                    sfHalMemCpy(apduBuffer + 5, apduBuffer, xrpApduLength);
 
-                sw = SF_CORE_SW_NO_ERROR;
+                    apduBuffer[0] = SF_CORE_AUTHENTICATION_FLAG_TUP;
+                    apduBuffer[1] = 0x00;
+                    apduBuffer[2] = 0x00;
+                    apduBuffer[3] = 0x00;
+                    apduBuffer[4] = 0x00;
 
-                goto END;
+                    xrpApduLength += 5;
+
+                    *apduBufferLength = xrpApduLength;
+
+                    sw = SF_CORE_SW_NO_ERROR;
+
+                    goto END;
+                }
+                else
+                {
+                    sw = SF_CORE_SW_GENERAL_ERROR;
+                    goto END;
+                }
             }
         }
     }

@@ -57,6 +57,11 @@
 #include "ccidCore.h"
 
 #ifdef FIRMWARE
+#include "apduGlobal.h"
+#include "apduCore.h"
+#endif /* FIRMWARE */
+
+#ifdef FIRMWARE
 #include "opgpGlobal.h"
 #include "opgpCore.h"
 
@@ -1076,9 +1081,21 @@ void mk82UsbTypeStringWithAKeyboard(uint8_t *stringToType, uint32_t stringLength
 #ifdef FIRMWARE
 void mk82UsbFakeU2fWtx(void)
 {
-    sfHidSendChannelBusyError(&mk82UsbSfHidHandle, mk82UsbU2fOutgoingPacketBuffer);
+    uint16_t moreFramesAvailable;
 
-    mk82UsbU2fSendPacketBlocking();
+    mk82UsbSfHidHandle.dataBuffer[0] = (uint8_t)(APDU_CORE_SW_CONDITIONS_NOT_SATISFIED >> 8);
+    mk82UsbSfHidHandle.dataBuffer[1] = (uint8_t)(APDU_CORE_SW_CONDITIONS_NOT_SATISFIED);
+
+    sfHidSetOutgoingDataLength(&mk82UsbSfHidHandle, 2);
+
+    do
+    {
+        sfHidProcessOutgoingData(&mk82UsbSfHidHandle, mk82UsbU2fOutgoingPacketBuffer, &moreFramesAvailable);
+
+        mk82UsbU2fSendPacketBlocking();
+
+    } while (moreFramesAvailable == SF_TRUE);
+
     USB_DeviceRecvRequest(mk82UsbDeviceHandle, MK82_USB_U2F_INTERRUPT_OUT_ENDPOINT, mk82UsbU2fIncomingPacketBuffer,
                           MK82_USB_U2F_INTERRUPT_ENDPOINTS_PACKET_SIZE);
 

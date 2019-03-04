@@ -25,6 +25,7 @@
 #endif
 #include "mk82SecApdu.h"
 #include "mk82As.h"
+#include "mk82Usb.h"
 
 #include "mbedtls/sha256.h"
 #include "mbedtls/md.h"
@@ -43,13 +44,13 @@ static sha3_context ethHalHashContext;
 static uint16_t ethHalButtonPressed;
 
 static uint16_t ethHalConfirmationTimeOngoing;
-static uint64_t ethHAlInitialConfirmationTime;
+static uint64_t ethHalInitialConfirmationTime;
 
 void ethHalInit(void)
 {
     ethHalButtonPressed = ETH_FALSE;
     ethHalConfirmationTimeOngoing = ETH_FALSE;
-    ethHAlInitialConfirmationTime = 0;
+    ethHalInitialConfirmationTime = 0;
 }
 
 void ethHalDeinit(void) {}
@@ -464,6 +465,7 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 {
     uint64_t currentTime;
     uint16_t currentDataType;
+    uint64_t busyIndicationTime;
 
     ethHalButtonPressed = ETH_FALSE;
 
@@ -483,7 +485,9 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
     mk82TouchEnable();
 #endif
 
-    mk82SystemTickerGetMsPassed(&ethHAlInitialConfirmationTime);
+    mk82SystemTickerGetMsPassed(&ethHalInitialConfirmationTime);
+
+    busyIndicationTime = ethHalInitialConfirmationTime + ETH_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
 
     while (1)
     {
@@ -499,7 +503,16 @@ void ethHalWaitForComfirmation(uint16_t* confirmed)
 
         mk82SystemTickerGetMsPassed(&currentTime);
 
-        if ((currentTime - ethHAlInitialConfirmationTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
+        if (currentDataType == MK82_GLOBAL_DATATYPE_U2F_MESSAGE)
+        {
+            if (currentTime > busyIndicationTime)
+            {
+                mk82UsbFakeU2fWtx();
+                busyIndicationTime += ETH_HAL_BUSY_INDICATION_TIMEOUT_IN_MS;
+            }
+        }
+
+        if ((currentTime - ethHalInitialConfirmationTime) > ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS)
         {
             *confirmed = ETH_FALSE;
             break;
@@ -538,7 +551,7 @@ uint64_t ethHalGetRemainingConfirmationTime(void)
 
     mk82SystemTickerGetMsPassed(&currentTime);
 
-    return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - ethHAlInitialConfirmationTime));
+    return (ETH_HAL_CONFIRMATION_TIMEOUT_IN_MS - (currentTime - ethHalInitialConfirmationTime));
 }
 
 void ethHalWipeout(void)
