@@ -288,12 +288,6 @@ static uint16_t sfCoreProcessAuthentication(uint8_t* apduBuffer, uint32_t* apduB
     }
     else if (commandAPDU->p1 == SF_CORE_ENFORCE_AUTHENTICATION)
     {
-        if (authenticateRequest->keyHandleLength != SF_GLOBAL_KEY_HANDLE_LENGTH)
-        {
-            sw = SF_CORE_SW_GENERAL_ERROR;
-            goto END;
-        }
-
         sfhalCheckKeyPresence(authenticateRequest->keyHandle, authenticateRequest->keyHandleLength,
                               authenticateRequest->applicationId, &keyFound);
 
