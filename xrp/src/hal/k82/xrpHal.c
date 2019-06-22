@@ -144,10 +144,23 @@ void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash)
 {
     uint8_t errorCounter = XRP_GLOBAL_PIN_INITIAL_ERROR_COUNTER_VALUE;
     uint16_t walletState = XRP_GLOBAL_WALLET_STATE_INITIALIZATION;
+    uint8_t randomID[XRP_GLOBAL_RANDOM_ID_LENGTH];
+    uint8_t zeroID[XRP_GLOBAL_RANDOM_ID_LENGTH] = {0x00};
+    uint32_t i;
 
     if (pinHash == NULL)
     {
         xrpHalFatalError();
+    }
+
+    while (1)
+    {
+        mk82SystemGetRandom(randomID, XRP_GLOBAL_RANDOM_ID_LENGTH);
+
+        if (mk82SystemMemCmp(randomID, zeroID, XRP_GLOBAL_RANDOM_ID_LENGTH) == MK82_CMP_NOT_EQUAL)
+        {
+            break;
+        }
     }
 
     mk82FsWriteFile(MK82_FS_FILE_ID_XRP_COUNTERS, offsetof(XRP_HAL_NVM_COUNTERS, pinErrorCounter), &errorCounter,
@@ -158,8 +171,41 @@ void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash)
     walletState = XRP_GLOBAL_WALLET_STATE_OPERATIONAL;
     mk82FsWriteFile(MK82_FS_FILE_ID_XRP_DATA, offsetof(XRP_HAL_NVM_DATA, walletState), (uint8_t*)&walletState,
                     sizeof(walletState));
+    mk82FsWriteFile(MK82_FS_FILE_ID_XRP_DATA, offsetof(XRP_HAL_NVM_DATA, randomID), (uint8_t*)randomID,
+                    XRP_GLOBAL_RANDOM_ID_LENGTH);
 
     mk82FsCommitWrite(MK82_FS_FILE_ID_XRP_DATA);
+}
+
+void xrpHalGetRandomID(uint8_t* randomID)
+{
+    uint8_t zeroID[XRP_GLOBAL_RANDOM_ID_LENGTH] = {0x00};
+
+    if (randomID == NULL)
+    {
+        xrpHalFatalError();
+    }
+
+    mk82FsReadFile(MK82_FS_FILE_ID_XRP_DATA, offsetof(XRP_HAL_NVM_DATA, randomID), (uint8_t*)randomID,
+                   XRP_GLOBAL_RANDOM_ID_LENGTH);
+
+    if (mk82SystemMemCmp(randomID, zeroID, XRP_GLOBAL_RANDOM_ID_LENGTH) == MK82_CMP_EQUAL)
+    {
+        while (1)
+        {
+            mk82SystemGetRandom(randomID, XRP_GLOBAL_RANDOM_ID_LENGTH);
+
+            if (mk82SystemMemCmp(randomID, zeroID, XRP_GLOBAL_RANDOM_ID_LENGTH) == MK82_CMP_NOT_EQUAL)
+            {
+                break;
+            }
+        }
+
+        mk82FsWriteFile(MK82_FS_FILE_ID_XRP_DATA, offsetof(XRP_HAL_NVM_DATA, randomID), (uint8_t*)randomID,
+                        XRP_GLOBAL_RANDOM_ID_LENGTH);
+
+        mk82FsCommitWrite(MK82_FS_FILE_ID_XRP_DATA);
+    }
 }
 
 uint16_t xrpHalGetWalletState(void)

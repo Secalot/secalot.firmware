@@ -34,6 +34,7 @@ extern "C"
 #define XRP_GLOBAL_ENCODED_FULL_POINT_SIZE (65)
 #define XRP_GLOBAL_ENCODED_COMPRESSED_POINT_SIZE (33)
 #define XRP_GLOBAL_PIN_HASH_LENGTH (0x20)
+#define XRP_GLOBAL_RANDOM_ID_LENGTH (0x08)
 
 #define XRP_HIBYTE(w) ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
 #define XRP_HIWORD(d) ((unsigned short)((((unsigned long)(d)) >> 16) & 0xFFFF))

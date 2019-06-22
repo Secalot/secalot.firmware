@@ -35,6 +35,7 @@ extern "C"
         uint16_t walletState; /* XRP_GLOBAL_WALLET_STATE_INITIALIZATION */
         uint8_t pinHash[XRP_GLOBAL_PIN_HASH_LENGTH];
         uint16_t wipeoutInProgress; /* XRP_FALSE16 */
+        uint8_t randomID[XRP_GLOBAL_RANDOM_ID_LENGTH];
     }
     XRP_HAL_NVM_DATA;
 
@@ -52,6 +53,8 @@ extern "C"
 
     void xrpHalSetPrivateKey(uint8_t* privateKey);
     void xrpHalWriteSetupInfoAndFinalizeSetup(uint8_t* pinHash);
+
+    void xrpHalGetRandomID(uint8_t* randomID);
 
     uint16_t xrpHalGetWalletState(void);
     uint16_t xrpHalIsWipeoutInProgress(void);

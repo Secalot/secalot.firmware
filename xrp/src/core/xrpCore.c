@@ -21,6 +21,7 @@ static void xrpCoreClearTransactionToDisplay(void);
 static void xrpCoreUpdateTransactionToDisplay(uint8_t* data, uint16_t dataLength);
 
 static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
+static void xrpCoreProcessGetRandomID(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void xrpCoreProcessGetInfo(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void xrpCoreProcessGetRandom(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU);
 static void xrpCoreProcessGetWalletPublicKey(APDU_CORE_COMMAND_APDU* commandAPDU,
@@ -135,6 +136,39 @@ static void xrpCoreProcessSetup(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_R
     xrpHalWriteSetupInfoAndFinalizeSetup(pinHash);
 
     responseAPDU->dataLength = 0;
+
+    sw = APDU_CORE_SW_NO_ERROR;
+
+END:
+    responseAPDU->sw = sw;
+}
+
+static void xrpCoreProcessGetRandomID(APDU_CORE_COMMAND_APDU* commandAPDU, APDU_CORE_RESPONSE_APDU* responseAPDU)
+{
+    uint16_t sw;
+    uint32_t dataLength;
+
+    if (commandAPDU->lcPresent != APDU_FALSE)
+    {
+        sw = APDU_CORE_SW_WRONG_LENGTH;
+        goto END;
+    }
+
+    if (commandAPDU->p1p2 != XRP_CORE_P1P2_GET_RANDOM_ID)
+    {
+        sw = APDU_CORE_SW_WRONG_P1P2;
+        goto END;
+    }
+
+    if (xrpPinIsPinVerified() != XRP_TRUE)
+    {
+        sw = APDU_CORE_SW_SECURITY_STATUS_NOT_SATISFIED;
+        goto END;
+    }
+
+    xrpHalGetRandomID(responseAPDU->data);
+
+    responseAPDU->dataLength = XRP_GLOBAL_RANDOM_ID_LENGTH;
 
     sw = APDU_CORE_SW_NO_ERROR;
 
@@ -670,6 +704,9 @@ void xrpCoreProcessAPDU(uint8_t* apdu, uint32_t* apduLength)
                     break;
                 case XRP_CORE_INS_GET_RANDOM:
                     xrpCoreProcessGetRandom(&commandAPDU, &responseAPDU);
+                    break;
+                case XRP_CORE_INS_GET_RANDOM_ID:
+                    xrpCoreProcessGetRandomID(&commandAPDU, &responseAPDU);
                     break;
                 case XRP_CORE_INS_WIPEOUT:
                     xrpCoreProcessWipeout(&commandAPDU, &responseAPDU);
